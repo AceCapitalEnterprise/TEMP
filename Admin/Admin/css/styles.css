@@ -1,305 +1,280 @@
-.folder_page {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
+/* ================================================================
+   ACE CAPITAL ALGO – GLOBAL STYLES
+   ================================================================ */
 
-.folder_icon i {
-    color: #ffd60a;
-    font-size: 7rem;
-}
+/* ----------------------------------------------------------------
+   Folder page
+   ---------------------------------------------------------------- */
+.folder_page { display: flex; justify-content: center; gap: 10px; }
+.folder_icon i { color: #ffd60a; font-size: 7rem; }
+.folder_icon h5 { text-align: center; font-weight: 500; font-size: 15px; }
 
-.folder_icon h5 {
-    text-align: center;
-    font-weight: 500;
-    font-size: 15px;
-}
-
-/* login page start */
+/* ----------------------------------------------------------------
+   Login page  (see login.html for full glassmorphism styles)
+   ---------------------------------------------------------------- */
 .body_form {
-    width: 100%;
-    height: 100vh;
-    background: url("../assets/images/background/bg.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(135deg, #0d1b6e 0%, #1a2fa8 30%, #0e6dd4 60%, #0aa4c8 100%);
+  background-size: cover;
+  background-repeat: no-repeat;
 }
+.form_start {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.box-title { color: #fff; }
+.formsiez {
+  width: 100%;
+  max-width: 500px;
+  min-width: 300px;
+  background: rgba(255, 255, 255, 0.12) !important;
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  color: #fff;
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,0.25);
+}
+.cursiorpointer, .forgetopen { cursor: pointer; }
 
-.form_start{
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/* ----------------------------------------------------------------
+   Dashboard / page-level background
+   ---------------------------------------------------------------- */
+body {
+  background-color: #f5f7fc !important;
 }
-.box-title{
-    color:#fff;
-}
-.formsiez{
-    width: 100%;
-   min-width: 35%;
-   max-width: 500px;
-   min-width: 300px;
-   background:rgba(0, 0, 0, 0.8) !important;
-   color:#fff;
-   border-radius: 10px;
-}
-.cursiorpointer, .forgetopen{
-    cursor: pointer;
-}
+.wrapperbackground_color { background-color: #f5f7fc; }
 
-/* login page end */
-
-
-/* start style code */
-
-
-#main-wrapper[data-layout=horizontal] .left-sidebar[data-sidebarbg=skin6], #main-wrapper[data-layout=vertical] .left-sidebar[data-sidebarbg=skin6] {
-    background: #fff !important;
+/* ----------------------------------------------------------------
+   Sidebar overrides
+   ---------------------------------------------------------------- */
+#main-wrapper[data-layout=horizontal] .left-sidebar[data-sidebarbg=skin6],
+#main-wrapper[data-layout=vertical]   .left-sidebar[data-sidebarbg=skin6] {
+  background: #fff !important;
 }
-#main-wrapper[data-layout=horizontal] .left-sidebar[data-sidebarbg=skin6] .sidebar-nav ul .nav-small-cap, #main-wrapper[data-layout=vertical] .left-sidebar[data-sidebarbg=skin6] .sidebar-nav ul .nav-small-cap {
-    color: #bcc3d3 !important;
+#main-wrapper[data-layout=horizontal] .left-sidebar[data-sidebarbg=skin5],
+#main-wrapper[data-layout=vertical]   .left-sidebar[data-sidebarbg=skin5] {
+  background: #ffffff !important;
 }
-#main-wrapper[data-layout=horizontal] .left-sidebar[data-sidebarbg=skin6] .sidebar-nav ul .nav-small-cap, #main-wrapper[data-layout=vertical] .left-sidebar[data-sidebarbg=skin6] .sidebar-nav ul .nav-small-cap {
-    color: #bcc3d3 !important;
+#main-wrapper[data-layout=horizontal] .left-sidebar[data-sidebarbg=skin5] .sidebar-nav ul,
+#main-wrapper[data-layout=vertical]   .left-sidebar[data-sidebarbg=skin5] .sidebar-nav ul {
+  background: #ffffff !important;
 }
-/*--*/
-#main-wrapper[data-layout=horizontal] .left-sidebar[data-sidebarbg=skin5], #main-wrapper[data-layout=vertical] .left-sidebar[data-sidebarbg=skin5] {
-    background: #fafafa !important;
-    /* color: black; */
-}
-#main-wrapper[data-layout=horizontal] .left-sidebar[data-sidebarbg=skin5] .sidebar-nav ul, #main-wrapper[data-layout=vertical] .left-sidebar[data-sidebarbg=skin5] .sidebar-nav ul {
-    background: #fafafa !important;
-}
-.sidebar-nav>ul>.sidebar-item>.sidebar-link.active{
-    color: #4b5dde !important;
-    background-color: #fff;
-}
-#main-wrapper[data-layout=horizontal] .left-sidebar[data-sidebarbg=skin5] .sidebar-nav ul .sidebar-item.selected>.sidebar-link, #main-wrapper[data-layout=vertical] .left-sidebar[data-sidebarbg=skin5] .sidebar-nav ul .sidebar-item.selected>.sidebar-link {
-    background-color: #fff !important;
-}
-#main-wrapper[data-layout=horizontal] .left-sidebar[data-sidebarbg=skin6] .sidebar-nav ul .sidebar-item .sidebar-link, #main-wrapper[data-layout=vertical] .left-sidebar[data-sidebarbg=skin6] .sidebar-nav ul .sidebar-item .sidebar-link {
-  opacity: 1;
-}
- #main-wrapper[data-layout=horizontal] .sidebar-nav #sidebarnav>.sidebar-item>.sidebar-link {
-   color: #555;
-   opacity: 1;
+.sidebar-nav > ul > .sidebar-item > .sidebar-link.active {
+  color: #4f8ef7 !important;
+  background: rgba(79,142,247,0.08);
+  border-radius: 10px;
 }
 .sidebar-nav ul .sidebar-item .sidebar-link:hover {
-    background-color: rgba(0, 0, 0, .04);
-    color: #11142d !important;
+  background-color: rgba(79,142,247,0.05);
+  color: #4f8ef7 !important;
+  border-radius: 10px;
 }
-.sidebar-nav ul .sidebar-item .sidebar-link .feather, .sidebar-nav ul .sidebar-item .sidebar-link i {
-    color: #555;
-    opacity: 1;
+.sidebar-nav ul .sidebar-item .sidebar-link .feather,
+.sidebar-nav ul .sidebar-item .sidebar-link i {
+  color: #555;
+  opacity: 1;
+}
+.sidebar-nav > ul > .sidebar-item > .sidebar-link.active i { color: #4f8ef7 !important; }
+
+/* ----------------------------------------------------------------
+   Card base (used across pages)
+   ---------------------------------------------------------------- */
+.card, .cardbodyshadow {
+  background: rgba(255,255,255,0.80);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border: 1px solid rgba(255,255,255,0.9);
+  border-radius: 18px !important;
+  box-shadow: 0 4px 20px rgba(26,35,64,0.07);
+  transition: transform 0.3s cubic-bezier(0.22,1,0.36,1),
+              box-shadow 0.3s ease,
+              border-color 0.3s ease;
+}
+.card:hover, .cardbodyshadow:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 36px rgba(79,142,247,0.16);
+  border-color: rgba(79,142,247,0.3);
+}
+.cardshadow {
+  border-radius: 15px;
+  border: 1px solid rgba(255,255,255,0.9);
+  box-shadow: 0 4px 20px rgba(26,35,64,0.07);
 }
 
-/* .tableoverflow::-webkit-scrollbar-x {
-   display: none !important;
-} */
-.wrapperbackground_color{
-    background-color: #fafafa;
-}
+/* ----------------------------------------------------------------
+   Typography helpers
+   ---------------------------------------------------------------- */
+.fontweightbol  { font-weight: bold; }
+.fontLocal      { font-size: 14px; }
+.textroundcircle { padding: 3px 10px; font-size: 14px; border-radius: 14px; font-weight: 500; }
+.textsizeelement { font-size: 12px; font-weight: 500; }
+.pousecircal    { font-size: 9px !important; }
+.deployTitle    { font-size: 13px; color: #7a8599; }
 
-.tableoverflow{
-    overflow-x: hidden !important;
-}
-.cardshadow{
-    border-radius: 15px;
-    border: 1px solid #fafafa;
-}
- 
-/* .tablethborderElement tr{
-    border: none;
-    border-color: #fff;
-} */
- 
-.borderbottom_1px{
-    border-bottom: 1px solid gainsboro !important;
-}
-.btnbacground{
-    background-color: rgb(92, 148, 140);
-    padding: 2px 8px !important;
-    font-size: 12px;
-}
+/* ----------------------------------------------------------------
+   Table helpers
+   ---------------------------------------------------------------- */
+.tableoverflow { overflow-x: hidden !important; }
+.tablethborderElement tr { font-size: 14px !important; font-weight: 500; }
+.tablethborderElement > :not(caption) > * > * { padding: 9px 8px; }
+.tablebgelement tr:nth-child(even) { background-color: rgba(79,142,247,0.03) !important; }
+.borderbottom_1px { border-bottom: 1px solid gainsboro !important; }
 
-.tablethborderElement tr{
-    font-size:14px !important;
-    font-weight: 500;
+/* ----------------------------------------------------------------
+   Buttons
+   ---------------------------------------------------------------- */
+.btnbacground {
+  background-color: rgb(92, 148, 140);
+  padding: 2px 8px !important;
+  font-size: 12px;
 }
-.pousecircal{
-    font-size: 9px !important;
+.btnDetails {
+  outline: none;
+  border-radius: 5px;
+  border: none;
+  background-color: #4f8ef7;
+  font-size: 12.4px;
+  font-weight: 500;
+  padding: 3px 8px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s;
 }
-.detalsbtndrop{
-    width: 25px;
-    height: 25px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 12px;
-    background-color: #1a9bfc;
+.btnDetails:hover {
+  background: linear-gradient(135deg, #4f8ef7, #0af4c3);
+  box-shadow: 0 4px 12px rgba(79,142,247,0.3);
 }
-.fontweightbol{
-    font-weight: bold;
-}
-.textroundcircle{
-    padding: 3px 10px;
-    font-size: 14px;
-    border-radius: 14px;
-    font-weight: 500;
-}
-.fontLocal{
-    font-size: 14px;
-}
-.tablethborderElement>:not(caption)>*>* {
-    padding: 9px 8px;
-}
+.detailRow td .siz { font-size: 7px !important; }
 
-.dropdownchart-item{
-    padding: 6px 6px !important;
+/* ----------------------------------------------------------------
+   Deploy button
+   ---------------------------------------------------------------- */
+.deploybtnlightdanger {
+  border: 1.5px solid #4f8ef7;
+  width: 170px !important;
+  text-align: center;
+  font-weight: 600;
+  padding: 8px 0;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #4f8ef7;
+  font-size: 13px;
+  transition: all 0.25s ease;
 }
-.detailRow td .siz{
-    font-size: 7px !important;
+.deploybtnlightdanger:hover {
+  background: #4f8ef7;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(79,142,247,0.35);
+  transform: translateY(-1px);
 }
-.modaldilogwidth{
-    max-width: 800px;
-}
-/* switch toggle start */
-.maxwidthnavToggle{
-    width: fit-content;
-    border: 1px solid #1a9bfc;
-    border-radius: 4px;
-    width: 180px;
-}
-.listwidthtoggle{
-    width: 50%;
-    text-align: center;
-}
-/* .nav-pills .nav-link.active, .nav-pills .show>.nav-link{
- 
-} */
-.maxwidthnavToggle .listwidthtoggle a{
-    padding: 7px 0 !important;
-}
-/* switch toggle end */
+.btnlightdanger { background-color: rgba(252,75,108,0.06); }
+.bordercolor { border-color: #39cb7f; }
 
-/* report page styles  start*/
-.reportTab .reportTabAnchar{
-    padding: 4px 16px !important;
-    border-radius: 15px;
+/* ----------------------------------------------------------------
+   Form elements
+   ---------------------------------------------------------------- */
+.form-select-input {
+  display: block;
+  width: 100%;
+  padding: 8px 36px 8px 12px;
+  font-size: .9375rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #54667a;
+  background-color: #fff;
+  border: 1px solid #ecf0f2;
+  border-radius: 8px;
+  box-shadow: none;
+  appearance: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
-.form-control:disabled, .form-control:read-only{
-    background-color: #fff;
+.form-select-input:focus {
+  border-color: #4f8ef7;
+  box-shadow: 0 0 0 3px rgba(79,142,247,0.12);
+  outline: none;
 }
+.form-control:disabled, .form-control:read-only { background-color: #fff; }
+.inputform { margin-bottom: 16px; }
+.inputform label { font-size: 12.5px; font-weight: 600; color: #7a8599; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.3px; }
 
-.borderwidthDropdown{
-    border: 1px solid #ecf0f2;
+/* ----------------------------------------------------------------
+   Modal
+   ---------------------------------------------------------------- */
+.modaldilogwidth { max-width: 800px; }
+.modaldilogbody  { max-width: 1100px !important; }
+.modalheaderbg {
+  padding: .5rem 1rem !important;
+  background: linear-gradient(135deg, #4f8ef7, #0af4c3) !important;
 }
-.divSearch{
+.modal-content { border-radius: 16px; border: none; }
+
+/* ----------------------------------------------------------------
+   Report page
+   ---------------------------------------------------------------- */
+.reportTab .reportTabAnchar { padding: 4px 16px !important; border-radius: 15px; }
+.borderwidthDropdown { border: 1px solid #ecf0f2; border-radius: 8px; }
+.divSearch {
   border: 1px solid #ecf0f2;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 7px 12px;
   cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.2s;
 }
-.divSearch i{
-  font-size: 15px !important;
-}
-.btnDetails{
-    outline: none;
-    border-radius: 5px;
-    border: none;
-    background-color: #4b5dde;
-    font-size: 12.4px;
-    font-weight: 500;
-    padding: 3px 8px;
-}
-/* .table-striped>tbody>tr:nth-of-type(odd) {
-        background-color: #fafafa !important;
-} */
-.modalheaderbg{
-    padding: .5rem 1rem !important;
-    background-color: #4b5dde;
-}
- .modaldilogbody{
-    max-width: 1100px !important ;
- }
- .entities{
-    border: 1px solid #555;
-    padding: 5px 11px;
-    border-radius: 5px;
-    font-family: 600;
- }
-/* report page styles  end */
-/* report deploy style start */
-.btnlightdanger{
-    background-color: #fdf3f5;
-}
-.deploybtnlightdanger{
-    border: 1px solid #fc4b6c;
-    width: 170px !important;
-    text-align: center;
-    font-weight: 500;
-    padding: 7px 0;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.bordercolor{
-    border-color:#39cb7f;
-}
-.textsizeelement{
-    font-size: 12px;
-    font-weight: 500;
-}
-.selectcontrolindex{
-    position: absolute !important;
-    top: 0 !important;
-    z-index: 99999 !important;
-}
-.form-select-input{
-      display: block;
-    width: 100%;
-    padding: 8px 36px 8px 12px;
-    font-size: .9375rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #54667a;
-    background-color: #fff;
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 16px 12px;
-    border: 1px solid #ecf0f2;
-    border-radius: 5px;
-    box-shadow: unset;
-    appearance: none;
-}
-.tablebgelement tr:nth-child(even) {
-  background-color: #fafafa !important;
-}
+.divSearch:hover { border-color: #4f8ef7; background: rgba(79,142,247,0.04); }
+.divSearch i { font-size: 15px !important; }
+.entities { border: 1px solid #555; padding: 5px 11px; border-radius: 5px; }
 
-/* .tablebgelementodd{
-  background-color: #fafafa !important;
-} */
-/* report deploy style end */
-
-@media (max-width:768px){
-    .tableoverflow{
-        overflow-x: scroll !important;
-    }
-.tablethborderElement tr{
-    font-size:11px !important;
+/* ----------------------------------------------------------------
+   Navigation toggles
+   ---------------------------------------------------------------- */
+.maxwidthnavToggle {
+  width: 180px;
+  border: 1px solid #4f8ef7;
+  border-radius: 8px;
 }
-.btnDetails{
-    font-size: 11px;
-}
-.tablethborderElement>:not(caption)>*>* {
-    padding: 7px 5px;
-}
-.borderwidthDropdown{
-    width: 30% !important;
-}
+.listwidthtoggle { width: 50%; text-align: center; }
+.maxwidthnavToggle .listwidthtoggle a { padding: 7px 0 !important; }
 
+/* ----------------------------------------------------------------
+   Misc helpers
+   ---------------------------------------------------------------- */
+.detalsbtndrop {
+  width: 25px; height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  background-color: #4f8ef7;
+  border-radius: 6px;
+  color: #fff;
 }
+.dropdownchart-item { padding: 6px 6px !important; }
+.selectcontrolindex { position: absolute !important; top: 0 !important; z-index: 99999 !important; }
 
+/* ----------------------------------------------------------------
+   Scrollbar (webkit)
+   ---------------------------------------------------------------- */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(79,142,247,0.25); border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(79,142,247,0.45); }
 
-
+/* ----------------------------------------------------------------
+   Responsive
+   ---------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .tableoverflow { overflow-x: scroll !important; }
+  .tablethborderElement tr { font-size: 11px !important; }
+  .btnDetails { font-size: 11px; }
+  .tablethborderElement > :not(caption) > * > * { padding: 7px 5px; }
+  .borderwidthDropdown { width: 30% !important; }
+  .strategy-grid { grid-template-columns: 1fr !important; padding: 10px 16px 16px !important; }
+  .summary-grid { grid-template-columns: 1fr 1fr !important; padding: 0 16px 16px !important; }
+}

@@ -5,136 +5,503 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Fleixel</title>
+  <title>ACE Capital Algo – Sign In</title>
   <link rel="stylesheet" href="{{base_url}}css/styles.css">
-  <!-- Favicon icon -->
   <link href="{{base_url}}dist/css/style.min.css" rel="stylesheet" />
+  <!-- Remix Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
+  <style>
+    /* ===== LOGIN PAGE – GLASSMORPHISM ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Animated gradient background */
+    .login-bg {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #0d1b6e 0%, #1a2fa8 30%, #0e6dd4 60%, #0aa4c8 100%);
+      z-index: 0;
+    }
+
+    /* Animated floating orbs */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(2px);
+      animation: floatOrb 12s ease-in-out infinite;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .orb-1 {
+      width: 320px; height: 320px;
+      background: radial-gradient(circle at 40% 40%, #ff6b35, #f7c948);
+      top: -80px; left: -60px;
+      animation-duration: 14s;
+    }
+    .orb-2 {
+      width: 260px; height: 260px;
+      background: radial-gradient(circle at 40% 40%, #c54fff, #6c57ff);
+      top: -40px; right: -40px;
+      animation-duration: 10s;
+      animation-delay: -3s;
+    }
+    .orb-3 {
+      width: 380px; height: 380px;
+      background: radial-gradient(circle at 40% 40%, #0af4c3, #0076f5);
+      bottom: -100px; right: -80px;
+      animation-duration: 16s;
+      animation-delay: -6s;
+    }
+    .orb-4 {
+      width: 220px; height: 220px;
+      background: radial-gradient(circle at 40% 40%, #ff4fa3, #ff9b3f);
+      bottom: 60px; left: -50px;
+      animation-duration: 18s;
+      animation-delay: -9s;
+    }
+
+    @keyframes floatOrb {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33%       { transform: translate(18px, -22px) scale(1.04); }
+      66%       { transform: translate(-14px, 12px) scale(0.97); }
+    }
+
+    /* Centered wrapper */
+    .login-wrapper {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    /* Glass card */
+    .glass-card {
+      width: 100%;
+      max-width: 440px;
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(22px) saturate(180%);
+      -webkit-backdrop-filter: blur(22px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 24px;
+      padding: 44px 40px 36px;
+      box-shadow:
+        0 8px 40px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255,255,255,0.3);
+      animation: slideUp 0.6s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(32px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Logo / brand */
+    .brand-area {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .brand-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 64px; height: 64px;
+      background: linear-gradient(135deg, #4f8ef7, #0af4c3);
+      border-radius: 18px;
+      font-size: 28px;
+      color: #fff;
+      margin-bottom: 14px;
+      box-shadow: 0 6px 24px rgba(79,142,247,0.45);
+    }
+    .brand-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.5px;
+    }
+    .brand-sub {
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+      margin-top: 4px;
+    }
+
+    /* Floating-label inputs */
+    .field-group {
+      position: relative;
+      margin-bottom: 22px;
+    }
+    .field-group .field-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 18px;
+      color: rgba(255,255,255,0.5);
+      transition: color 0.3s;
+      pointer-events: none;
+    }
+    .glass-input {
+      width: 100%;
+      padding: 15px 16px 15px 46px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 12px;
+      color: #fff;
+      font-size: 15px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+    .glass-input::placeholder { color: rgba(255,255,255,0.5); }
+    .glass-input:focus {
+      background: rgba(255,255,255,0.18);
+      border-color: rgba(79,142,247,0.8);
+      box-shadow: 0 0 0 3px rgba(79,142,247,0.22);
+    }
+    .glass-input:focus ~ .field-icon,
+    .glass-input:not(:placeholder-shown) ~ .field-icon {
+      color: #4f8ef7;
+    }
+    /* Password toggle */
+    .toggle-pw {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.5);
+      cursor: pointer;
+      font-size: 18px;
+      padding: 0;
+      transition: color 0.2s;
+    }
+    .toggle-pw:hover { color: #fff; }
+
+    /* Remember + Forgot row */
+    .options-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 26px;
+    }
+    .remember-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.75);
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .remember-label input[type="checkbox"] {
+      width: 16px; height: 16px;
+      accent-color: #4f8ef7;
+      cursor: pointer;
+    }
+    .forgot-link {
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .forgot-link:hover { color: #4f8ef7; }
+
+    /* Login button */
+    .btn-login {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #4f8ef7 0%, #0af4c3 100%);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      box-shadow: 0 6px 24px rgba(79,142,247,0.4);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-login::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .btn-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 32px rgba(79,142,247,0.55);
+    }
+    .btn-login:hover::after { opacity: 1; }
+    .btn-login:active { transform: translateY(0); }
+
+    /* Ripple effect on button */
+    .btn-login .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      transform: scale(0);
+      animation: rippleAnim 0.6s linear;
+      pointer-events: none;
+    }
+    @keyframes rippleAnim {
+      to { transform: scale(4); opacity: 0; }
+    }
+
+    /* Divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 22px 0 18px;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.2);
+    }
+    .divider span { color: rgba(255,255,255,0.45); font-size: 12px; }
+
+    /* Footer note */
+    .login-footer {
+      text-align: center;
+      color: rgba(255,255,255,0.5);
+      font-size: 12.5px;
+      margin-top: 18px;
+    }
+    .login-footer a { color: rgba(255,255,255,0.8); text-decoration: none; }
+    .login-footer a:hover { color: #4f8ef7; text-decoration: underline; }
+
+    /* Chart ticker strip */
+    .ticker-strip {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: rgba(0,0,0,0.35);
+      backdrop-filter: blur(8px);
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding: 8px 0;
+      overflow: hidden;
+      z-index: 20;
+    }
+    .ticker-inner {
+      display: flex;
+      gap: 40px;
+      animation: ticker 30s linear infinite;
+      white-space: nowrap;
+    }
+    .ticker-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.85);
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .ticker-item .sym { font-weight: 700; color: #fff; }
+    .ticker-item .up { color: #0af4c3; }
+    .ticker-item .dn { color: #ff4f7b; }
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* Forgot form */
+    #forget-section { display: none; }
+
+    /* Loading spinner on submit */
+    .btn-login.loading .btn-text { opacity: 0; }
+    .btn-login .spinner {
+      display: none;
+      position: absolute;
+      inset: 0;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-login.loading .spinner { display: flex; }
+    .spinner-ring {
+      width: 22px; height: 22px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Shake animation for invalid */
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20%,60% { transform: translateX(-8px); }
+      40%,80% { transform: translateX(8px); }
+    }
+    .shake { animation: shake 0.4s ease; }
+  </style>
 </head>
+
 <body>
+  <!-- Background -->
+  <div class="login-bg"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="orb orb-4"></div>
 
-  <div class="body_form">
-    <div class="form_start">
-      <div class="formsiez">
-        <div class="p-4 rounded ">
+  <!-- Login Wrapper -->
+  <div class="login-wrapper">
+    <div class="glass-card">
 
-          <!---login start-->
-          <div id="login">
-            <div class="logo">
-              <h3 class="box-title mb-3">Sign In</h3>
-            </div>
-            <!-- Form -->
-            <div class="row">
-              <div class="col-12">
-                <form class="form-horizontal mt-3 form-material" id="loginform" action="/token" method="post">
-                  <div class="form-group mb-3">
-                    <div class="">
-                      <input name="username" class="form-control logininput" type="text" required="" placeholder="Email">
-                    </div>
-                  </div>
-                  <div class="form-group mb-4">
-                    <div class="">
-                      <input name="password" class="form-control logininput" type="password" required="" placeholder="Password">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="d-flex">
-                      <div class="checkbox checkbox-info pt-0">
-                        <input id="checkbox-signup" type="checkbox" class="material-inputs chk-col-indigo">
-                        <label for="checkbox-signup"> Remember me </label>
-                      </div>
-                      <div class="ms-auto">
-                        <p class="
-                                  d-flex
-                                  align-items-center
-                                  link
-                                  font-weight-medium
-                                  forgetopen
-                                "><i class="ri-lock-line me-1 fs-4"></i> Forgot pwd?</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group text-center mt-4 mb-3">
-                    <div class="col-xs-12">
-                      <button class="
-                                btn btn-info
-                                d-block
-                                w-100
-                                waves-effect waves-light
-                              " type="submit">
-                        Log In
-                      </button>
-                    </div>
-                  </div>
+      <!-- Brand -->
+      <div class="brand-area">
+        <div class="brand-icon"><i class="ri-line-chart-line"></i></div>
+        <div class="brand-title">ACE Capital Algo</div>
+        <div class="brand-sub">Algorithmic Trading Platform</div>
+      </div>
 
-                  <div class="form-group mb-0 mt-4">
-                    <div class="col-sm-12 justify-content-center d-flex">
-                   
-                     
-                     <p>Login With
-                        <span class="text-primary font-weight-medium ms-1 cursiorpointer" >
-                            <a href="">Login</a>
-                        </span> 
-                          
-                     </p>
-                    
-                    </div>
-                  </div>
+      <!-- LOGIN SECTION -->
+      <div id="login-section">
+        <form id="loginform" action="/token" method="post" autocomplete="off">
 
-                </form>
-              </div>
-            </div>
+          <!-- Email -->
+          <div class="field-group">
+            <input name="username" id="email-input" class="glass-input" type="text" required placeholder="Email address">
+            <i class="ri-mail-line field-icon"></i>
           </div>
-          <!---login end-->
 
-          <!---forget form start-->
-          <div id="forget" style="display: none;">
-            <div class="logo">
-              <h3 class="font-weight-medium mb-3">Recover Password</h3>
-              <span class="text-muted">Enter your Email and instructions will be sent to you!</span>
-            </div>
-            <div class="row mt-3 form-material">
-              <form class="col-12" action="index.html">
-
-                <div class="form-group row">
-                  <div class="col-12">
-                    <input class="form-control" type="email" required="" placeholder="Your email">
-                  </div>
-                </div>
-
-                <div class="row mt-3">
-                  <div class="col-12">
-                    <button class="btn d-block w-100 btn-info text-uppercase" type="submit" name="action">
-                      Reset
-                    </button>
-                  </div>
-                </div>
-                <div class="form-group mb-0 mt-4">
-                  <div class="col-sm-12 justify-content-center d-flex">
-                    <p>
-                      You have an account?
-                    <p class="text-primary font-weight-medium ms-1 forgetopen">Log in</p>
-                    </p>
-                  </div>
-                </div>
-              </form>
-            </div>
+          <!-- Password -->
+          <div class="field-group">
+            <input name="password" id="pw-input" class="glass-input" type="password" required placeholder="Password">
+            <i class="ri-lock-line field-icon"></i>
+            <button type="button" class="toggle-pw" id="togglePw" aria-label="Toggle password">
+              <i class="ri-eye-off-line" id="eyeIcon"></i>
+            </button>
           </div>
-          <!---forget form end-->
 
-          <!---registration form start-->
-       
-          <!---registration form end-->
+          <!-- Remember / Forgot -->
+          <div class="options-row">
+            <label class="remember-label">
+              <input type="checkbox" id="remember"> Remember me
+            </label>
+            <span class="forgot-link" id="showForgot">Forgot password?</span>
+          </div>
 
+          <!-- Submit -->
+          <button type="submit" class="btn-login" id="loginBtn">
+            <span class="btn-text">Sign In</span>
+            <span class="spinner"><span class="spinner-ring"></span></span>
+          </button>
+        </form>
+
+        <div class="login-footer" style="margin-top:20px;">
+          Secured by ACE Capital &nbsp;•&nbsp; <a href="#">Terms</a> &nbsp;•&nbsp; <a href="#">Privacy</a>
+        </div>
+      </div>
+
+      <!-- FORGOT PASSWORD SECTION -->
+      <div id="forget-section">
+        <div style="margin-bottom:20px;">
+          <h4 style="color:#fff;font-weight:600;margin-bottom:6px;">Reset Password</h4>
+          <p style="color:rgba(255,255,255,0.6);font-size:13px;">Enter your email and we'll send reset instructions.</p>
+        </div>
+        <form action="#">
+          <div class="field-group">
+            <input class="glass-input" type="email" required placeholder="Your email address">
+            <i class="ri-mail-line field-icon"></i>
+          </div>
+          <button type="submit" class="btn-login" style="margin-bottom:14px;">
+            <span class="btn-text">Send Reset Link</span>
+            <span class="spinner"><span class="spinner-ring"></span></span>
+          </button>
+        </form>
+        <div style="text-align:center;">
+          <span class="forgot-link" id="backToLogin">
+            <i class="ri-arrow-left-line"></i> Back to Sign In
+          </span>
         </div>
       </div>
 
     </div>
   </div>
 
+  <!-- Live Ticker Strip -->
+  <div class="ticker-strip">
+    <div class="ticker-inner" id="tickerInner">
+      <!-- Duplicated for seamless loop -->
+      <span class="ticker-item"><span class="sym">NIFTY 50</span><span class="up">▲ 22,341.55 &nbsp;+0.47%</span></span>
+      <span class="ticker-item"><span class="sym">BANK NIFTY</span><span class="dn">▼ 47,812.30 &nbsp;−0.22%</span></span>
+      <span class="ticker-item"><span class="sym">RELIANCE</span><span class="up">▲ 2,876.15 &nbsp;+1.12%</span></span>
+      <span class="ticker-item"><span class="sym">TCS</span><span class="up">▲ 3,945.00 &nbsp;+0.63%</span></span>
+      <span class="ticker-item"><span class="sym">HDFC BANK</span><span class="dn">▼ 1,582.45 &nbsp;−0.35%</span></span>
+      <span class="ticker-item"><span class="sym">INFOSYS</span><span class="up">▲ 1,658.90 &nbsp;+0.81%</span></span>
+      <span class="ticker-item"><span class="sym">ICICI BANK</span><span class="up">▲ 1,243.60 &nbsp;+0.54%</span></span>
+      <span class="ticker-item"><span class="sym">MIDCAP NIFTY</span><span class="dn">▼ 10,456.75 &nbsp;−0.18%</span></span>
+      <!-- Duplicate for seamless -->
+      <span class="ticker-item"><span class="sym">NIFTY 50</span><span class="up">▲ 22,341.55 &nbsp;+0.47%</span></span>
+      <span class="ticker-item"><span class="sym">BANK NIFTY</span><span class="dn">▼ 47,812.30 &nbsp;−0.22%</span></span>
+      <span class="ticker-item"><span class="sym">RELIANCE</span><span class="up">▲ 2,876.15 &nbsp;+1.12%</span></span>
+      <span class="ticker-item"><span class="sym">TCS</span><span class="up">▲ 3,945.00 &nbsp;+0.63%</span></span>
+      <span class="ticker-item"><span class="sym">HDFC BANK</span><span class="dn">▼ 1,582.45 &nbsp;−0.35%</span></span>
+      <span class="ticker-item"><span class="sym">INFOSYS</span><span class="up">▲ 1,658.90 &nbsp;+0.81%</span></span>
+      <span class="ticker-item"><span class="sym">ICICI BANK</span><span class="up">▲ 1,243.60 &nbsp;+0.54%</span></span>
+      <span class="ticker-item"><span class="sym">MIDCAP NIFTY</span><span class="dn">▼ 10,456.75 &nbsp;−0.18%</span></span>
+    </div>
+  </div>
+
   <script src="{{base_url}}assets/libs/jquery/dist/jquery.min.js"></script>
-  <script src="{{base_url}}css/myscript.js"></script>
+  <script>
+    // Toggle password visibility
+    document.getElementById('togglePw').addEventListener('click', function () {
+      const input = document.getElementById('pw-input');
+      const icon  = document.getElementById('eyeIcon');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'ri-eye-line';
+      } else {
+        input.type = 'password';
+        icon.className = 'ri-eye-off-line';
+      }
+    });
 
+    // Forgot / Back
+    document.getElementById('showForgot').addEventListener('click', function () {
+      document.getElementById('login-section').style.display = 'none';
+      document.getElementById('forget-section').style.display = 'block';
+    });
+    document.getElementById('backToLogin').addEventListener('click', function () {
+      document.getElementById('forget-section').style.display = 'none';
+      document.getElementById('login-section').style.display = 'block';
+    });
+
+    // Button ripple
+    document.querySelectorAll('.btn-login').forEach(btn => {
+      btn.addEventListener('click', function (e) {
+        const ripple = document.createElement('span');
+        ripple.className = 'ripple';
+        const rect = btn.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        ripple.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX - rect.left - size/2}px;top:${e.clientY - rect.top - size/2}px`;
+        btn.appendChild(ripple);
+        ripple.addEventListener('animationend', () => ripple.remove());
+      });
+    });
+
+    // Login submit with loading state
+    document.getElementById('loginform').addEventListener('submit', function (e) {
+      const btn = document.getElementById('loginBtn');
+      btn.classList.add('loading');
+      // Remove loading after 3s if not redirected (demo)
+      setTimeout(() => btn.classList.remove('loading'), 3000);
+    });
+  </script>
 </body>
-
 </html>
