@@ -1,0 +1,633 @@
+{% include 'header.html' %}
+{% include 'navbar.html' %}
+{% include 'menubar.html' %}
+
+<div class="page-wrapper">
+    <div class="page-titles">
+        <div class="row">
+            <div class="col-lg-8 col-md-6 col-12 align-self-center">
+                <h1 class="mb-0 fw-bold">Greeks Data</h1>
+                {% if last_updated %}
+                <p class="text-muted mb-0">Last Updated: {{ last_updated.strftime("%d-%m-%Y %H:%M:%S") }}</p>
+                {% endif %}
+            </div>
+            <div class="col-lg-4 col-md-6 d-none d-md-flex align-items-center justify-content-end">
+                {% if file_exists %}
+                <button class="btn btn-info" onclick="location.reload()">
+                    <i class="ri-refresh-line me-1"></i>
+                    Refresh Data
+                </button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        {% if greek_data|length > 0 %}
+        
+        <!-- Greeks Summary Cards -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h5 class="mb-3">Current Greeks Overview</h5>
+            </div>
+            
+            <!-- Call Option Cards -->
+            <div class="col-lg-2 col-md-4 col-sm-6">
+                <div class="card cardshadow" class="card border border-1" style="border-color: #4BC0C0 !important">
+                    <div class="card-body" style="background-color: rgba(65, 214, 214, 0.1)">
+                        <h6 class="card-subtitle mb-2 text-muted">CE Delta</h6>
+                        <h3 class="mb-0" id="ce-delta-value">
+                            {{ "%.4f"|format(greek_data[-1].Delta_CE) }}
+                        </h3>
+                        <small class="{% if greek_data|length > 1 and greek_data[-1].Delta_CE - greek_data[-2].Delta_CE > 0 %}text-success{% else %}text-danger{% endif %}" id="ce-delta-change">
+                            {% if greek_data|length > 1 %}
+                            <i class="ri-arrow-{% if greek_data[-1].Delta_CE - greek_data[-2].Delta_CE > 0 %}up{% else %}down{% endif %}-s-fill"></i>
+                            {{ "%.4f"|format((greek_data[-1].Delta_CE - greek_data[-2].Delta_CE)|abs) }}
+                            {% else %}
+                            -
+                            {% endif %}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-2 col-md-4 col-sm-6">
+                <div class="card cardshadow" class="card border border-1" style="border-color: #FF6384 !important">
+                    <div class="card-body" style="background-color: rgba(255,99,132,0.1)">
+                        <h6 class="card-subtitle mb-2 text-muted">CE Theta</h6>
+                        <h3 class="mb-0 {% if greek_data[-1].Theta_CE > 0 %}text-success{% else %}text-danger{% endif %}" id="ce-theta-value">
+                            {{ "%.4f"|format(greek_data[-1].Theta_CE) }}
+                        </h3>
+                        <small class="{% if greek_data|length > 1 and greek_data[-1].Theta_CE - greek_data[-2].Theta_CE > 0 %}text-success{% else %}text-danger{% endif %}" id="ce-theta-change">
+                            {% if greek_data|length > 1 %}
+                            <i class="ri-arrow-{% if greek_data[-1].Theta_CE - greek_data[-2].Theta_CE > 0 %}up{% else %}down{% endif %}-s-fill"></i>
+                            {{ "%.4f"|format((greek_data[-1].Theta_CE - greek_data[-2].Theta_CE)|abs) }}
+                            {% else %}
+                            -
+                            {% endif %}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-2 col-md-4 col-sm-6">
+                <div class="card cardshadow" class="card border border-1" style="border-color: #36A2EB !important">
+                    <div class="card-body" style="background-color: rgba(54, 162, 235, 0.1)">
+                        <h6 class="card-subtitle mb-2 text-muted">CE Vega</h6>
+                        <h3 class="mb-0" id="ce-vega-value">
+                            {{ "%.4f"|format(greek_data[-1].Vega_CE) }}
+                        </h3>
+                        <small class="{% if greek_data|length > 1 and greek_data[-1].Vega_CE - greek_data[-2].Vega_CE > 0 %}text-success{% else %}text-danger{% endif %}" id="ce-vega-change">
+                            {% if greek_data|length > 1 %}
+                            <i class="ri-arrow-{% if greek_data[-1].Vega_CE - greek_data[-2].Vega_CE > 0 %}up{% else %}down{% endif %}-s-fill"></i>
+                            {{ "%.4f"|format((greek_data[-1].Vega_CE - greek_data[-2].Vega_CE)|abs) }}
+                            {% else %}
+                            -
+                            {% endif %}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-2 col-md-4 col-sm-6">
+                <div class="card cardshadow" class="card border border-1" style="border-color: rgba(255, 206, 86) !important">
+                    <div class="card-body" style="background-color: rgba(255, 206, 86,0.1)">
+                        <h6 class="card-subtitle mb-2 text-muted">CE Gamma</h6>
+                        <h3 class="mb-0" id="ce-gamma-value">
+                            {{ "%.4f"|format(greek_data[-1].Gamma_CE) }}
+                        </h3>
+                        <small class="{% if greek_data|length > 1 and greek_data[-1].Gamma_CE - greek_data[-2].Gamma_CE > 0 %}text-success{% else %}text-danger{% endif %}" id="ce-gamma-change">
+                            {% if greek_data|length > 1 %}
+                            <i class="ri-arrow-{% if greek_data[-1].Gamma_CE - greek_data[-2].Gamma_CE > 0 %}up{% else %}down{% endif %}-s-fill"></i>
+                            {{ "%.4f"|format((greek_data[-1].Gamma_CE - greek_data[-2].Gamma_CE)|abs) }}
+                            {% else %}
+                            -
+                            {% endif %}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-2 col-md-4 col-sm-6">
+                <div class="card cardshadow" class="card border border-1" style="border-color: rgb(207, 120, 6) !important">
+                    <div class="card-body" style="background-color: rgb(207, 120, 6,0.1)">
+                        <h6 class="card-subtitle mb-2 text-muted">CE Vomma</h6>
+                        <h3 class="mb-0" id="ce-vomma-value">
+                            {{ "%.4f"|format(greek_data[-1].Vomma_CE) }}
+                        </h3>
+                        <small class="{% if greek_data|length > 1 and greek_data[-1].Vomma_CE - greek_data[-2].Vomma_CE > 0 %}text-success{% else %}text-danger{% endif %}" id="ce-vomma-change">
+                            {% if greek_data|length > 1 %}
+                            <i class="ri-arrow-{% if greek_data[-1].Vomma_CE - greek_data[-2].Vomma_CE > 0 %}up{% else %}down{% endif %}-s-fill"></i>
+                            {{ "%.4f"|format((greek_data[-1].Vomma_CE - greek_data[-2].Vomma_CE)|abs) }}
+                            {% else %}
+                            -
+                            {% endif %}
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-sm-6">
+                <div class="card cardshadow" class="card border border-1" style="border-color: rgb(3, 136, 47) !important">
+                    <div class="card-body" style="background-color: rgb(3, 136, 47,0.1)">
+                        <h6 class="card-subtitle mb-2 text-muted">CE GT</h6>
+                        <h3 class="mb-0" id="ce-gt-value">
+                            {{ "%.4f"|format(greek_data[-1].GT_CE) }}
+                        </h3>
+                        <small class="{% if greek_data|length > 1 and greek_data[-1].GT_CE - greek_data[-2].GT_CE > 0 %}text-success{% else %}text-danger{% endif %}" id="ce-gt-change">
+                            {% if greek_data|length > 1 %}
+                            <i class="ri-arrow-{% if greek_data[-1].GT_CE - greek_data[-2].GT_CE > 0 %}up{% else %}down{% endif %}-s-fill"></i>
+                            {{ "%.4f"|format((greek_data[-1].GT_CE - greek_data[-2].GT_CE)|abs) }}
+                            {% else %}
+                            -
+                            {% endif %}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-2 col-md-4 col-sm-6">
+                <div class="card cardshadow" class="card border border-1" style="border-color: rgb(128, 0, 128) !important">
+                    <div class="card-body" style="background-color: rgb(128, 0, 128,0.1)">
+                        <h6 class="card-subtitle mb-2 text-muted">CE IV</h6>
+                        <h3 class="mb-0" id="ce-iv-value">
+                            {{ "%.4f"|format(greek_data[-1].IV_CE) if greek_data[-1].IV_CE else '-' }}
+                        </h3>
+                        <small class="{% if greek_data|length > 1 and greek_data[-1].IV_CE and greek_data[-2].IV_CE and greek_data[-1].IV_CE - greek_data[-2].IV_CE > 0 %}text-success{% elif greek_data|length > 1 and greek_data[-1].IV_CE and greek_data[-2].IV_CE %}text-danger{% endif %}" id="ce-iv-change">
+                            {% if greek_data|length > 1 and greek_data[-1].IV_CE and greek_data[-2].IV_CE %}
+                            <i class="ri-arrow-{% if greek_data[-1].IV_CE - greek_data[-2].IV_CE > 0 %}up{% else %}down{% endif %}-s-fill"></i>
+                            {{ "%.4f"|format((greek_data[-1].IV_CE - greek_data[-2].IV_CE)|abs) }}
+                            {% else %}
+                            -
+                            {% endif %}
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Put Option Cards -->
+        <div class="row mb-4">
+            <div class="col-lg-2 col-md-4 col-sm-6">
+                <div class="card cardshadow" class="card border border-1" style="border-color: #4BC0C0!important">
+                    <div class="card-body" style="background-color: rgba(65, 214, 214, 0.1)">
+                        <h6 class="card-subtitle mb-2 text-muted">PE Delta</h6>
+                        <h3 class="mb-0 {% if greek_data[-1].Delta_PE > 0 %}text-success{% else %}text-danger{% endif %}" id="pe-delta-value">
+                            {{ "%.4f"|format(greek_data[-1].Delta_PE) }}
+                        </h3>
+                        <small class="{% if greek_data|length > 1 and greek_data[-1].Delta_PE - greek_data[-2].Delta_PE > 0 %}text-success{% else %}text-danger{% endif %}" id="pe-delta-change">
+                            {% if greek_data|length > 1 %}
+                            <i class="ri-arrow-{% if greek_data[-1].Delta_PE - greek_data[-2].Delta_PE > 0 %}up{% else %}down{% endif %}-s-fill"></i>
+                            {{ "%.4f"|format((greek_data[-1].Delta_PE - greek_data[-2].Delta_PE)|abs) }}
+                            {% else %}
+                            -
+                            {% endif %}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-2 col-md-4 col-sm-6">
+                <div class="card cardshadow" class="card border border-1" style="border-color: #FF6384 !important">
+                    <div class="card-body" style= "background-color: rgba(255, 99, 132, 0.1)">
+                        <h6 class="card-subtitle mb-2 text-muted">PE Theta</h6>
+                        <h3 class="mb-0 {% if greek_data[-1].Theta_PE > 0 %}text-success{% else %}text-danger{% endif %}" id="pe-theta-value">
+                            {{ "%.4f"|format(greek_data[-1].Theta_PE) }}
+                        </h3>
+                        <small class="{% if greek_data|length > 1 and greek_data[-1].Theta_PE - greek_data[-2].Theta_PE > 0 %}text-success{% else %}text-danger{% endif %}" id="pe-theta-change">
+                            {% if greek_data|length > 1 %}
+                            <i class="ri-arrow-{% if greek_data[-1].Theta_PE - greek_data[-2].Theta_PE > 0 %}up{% else %}down{% endif %}-s-fill"></i>
+                            {{ "%.4f"|format((greek_data[-1].Theta_PE - greek_data[-2].Theta_PE)|abs) }}
+                            {% else %}
+                            -
+                            {% endif %}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-2 col-md-4 col-sm-6">
+                <div class="card cardshadow" class="card border border-1" style="border-color: #36A2EB !important">
+                    <div class="card-body" style="background-color: rgba(54, 162, 235, 0.1)">
+                        <h6 class="card-subtitle mb-2 text-muted">PE Vega</h6>
+                        <h3 class="mb-0" id="pe-vega-value">
+                            {{ "%.4f"|format(greek_data[-1].Vega_PE) }}
+                        </h3>
+                        <small class="{% if greek_data|length > 1 and greek_data[-1].Vega_PE - greek_data[-2].Vega_PE > 0 %}text-success{% else %}text-danger{% endif %}" id="pe-vega-change">
+                            {% if greek_data|length > 1 %}
+                            <i class="ri-arrow-{% if greek_data[-1].Vega_PE - greek_data[-2].Vega_PE > 0 %}up{% else %}down{% endif %}-s-fill"></i>
+                            {{ "%.4f"|format((greek_data[-1].Vega_PE - greek_data[-2].Vega_PE)|abs) }}
+                            {% else %}
+                            -
+                            {% endif %}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-2 col-md-4 col-sm-6">
+                <div class="card cardshadow" class="card border border-1" style="border-color: rgba(255, 206, 86) !important">
+                    <div class="card-body" style="background-color: rgba(255, 206, 86, 0.1)">
+                        <h6 class="card-subtitle mb-2 text-muted">PE Gamma</h6>
+                        <h3 class="mb-0" id="pe-gamma-value">
+                            {{ "%.4f"|format(greek_data[-1].Gamma_PE) }}
+                        </h3>
+                        <small class="{% if greek_data|length > 1 and greek_data[-1].Gamma_PE - greek_data[-2].Gamma_PE > 0 %}text-success{% else %}text-danger{% endif %}" id="pe-gamma-change">
+                            {% if greek_data|length > 1 %}
+                            <i class="ri-arrow-{% if greek_data[-1].Gamma_PE - greek_data[-2].Gamma_PE > 0 %}up{% else %}down{% endif %}-s-fill"></i>
+                            {{ "%.4f"|format((greek_data[-1].Gamma_PE - greek_data[-2].Gamma_PE)|abs) }}
+                            {% else %}
+                            -
+                            {% endif %}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-2 col-md-4 col-sm-6">
+                <div class="card cardshadow" class="card border border-1" style="border-color: rgb(207, 120, 6) !important">
+                    <div class="card-body" style="background-color: rgb(207, 120, 6,0.1)">
+                        <h6 class="card-subtitle mb-2 text-muted">PE Vomma</h6>
+                        <h3 class="mb-0" id="pe-vomma-value">
+                            {{ "%.4f"|format(greek_data[-1].Vomma_PE) }}
+                        </h3>
+                        <small class="{% if greek_data|length > 1 and greek_data[-1].Vomma_PE - greek_data[-2].Vomma_PE > 0 %}text-success{% else %}text-danger{% endif %}" id="pe-vomma-change">
+                            {% if greek_data|length > 1 %}
+                            <i class="ri-arrow-{% if greek_data[-1].Vomma_PE - greek_data[-2].Vomma_PE > 0 %}up{% else %}down{% endif %}-s-fill"></i>
+                            {{ "%.4f"|format((greek_data[-1].Vomma_PE - greek_data[-2].Vomma_PE)|abs) }}
+                            {% else %}
+                            -
+                            {% endif %}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-2 col-md-4 col-sm-6">
+                <div class="card cardshadow" class="card border border-1" style="border-color: rgb(3, 136, 47) !important">
+                    <div class="card-body" style="background-color: rgb(3, 136, 47,0.1)">
+                        <h6 class="card-subtitle mb-2 text-muted">PE GT</h6>
+                        <h3 class="mb-0" id="pe-gt-value">
+                            {{ "%.4f"|format(greek_data[-1].GT_PE) }}
+                        </h3>
+                        <small class="{% if greek_data|length > 1 and greek_data[-1].GT_PE - greek_data[-2].GT_PE > 0 %}text-success{% else %}text-danger{% endif %}" id="pe-gt-change">
+                            {% if greek_data|length > 1 %}
+                            <i class="ri-arrow-{% if greek_data[-1].GT_PE - greek_data[-2].GT_PE > 0 %}up{% else %}down{% endif %}-s-fill"></i>
+                            {{ "%.4f"|format((greek_data[-1].GT_PE - greek_data[-2].GT_PE)|abs) }}
+                            {% else %}
+                            -
+                            {% endif %}
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-sm-6">
+                <div class="card cardshadow" class="card border border-1" style="border-color: rgb(128, 0, 128) !important">
+                    <div class="card-body" style="background-color: rgb(128, 0, 128,0.1)">
+                        <h6 class="card-subtitle mb-2 text-muted">PE IV</h6>
+                        <h3 class="mb-0" id="pe-iv-value">
+                            {{ "%.4f"|format(greek_data[-1].IV_PE) if greek_data[-1].IV_PE else '-' }}
+                        </h3>
+                        <small class="{% if greek_data|length > 1 and greek_data[-1].IV_PE and greek_data[-2].IV_PE and greek_data[-1].IV_PE - greek_data[-2].IV_PE > 0 %}text-success{% elif greek_data|length > 1 and greek_data[-1].IV_PE and greek_data[-2].IV_PE %}text-danger{% endif %}" id="pe-iv-change">
+                            {% if greek_data|length > 1 and greek_data[-1].IV_PE and greek_data[-2].IV_PE %}
+                            <i class="ri-arrow-{% if greek_data[-1].IV_PE - greek_data[-2].IV_PE > 0 %}up{% else %}down{% endif %}-s-fill"></i>
+                            {{ "%.4f"|format((greek_data[-1].IV_PE - greek_data[-2].IV_PE)|abs) }}
+                            {% else %}
+                            -
+                            {% endif %}
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card cardshadow mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Call Options Greeks – Trend</h5>
+                        <canvas id="ceChart" height="140"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="card cardshadow">
+                    <div class="card-body">
+                        <h5 class="card-title">Put Options Greeks – Trend</h5>
+                        <canvas id="peChart" height="140"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="card cardshadow">
+                    <div class="card-body">
+                        <h5 class="card-title">GT Ratio</h5>
+                        <canvas id="gtChart" height="140" ></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Data Table -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card cardshadow">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">Option Greeks - Call & Put</h5>
+                        <div class="table-responsive tableoverflow">
+                            <table class="table text-nowrap tablethborderElement tablebgelement tableThead">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th rowspan="2" class="border align-middle" style="background-color: rgba(210, 221, 54, 0.7);border-color:black;">Time</th>
+                                        <th rowspan="2" class="border align-middle" style="background-color: rgba(210, 221, 54, 0.7);">Strike</th>
+                                        <th colspan="7" class="border text-center" style="background-color: rgba(210, 221, 54, 0.7);">Call Options (CE)</th>
+                                        <th colspan="7" class="border text-center" style="background-color: rgba(210, 221, 54, 0.7);">Put Options (PE)</th>
+                                    </tr>
+                                    <tr>
+                                        <!-- Call Options -->
+                                        <th class="border-bottom" style="background-color: rgb(65, 214, 214, 0.5)">Delta</th>
+                                        <th class="border-bottom" style="background-color: rgb(255, 99, 132,0.5)">Theta</th>
+                                        <th class="border-bottom" style="background-color: rgb(54, 162, 235,0.5)">Vega</th>
+                                        <th class="border-bottom" style="background-color: rgb(255, 206, 86,0.5)">Gamma</th>
+                                        <th class="border-bottom" style="background-color: rgb(207, 128, 6,0.5)">Vomma</th>
+                                        <th class="border-bottom" style="background-color: rgb(3, 136, 47,0.5)">GT</th>
+                                        <th class="border-bottom" style="background-color: rgb(128, 0, 128,0.5)">IV</th>
+                                        <!-- Put Options -->
+                                        <th class="border-bottom" style="background-color: rgb(65, 214, 214, 0.5)">Delta</th>
+                                        <th class="border-bottom" style="background-color: rgb(255, 99, 132,0.5)">Theta</th>
+                                        <th class="border-bottom" style="background-color: rgb(54, 162, 235,0.5)">Vega</th>
+                                        <th class="border-bottom" style="background-color: rgb(255, 206, 86,0.5)">Gamma</th>
+                                        <th class="border-bottom" style="background-color: rgb(207, 128, 6,0.5)">Vomma</th>
+                                        <th class="border-bottom" style="background-color: rgb(3, 136, 47,0.5)">GT</th>
+                                        <th class="border-bottom" style="background-color: rgb(128, 0, 128,0.5)">IV</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for row in greek_data %}
+                                    <tr class="text-dark borderbottom_1px">
+                                        <td>{{ row.Time }}</td>
+                                        <td>{{ row.Strike }}</td>
+                                        <!-- Call Options -->
+                                        <td style="background-color: rgb(65, 214, 214, 0.1)">{{ "%.4f"|format(row.Delta_CE) }}</td>
+                                        <td style="background-color: rgb(255, 99, 132,0.1)">{{ "%.2f"|format(row.Theta_CE) }}</td>
+                                        <td style="background-color: rgb(54, 162, 235,0.1)" >{{ "%.4f"|format(row.Vega_CE) }}</td>
+                                        <td style="background-color: rgb(255, 206, 86,0.1)">{{ "%.4f"|format(row.Gamma_CE) }}</td>
+                                        <td style="background-color: rgb(207, 128, 6,0.1)">{{ "%.4f"|format(row.Vomma_CE) }}</td>
+                                        <td style="background-color: rgb(3, 136, 47,0.1)">{{ "%.4f"|format(row.GT_CE) }}</td>
+                                        <td style="background-color: rgb(128, 0, 128,0.1)">{{ "%.4f"|format(row.IV_CE) if row.IV_CE else '-' }}</td>
+                                        <!-- Put Options -->
+                                        <td style="background-color: rgb(65, 214, 214, 0.1)">{{ "%.4f"|format(row.Delta_PE) }}</td>
+                                        <td style="background-color: rgb(255, 99, 132, 0.1)">{{ "%.2f"|format(row.Theta_PE) }}</td>
+                                        <td style="background-color: rgb(54, 162, 235,0.1)">{{ "%.4f"|format(row.Vega_PE) }}</td>
+                                        <td style="background-color: rgb(255, 206, 86,0.1)">{{ "%.4f"|format(row.Gamma_PE) }}</td>
+                                        <td style="background-color: rgb(207, 128, 6,0.1)">{{ "%.4f"|format(row.Vomma_PE) }}</td>
+                                        <td style="background-color: rgb(3, 136, 47,0.1)">{{ "%.4f"|format(row.GT_PE) }}</td>
+                                        <td style="background-color: rgb(128, 0, 128,0.1)">{{ "%.4f"|format(row.IV_PE) if row.IV_PE else '-' }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% else %}
+        <div class="row">
+            <div class="col-12">
+                <div class="card cardshadow">
+                    <div class="card-body text-center py-5">
+                        <i class="ri-line-chart-line" style="font-size: 4rem; color: #ccc;"></i>
+                        <h4 class="mt-3 mb-2">No Greeks Data Available</h4>
+                        <p class="text-muted">
+                            Please run the Greek Calculator strategy to generate Greeks data.
+                        </p>
+                        <a href="/strategies" class="btn btn-info mt-3">
+                            <i class="ri-play-line me-1"></i>
+                            Go to Strategies
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Chart.js Library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+
+<script>
+{% if greek_data|length > 0 %}
+// Prepare data for charts
+const greekData = {{ greek_data | tojson }};
+
+// Extract labels (time)
+const labels = greekData.map(row => {
+    const time = row.Time;
+    // Extract just the time part (HH:MM)
+    if (time && time.includes(' ')) {
+        return time.split(' ')[1].substring(0, 5);
+    }
+    return time;
+});
+
+// Call Options Chart
+const ceCtx = document.getElementById('ceChart').getContext('2d');
+const ceChart = new Chart(ceCtx, {
+    type: 'line',
+    data: {
+        labels: labels,
+        datasets: [
+            {
+                label: 'Delta',
+                data: greekData.map(row => row.Delta_CE),
+                borderColor: 'rgb(75, 192, 192)',
+                backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                tension: 0.1
+            },
+            {
+                label: 'Theta',
+                data: greekData.map(row => row.Theta_CE),
+                borderColor: 'rgb(255, 99, 132)',
+                backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                tension: 0.1
+            },
+            {
+                label: 'Vega',
+                data: greekData.map(row => row.Vega_CE),
+                borderColor: 'rgb(54, 162, 235)',
+                backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                tension: 0.1
+            },
+            {
+                label: 'Gamma',
+                data: greekData.map(row => row.Gamma_CE),
+                borderColor: 'rgb(255, 206, 86)',
+                backgroundColor: 'rgba(255, 206, 86, 0.1)',
+                tension: 0.1
+            },
+            {
+                label: 'Vomma',
+                data: greekData.map(row => row.Vomma_CE),
+                borderColor: 'rgb(207, 120, 6)',
+                backgroundColor: 'rgba(207, 120, 6, 0.1)',
+                tension: 0.1
+            },
+            {
+                label: 'GT',
+                data: greekData.map(row => row.GT_CE),
+                borderColor: 'rgb(3, 136, 47)',
+                backgroundColor: 'rgba(3, 136, 47, 0.1)',
+                tension: 0.1
+            },
+            {
+                label: 'IV',
+                data: greekData.map(row => row.IV_CE),
+                borderColor: 'rgb(128, 0, 128)',
+                backgroundColor: 'rgba(128, 0, 128, 0.1)',
+                tension: 0.1
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: false
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: false
+            }
+        }
+    }
+});
+
+// Put Options Chart
+const peCtx = document.getElementById('peChart').getContext('2d');
+const peChart = new Chart(peCtx, {
+    type: 'line',
+    data: {
+        labels: labels,
+        datasets: [
+            {
+                label: 'Delta',
+                data: greekData.map(row => row.Delta_PE),
+                borderColor: 'rgb(75, 192, 192)',
+                backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                tension: 0.1
+            },
+            {
+                label: 'Theta',
+                data: greekData.map(row => row.Theta_PE),
+                borderColor: 'rgb(255, 99, 132)',
+                backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                tension: 0.1
+            },
+            {
+                label: 'Vega',
+                data: greekData.map(row => row.Vega_PE),
+                borderColor: 'rgb(54, 162, 235)',
+                backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                tension: 0.1
+            },
+            {
+                label: 'Gamma',
+                data: greekData.map(row => row.Gamma_PE),
+                borderColor: 'rgb(255, 206, 86)',
+                backgroundColor: 'rgba(255, 206, 86, 0.1)',
+                tension: 0.1
+            },
+            {
+                label: 'Vomma',
+                data: greekData.map(row => row.Vomma_PE),
+                borderColor: 'rgb(207, 120, 6)',
+                backgroundColor: 'rgba(207, 120, 6, 0.1)',
+                tension: 0.1
+            },
+            {
+                label: 'GT',
+                data: greekData.map(row => row.GT_PE),
+                borderColor: 'rgb(3, 136, 47)',
+                backgroundColor: 'rgba(3, 136, 47, 0.1)',
+                tension: 0.1
+            },
+            {
+                label: 'IV',
+                data: greekData.map(row => row.IV_PE),
+                borderColor: 'rgb(128, 0, 128)',
+                backgroundColor: 'rgba(128, 0, 128,0.1)',
+                tension: 0.1
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: false
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: false
+            }
+        }
+    }
+});
+
+
+// Put Options Chart
+const gtCtx = document.getElementById('gtChart').getContext('2d');
+const gtChart = new Chart(gtCtx, {
+    type: 'line',
+    data: {
+        labels: labels,
+        datasets: [
+            {
+                label: 'GT',
+                data: greekData.map(row => row.GT_Combine),
+                borderColor: 'rgb(75, 192, 192)',
+                backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                tension: 0.1
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: false
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: false
+            }
+        }
+    }
+});
+{% endif %}
+</script>
+
+{% include 'footer.html' %}

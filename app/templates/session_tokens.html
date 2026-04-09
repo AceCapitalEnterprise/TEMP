@@ -1,0 +1,180 @@
+{% include 'header.html' %}
+{% include 'navbar.html' %}
+{% include 'menubar.html' %}
+
+<div class="page-wrapper">
+
+    <div class="page-titles">
+        <div class="row mt-3 mb-3">
+            <div class="col-lg-8 col-md-6 col-12 align-self-center">
+                <h1 class="mb-0 fw-bold">Accounts</h1>
+            </div>
+            <div class="col-lg-4 col-md-6 d-none d-md-flex align-items-center justify-content-end">
+                <a href="javascript:void(0)" class="btn btn-primary d-flex align-items-center ms-2" data-bs-toggle="modal"
+                    data-bs-target="#add-account-modal">
+                    <i class="ri-add-line me-1"></i>
+                    Add Account
+                </a>
+                
+                <a href="javascript:void(0)" class="btn btn-info d-flex align-items-center ms-2" data-bs-toggle="modal"
+                    data-bs-target="#samedata-modal">
+                    <i class="ri-refresh-line me-1"></i>
+                    Update Token
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+
+        <div class="col-sm-12 col-md-10">
+                {% if session_tokens|length > 0 %}
+                {% for session_token in session_tokens %}
+                <div class="card cardbodyshadow">
+                    <div class="card-body">
+                        <div class="">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="ms-3 align-self-center">
+                                    <h3 class="mb-0 fontweightbol">{{session_token.account_id}}</h3>
+                                    <h4 class="mb-0 mt-2">Last Updated At:</h4>
+                                    <span class="text-dark fontLocal deployTitle">{{session_token.created_on}}</span>
+                                </div> 
+                                
+                                <div>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteAccount({{session_token.id}})">
+                                        <i class="ri-delete-bin-line"></i> Delete
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="card cardbodyshadow">
+                    <div class="card-body">
+                        <div class="">
+                            <div class="d-flex justify-content-between">
+                                <div class="ms-3 align-self-center">
+                                    <h4 class="mb-0 fontweightbol">No Accounts</h4>
+                                </div>  
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+        <div class="modal fade" id="samedata-modal" tabindex="-1" aria-labelledby="exampleModalLabel1" style="display: none;"
+            aria-hidden="true">
+            <div class="modal-dialog modaldilogwidth" role="document">
+                <div class="modal-content">
+                    <div class="modal-header d-flex align-items-center">
+                        <h4 class="modal-title" id="exampleModalLabel1">Update Session Token</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="session_token_form" action="/session-tokens" method="POST">
+                        <div class="modal-body">
+                             <div class="row">
+                                <div class="col-md-12">
+                                    <div class="inputform mb-3">
+                                        <label for="recipient-name" class="control-label">Account:</label>
+                                        <select name="session_token_id" class="form-select" aria-label="Default" required>
+                                            <option selected disabled>Select</option>
+                                            {% for session_token in session_tokens %}
+                                            <option value="{{session_token.id}}">{{session_token.account_id}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="inputform mb-3">
+                                        <label for="recipient-name" class="control-label">New Session Token:</label>
+                                        <input id="session_token_input" type="text" name="token" class="form-control" required>
+                                    </div>
+                                </div>
+                             </div>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-end">
+                            <button type="submit" class="btn btn-info text-white">SAVE UPDATE</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="add-account-modal" tabindex="-1" aria-labelledby="addAccountModalLabel" style="display: none;"
+            aria-hidden="true">
+            <div class="modal-dialog modaldilogwidth" role="document">
+                <div class="modal-content">
+                    <div class="modal-header d-flex align-items-center">
+                        <h4 class="modal-title" id="addAccountModalLabel">Add New Account</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="add_account_form" onsubmit="submitAddAccount(event)">
+                        <div class="modal-body">
+                             <div class="row">
+                                <div class="col-md-12">
+                                    <div class="inputform mb-3">
+                                        <label class="control-label">Account ID (Name/Label):</label>
+                                        <input type="text" id="new_account_id" class="form-control" required>
+                                    </div>
+                                    <div class="inputform mb-3">
+                                        <label class="control-label">Session Token:</label>
+                                        <input type="text" id="new_session_token" class="form-control" required>
+                                    </div>
+                                    <div class="inputform mb-3">
+                                        <label class="control-label">API Key:</label>
+                                        <input type="text" id="new_api_key" class="form-control" required>
+                                    </div>
+                                    <div class="inputform mb-3">
+                                        <label class="control-label">API Secret:</label>
+                                        <input type="text" id="new_api_secret" class="form-control" required>
+                                    </div>
+                                </div>
+                             </div>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">ADD ACCOUNT</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        </div>
+</div>
+
+<script>
+// --- ADD AND DELETE ACCOUNT JAVASCRIPT ---
+async function submitAddAccount(event) {
+    event.preventDefault();
+    const data = {
+        account_id: document.getElementById('new_account_id').value,
+        token: document.getElementById('new_session_token').value,
+        api_key: document.getElementById('new_api_key').value,
+        api_secret: document.getElementById('new_api_secret').value
+    };
+
+    const response = await fetch('/session-tokens/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    });
+
+    if (response.ok) {
+        window.location.reload(); 
+    } else {
+        alert("Failed to add account.");
+    }
+}
+
+async function deleteAccount(id) {
+    if (confirm("Are you sure you want to delete this account?")) {
+        const response = await fetch(`/session-tokens/${id}`, { method: 'DELETE' });
+        if (response.ok) {
+            window.location.reload(); 
+        } else {
+            alert("Failed to delete account.");
+        }
+    }
+}
+</script>
+{% include 'footer.html' %}

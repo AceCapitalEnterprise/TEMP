@@ -1,0 +1,272 @@
+    {% include 'header.html' %}
+    {% include 'navbar.html' %}
+    {% include 'menubar.html' %}
+
+    <div class="page-wrapper">
+
+      <!-- <div class="page-titles"></div> -->
+ 
+      <div class="container-fluid">
+
+        <!-----------------start-->
+        <div>
+          <!-- Nav tabs -->
+          <div class="d-flex justify-content-end ">
+              <ul class="nav nav-pills maxwidthnavToggle" role="tablist">
+                <li class="nav-item listwidthtoggle">
+                  <a class="nav-link" data-bs-toggle="tab" href="#navpill-1" role="tab" aria-selected="false">
+                    <span>PT</span>
+                  </a>
+                </li>
+                <li class="nav-item listwidthtoggle">
+                  <a class="nav-link active" data-bs-toggle="tab" href="#navpill-2" role="tab" aria-selected="true">
+                    <span>Live</span>
+                  </a>
+                </li>
+              
+              </ul>
+          </div>
+          <!-- Tab panes -->
+          <div class="tab-content border mt-2">
+            <div class="tab-pane" id="navpill-1" role="tabpanel">
+                  <!-- start code -->
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="card cardshadow">
+                        <div class="table-responsive tableoverflow">
+                          <div id="t_add_row_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                  
+                            <div class="row">
+                              <div class="col-sm-12">
+                                <table id="t_add_row" class="table text-nowrap tablethborderElement" style="width: 100%;" role="grid"
+                                  aria-describedby="t_add_row_info">
+                                  <thead>
+                                    <tr role="row borderbottom_1px">
+                                      <th class="border-bottom" rowspan="0" colspan="1" style="width: 30px;"> S.No </th>
+                                      <th class="border-bottom" colspan="1" style="width: 198px;">Strategy Name</th>
+                                      <th rowspan="1" colspan="1" style="width: 199px;">Quantity</th>
+                                      <th rowspan="1" colspan="1" style="width: 200px;">Status</th>
+                                      <th rowspan="1" colspan="1" style="width: 200px;">PNL</th>
+                                      <th rowspan="1" colspan="1" style="width: 200px;">User</th>
+                                      <th rowspan="1" colspan="1" style="width: 100px;">Account</th>
+                                    </tr>
+                                  </thead>
+                  
+                                  <tbody>
+                                    {% if pt|length == 0 %}
+                                    <tr role="row" class="odd text-dark borderbottom_1px">
+                                      <td class="sorting_1">No Deployed Paper Trade Strategies</td>
+                                    </tr>
+                                    {% endif %}
+                                    {% for strategy, deployed_strategy, pnl in pt %}
+                                    <tr role="row" class="odd text-dark borderbottom_1px">
+                                      <td class="sorting_1">{{loop.index}}</td>
+                                      <td>{{strategy.name}}</td>
+                                      <td>{{deployed_strategy.qty}}</td>
+                                      <td class="sorting_1">
+                                            <span class="badge bg-light-success text-success fw-bold">{{deployed_strategy.status}}</span>
+                                      </td>
+                                      <td> 
+                                        {% if pnl == None %}
+                                        -
+                                        {% elif pnl > 0 %}
+                                        <span class="text-success"><i class="ri-arrow-up-s-fill"></i> 
+                                        {{pnl}}
+                                        </span>
+                                        {% else %}
+                                        <span class="text-danger"><i class="ri-arrow-down-s-fill"></i> 
+                                        {{pnl}}
+                                        </span>
+                                        {% endif %}
+                                      </td>
+                                      <td>{{deployed_strategy.user.name}}</td>
+                                      <td>{{deployed_strategy.session_token.account_id}}</td>
+                                    </tr>
+                                    {% endfor %}
+                  
+                                  </tbody>
+                                </table>
+                  
+                              </div>
+                            </div>
+                  
+                            <div class="row">
+                          
+                              <div class="col-12">
+                                <div class="dataTables_paginate paging_simple_numbers d-flex justify-content-end" id="t_add_row_paginate">
+                                  <nav aria-label="Page navigation example">
+                                    <ul class="pagination">
+                                      <li class="page-item">
+                                        <a class="page-link link" href="#" aria-label="Previous">
+                                          <span aria-hidden="true">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                              class="feather feather-chevrons-left feather-sm">
+                                              <polyline points="11 17 6 12 11 7"></polyline>
+                                              <polyline points="18 17 13 12 18 7"></polyline>
+                                            </svg>
+                                          </span>
+                                        </a>
+                                      </li>
+                                      <li class="page-item">
+                                        <a class="page-link link" href="#">1</a>
+                                      </li>
+                                      <li class="page-item">
+                                        <a class="page-link link" href="#" aria-label="Next">
+                                          <span aria-hidden="true">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                              class="feather feather-chevrons-right feather-sm">
+                                              <polyline points="13 17 18 12 13 7"></polyline>
+                                              <polyline points="6 17 11 12 6 7"></polyline>
+                                            </svg>
+                                          </span>
+                                        </a>
+                                      </li>
+                                    </ul>
+                                  </nav>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                  
+                  
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end code -->
+
+            </div>
+            <div class="tab-pane p-0 active" id="navpill-2" role="tabpanel">
+
+              <!--- start code---->
+              <div class="row">
+                <div class="col-12">
+                  <div class="card cardshadow">
+                    <div class="table-responsive tableoverflow">
+                      <div id="t_add_row_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+              
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <table id="t_add_row" class="table text-nowrap tablethborderElement tableThead" style="width: 100%;" role="grid"
+                              aria-describedby="t_add_row_info">
+                              <thead>
+                                <tr role="row borderbottom_1px">
+                                  <th class="border-bottom" rowspan="0" colspan="1" style="width: 30px;"> S.No </th>
+                                  <th class="border-bottom" colspan="1" style="width: 198px;">Strategy Name</th>
+                                  <th rowspan="1" colspan="1" style="width: 199px;">Quantity</th>
+                                  <th rowspan="1" colspan="1" style="width: 200px;">Status</th>
+                                  <th rowspan="1" colspan="1" style="width: 200px;">PNL</th>
+                                  <th rowspan="1" colspan="1" style="width: 200px;">User</th>
+                                  <th rowspan="1" colspan="1" style="width: 100px;">Account</th>
+                                </tr>
+                              </thead>
+              
+                              <tbody>
+                                {% if live|length == 0 %}
+                                <tr role="row" class="odd text-dark borderbottom_1px">
+                                  <td class="sorting_1">No Deployed Live Strategies</td>
+                                </tr>
+                                {% endif %}
+                                {% for strategy, deployed_strategy, pnl in live %}
+                                <tr role="row" class="odd text-dark borderbottom_1px">
+                                  <td class="sorting_1">{{loop.index}}</td>
+                                  <td>{{strategy.name}}</td>
+                                  <td>{{deployed_strategy.qty}}</td>
+                                  <td class="sorting_1">
+                                        <span class="badge bg-light-success text-success fw-bold">{{deployed_strategy.status}}</span>
+                                  </td>
+                                  <!-- <td> <span class="text-success"><i class="ri-arrow-up-s-fill"></i> 
+                                  {% if pnl == None %}
+                                    -
+                                  {% else %}
+                                    pnl
+                                  {% endif %}
+                                  </span>
+                                  </td> -->
+                                  <!-- change for pnl in dashboard -->
+                                  <td> 
+                                    {% if pnl == None %}
+                                    -
+                                    {% elif pnl > 0 %}
+                                    <span class="text-success"><i class="ri-arrow-up-s-fill"></i> 
+                                    {{pnl}}
+                                    </span>
+                                    {% else %}
+                                    <span class="text-danger"><i class="ri-arrow-down-s-fill"></i> 
+                                    {{pnl}}
+                                    </span>
+                                    {% endif %}
+                                  </td>
+                                  <!-- change for pnl in dashboard -->
+                                  <td>{{deployed_strategy.user.name}}</td>
+                                  <td>{{deployed_strategy.session_token.account_id}}</td>
+                                </tr>
+                                {% endfor %}
+                              </tbody>
+                            </table>
+              
+                          </div>
+                        </div>
+              
+                        <div class="row">
+                          <div class="col-12">
+                            <div class="dataTables_paginate paging_simple_numbers d-flex justify-content-end" id="t_add_row_paginate">
+                              <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+                                  <li class="page-item">
+                                    <a class="page-link link" href="#" aria-label="Previous">
+                                      <span aria-hidden="true">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                          class="feather feather-chevrons-left feather-sm">
+                                          <polyline points="11 17 6 12 11 7"></polyline>
+                                          <polyline points="18 17 13 12 18 7"></polyline>
+                                        </svg>
+                                      </span>
+                                    </a>
+                                  </li>
+                                  <li class="page-item">
+                                    <a class="page-link link" href="#">1</a>
+                                  </li>
+                                  <li class="page-item">
+                                    <a class="page-link link" href="#" aria-label="Next">
+                                      <span aria-hidden="true">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                          class="feather feather-chevrons-right feather-sm">
+                                          <polyline points="13 17 18 12 13 7"></polyline>
+                                          <polyline points="6 17 11 12 6 7"></polyline>
+                                        </svg>
+                                      </span>
+                                    </a>
+                                  </li>
+                                </ul>
+                              </nav>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+              
+              
+                  </div>
+                </div>
+              </div>
+              <!--- code end---->
+
+            </div>
+        
+          </div>
+        </div>
+        <!-----------------end-->
+
+
+        <!--------------------------->
+
+
+      </div>
+ 
+    </div>
+    {% include 'footer.html' %}

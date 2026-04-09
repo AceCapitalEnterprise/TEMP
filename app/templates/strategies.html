@@ -1,0 +1,694 @@
+<!-- {% include 'header.html' %}
+{% include 'navbar.html' %}
+{% include 'menubar.html' %} -->
+
+<div class="page-wrapper">
+    <div class="container-fluid">
+
+        <!-- Page Title + Add Strategy Button -->
+        <div class="page-titles mb-4">
+            <div class="row">
+                <div class="col-lg-8 col-md-6 col-12 align-self-center">
+                    <h1 class="mb-0 fw-bold">Strategies</h1>
+                </div>
+                <div class="col-lg-4 col-md-6 d-none d-md-flex align-items-center justify-content-end">
+                    <a href="javascript:void(0)" class="btn btn-info d-flex align-items-center ms-2" data-bs-toggle="modal" data-bs-target="#add-strategy-modal">
+                        <i class="ri-add-line me-1"></i> Add Strategy
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-----------------start report code----------->
+            {% for strategy, deployed_strategy in results %}
+            <div class="col-sm-12 col-md-10">
+                <div class="card cardbodyshadow">
+                    <div class="card-body">
+                        <div class="">
+                            <div class="d-flex justify-content-between">
+                                <div class="ms-3 align-self-center">
+                                    <h4 class="mb-0 fontweightbol">{{strategy.name}}</h4>
+                                    <span class="text-dark fontLocal deployTitle">{{strategy.description}}</span>
+                                </div>
+                                <div class="align-self-center">
+                                    <button class="btn btn-sm btn-danger text-white" onclick="deleteStrategy({{strategy.id}})">Delete</button>
+                                </div>
+                            </div>
+                            <div class="rowDeploy mt-4 d-flex justify-content-end ">
+                                    <div class="deployRight">
+                                        {% if deployed_strategy.status == 'RUNNING' %}
+                                        <form action="/strategies/{{strategy.id}}/stop" method="POST">
+                                            <button type="submit" class="deploybtnlightdanger text-white btn-danger">STOP</button>
+                                        </form>
+                                        {% else %}
+                                        <div class="deploybtnlightdanger text-danger" data-bs-toggle="modal" data-bs-target="#samedata-modal"
+                                        data-bs-strategy-id="{{strategy.id}}" data-bs-strategy-name="{{strategy.name}}" data-bs-start-hour="{{strategy.start_hour}}" 
+                                        data-bs-start-minute="{{strategy.start_minute}}" data-bs-end-hour="{{strategy.end_hour}}" data-bs-end-minute="{{strategy.end_minute}}"
+                                        data-bs-expiry="{{strategy.expiry}}" data-bs-fut-expiry="{{strategy.fut_expiry}}">
+                                            DEPLOY
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+        <!---- Deploy modal start-->
+        <div class="modal fade" id="samedata-modal" tabindex="-1" aria-labelledby="exampleModalLabel1" style="display: none;"
+            aria-hidden="true">
+            <div class="modal-dialog modaldilogwidth" role="document">
+                <div class="modal-content">
+                    <div class="modal-header d-flex align-items-center">
+                        <h4 class="modal-title" id="exampleModalLabel1"></h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="deploy_strategy_form" action="" method="POST">
+                        <div class="modal-body">
+                            <!-- row form start-->
+                             <div class="row">
+                                <div class="col-md-12">
+                                    <div class="inputform">
+                                        <label for="session_token_id" class="control-label">Account:</label>
+                                        <select name="session_token_id" class="form-select" aria-label="Default" required>
+                                            {% for account in accounts %}
+                                            <option value="{{account.id}}">{{account.account_id}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="inputform">
+                                        <label for="start_hour" class="control-label">Start Hour:</label>
+                                        <select id="start_hour_select" name="start_hour" class="form-select" aria-label="Default" required>
+                                            <option selected disabled>Select</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                            <option value="13">13</option>
+                                            <option value="14">14</option>
+                                            <option value="15">15</option>
+                                            <option value="16">16</option>
+                                            <option value="17">17</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="inputform">
+                                        <label for="start_minute" class="control-label">Start Minute:</label>
+                                        <select id="start_minute_select" name="start_minute" class="form-select" aria-label="Default" required>
+                                            <option selected disabled>Select</option>
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                            <option value="13">13</option>
+                                            <option value="14">14</option>
+                                            <option value="15">15</option>
+                                            <option value="16">16</option>
+                                            <option value="17">17</option>
+                                            <option value="18">18</option>
+                                            <option value="19">19</option>
+                                            <option value="20">20</option>
+                                            <option value="21">21</option>
+                                            <option value="22">22</option>
+                                            <option value="23">23</option>
+                                            <option value="24">24</option>
+                                            <option value="25">25</option>
+                                            <option value="26">26</option>
+                                            <option value="27">27</option>
+                                            <option value="28">28</option>
+                                            <option value="29">29</option>
+                                            <option value="30">30</option>
+                                            <option value="31">31</option>
+                                            <option value="32">32</option>
+                                            <option value="33">33</option>
+                                            <option value="34">34</option>
+                                            <option value="35">35</option>
+                                            <option value="36">36</option>
+                                            <option value="37">37</option>
+                                            <option value="38">38</option>
+                                            <option value="39">39</option>
+                                            <option value="40">40</option>
+                                            <option value="41">41</option>
+                                            <option value="42">42</option>
+                                            <option value="43">43</option>
+                                            <option value="44">44</option>
+                                            <option value="45">45</option>
+                                            <option value="46">46</option>
+                                            <option value="47">47</option>
+                                            <option value="48">48</option>
+                                            <option value="49">49</option>
+                                            <option value="50">50</option>
+                                            <option value="51">51</option>
+                                            <option value="52">52</option>
+                                            <option value="53">53</option>
+                                            <option value="54">54</option>
+                                            <option value="55">55</option>
+                                            <option value="56">56</option>
+                                            <option value="57">57</option>
+                                            <option value="58">58</option>
+                                            <option value="59">59</option>
+                                            <option value="60">60</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                 
+                                <div class="col-md-6">
+                                    <div class="inputform">
+                                        <label for="end_hour" class="control-label">End Hour:</label>
+                                        <select id="end_hour_select" name="end_hour" class="form-select" aria-label="Default" required>
+                                            <option selected disabled>Select</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                            <option value="13">13</option>
+                                            <option value="14">14</option>
+                                            <option value="15">15</option>
+                                            <option value="16">16</option>
+                                            <option value="17">17</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="inputform">
+                                        <label for="end_minute" class="control-label">End Minute:</label>
+                                        <select id="end_minute_select" name="end_minute" class="form-select" aria-label="Default" required>
+                                            <option selected disabled>Select</option>
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                            <option value="13">13</option>
+                                            <option value="14">14</option>
+                                            <option value="15">15</option>
+                                            <option value="16">16</option>
+                                            <option value="17">17</option>
+                                            <option value="18">18</option>
+                                            <option value="19">19</option>
+                                            <option value="20">20</option>
+                                            <option value="21">21</option>
+                                            <option value="22">22</option>
+                                            <option value="23">23</option>
+                                            <option value="24">24</option>
+                                            <option value="25">25</option>
+                                            <option value="26">26</option>
+                                            <option value="27">27</option>
+                                            <option value="28">28</option>
+                                            <option value="29">29</option>
+                                            <option value="30">30</option>
+                                            <option value="31">31</option>
+                                            <option value="32">32</option>
+                                            <option value="33">33</option>
+                                            <option value="34">34</option>
+                                            <option value="35">35</option>
+                                            <option value="36">36</option>
+                                            <option value="37">37</option>
+                                            <option value="38">38</option>
+                                            <option value="39">39</option>
+                                            <option value="40">40</option>
+                                            <option value="41">41</option>
+                                            <option value="42">42</option>
+                                            <option value="43">43</option>
+                                            <option value="44">44</option>
+                                            <option value="45">45</option>
+                                            <option value="46">46</option>
+                                            <option value="47">47</option>
+                                            <option value="48">48</option>
+                                            <option value="49">49</option>
+                                            <option value="50">50</option>
+                                            <option value="51">51</option>
+                                            <option value="52">52</option>
+                                            <option value="53">53</option>
+                                            <option value="54">54</option>
+                                            <option value="55">55</option>
+                                            <option value="56">56</option>
+                                            <option value="57">57</option>
+                                            <option value="58">58</option>
+                                            <option value="59">59</option>
+                                            <option value="60">60</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="expiry_col" class="col-md-6">
+                                    <div class="inputform">
+                                        <label for="expiry" class="control-label">Expiry:</label>
+                                        <input id="expiry_input" type="date" name="expiry" class="form-select-input">
+                                    </div>
+                                </div>
+                                <div id="fut_expiry_col" class="col-md-6">
+                                    <div class="inputform">
+                                        <label for="fut_expiry" class="control-label">Future Expiry:</label>
+                                        <input id="fut_expiry_input" type="date" name="fut_expiry" class="form-select-input">
+                                    </div>
+                                </div>
+                                <div id="qty_col" class="col-md-6">
+                                    <div class="inputform">
+                                        <label for="qty" class="control-label">Quantity:</label>
+                                        <input id="qty_input" type="test" name="qty" value="0" class="form-select-input">
+                                    </div>
+                                </div>
+                                <div id="max_position_col" class="col-md-6">
+                                    <div class="inputform">
+                                        <label for="max_position" class="control-label">Maxium Position:</label>
+                                        <input id="max_position_input" type="text" name="max_position" value="0" class="form-select-input">
+                                    </div>
+                                </div>
+                                <div id="slicer_col" class="col-md-6">
+                                    <div class="inputform">
+                                        <label for="slicer" class="control-label">Slicer:</label>
+                                        <input id="slicer_input" type="text" name="slicer" value="0" class="form-select-input">
+                                    </div>
+                                </div>
+                                <div id="first_day_of_month_col" class="col-md-6">
+                                    <div class="inputform">
+                                        <label for="first_day_of_month" class="control-label">First Day of Month:</label>
+                                        <input id="first_day_of_month_input" type="date" name="first_day_of_month" class="form-select-input">
+                                    </div>
+                                </div>
+                                <div id="last_day_of_month_col" class="col-md-6">
+                                    <div class="inputform">
+                                        <label for="last_day_of_month" class="control-label">Last Day of Month:</label>
+                                        <input id="last_day_of_month_input" type="date" name="last_day_of_month" class="form-select-input">
+                                    </div>
+                                </div>
+                                <div id="portfolio_size_col" class="col-md-6">
+                                    <div class="inputform">
+                                        <label for="portfolio_size" class="control-label">Portfolio Size:</label>
+                                        <input id="portfolio_size_input" type="text" name="portfolio_size" value="20" class="form-select-input">
+                                    </div>
+                                </div>
+                                <div id="end_month_size_col" class="col-md-6">
+                                    <div class="inputform">
+                                        <label for="end_month_size" class="control-label">End Month Size:</label>
+                                        <input id="end_month_size_input" type="text" name="end_month_size" value="40" class="form-select-input">
+                                    </div>
+                                </div>
+                                <div id="portfolio_price_col" class="col-md-6">
+                                    <div class="inputform">
+                                        <label for="portfolio_price" class="control-label">Portfolio Price:</label>
+                                        <input id="portfolio_price_input" type="text" name="portfolio_price" value="40" class="form-select-input">
+                                    </div>
+                                </div>
+                                <div id="auth_code_col" class="col-md-6">
+                                    <div class="inputform">
+                                        <label for="auth_code" class="control-label">Auth Code:</label>
+                                        <input id="auth_code_input" type="text" name="auth_code" value="abc" class="form-select-input">
+                                    </div>
+                                </div>
+                                <div id="interval_col" class="col-md-6">
+                                    <div class="inputform">
+                                        <label for="interval" class="control-label">Interval:</label>
+                                        <select id="interval_input" name="interval" class="form-select-input">
+                                            <option value="1second">1 Second</option>
+                                            <option value="1minute">1 Minute</option>
+                                            <option value="5minute">5 Minute</option>
+                                            <option value="30minute">30 Minute</option>
+                                            <option value="1day">1 Day</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="symbol_col" class="col-md-6">
+                                    <div class="inputform">
+                                        <label for="symbol" class="control-label">Symbol:</label>
+                                        <input id="symbol_input" type="text" name="symbol" value="NIFTY" class="form-select-input">
+                                    </div>
+                                </div>
+                                <div id="strike_col" class="col-md-6">
+                                    <div class="inputform">
+                                        <label for="strike" class="control-label">Strike:</label>
+                                        <input id="strike_input" type="text" name="strike" value="25400" class="form-select-input">
+                                    </div>
+                                </div>
+                                <div id="right_col" class="col-md-6">
+                                    <div class="inputform">
+                                        <label for="right" class="control-label">Right:</label>
+                                        <select id="right_input" name="right" class="form-select-input">
+                                            <option value="call">call</option>
+                                            <option value="put">put</option>
+                                            <option value="None">None</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="action_col" class="col-md-6">
+                                    <div class="inputform">
+                                        <label for="action" class="control-label">Action:</label>
+                                        <select id="action_input" name="action" class="form-select-input">
+                                            <option value="buy">buy</option>
+                                            <option value="sell">sell</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="price_col" class="col-md-6">
+                                    <div class="inputform">
+                                        <label for="price" class="control-label">Price:</label>
+                                        <input id="price_input" type="text" name="price" value="10" class="form-select-input">
+                                    </div>
+                                </div>
+                                <div id="exchange_col" class="col-md-6">
+                                    <div class="inputform">
+                                        <label for="exchange" class="control-label">Exchange:</label>
+                                        <select id="exchange_input" name="exchange" class="form-select-input">
+                                            <option value="BSE">BSE</option>
+                                            <option value="BFO">BFO</option>
+                                            <option value="NSE">NSE</option>
+                                            <option value="NFO">NFO</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="product_col" class="col-md-6">
+                                    <div class="inputform">
+                                        <label for="product" class="control-label">Product:</label>
+                                        <select id="product_input" name="product" class="form-select-input">
+                                            <option value="cash">cash</option>
+                                            <option value="options">options</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                             </div>
+                            <!-- row form end-->
+                        </div>
+                        <div class="modal-footer d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">
+                                DEPLOY STRATEGY
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!---- Deploy modal end-->
+
+        <!---- Add Strategy Modal start-->
+        <div class="modal fade" id="add-strategy-modal" tabindex="-1" aria-labelledby="addStrategyModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header d-flex align-items-center">
+                        <h4 class="modal-title" id="addStrategyModalLabel">Add Strategy</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form class="row g-3" id="addStrategyForm" onsubmit="submitAddStrategy(event)">
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label>Strategy Name</label>
+                                    <input type="text" class="form-control" id="strat_name" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label>Strategy Type (e.g., PT, LIVE)</label>
+                                    <input type="text" class="form-control" id="strat_type" required>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label>Description</label>
+                                    <input type="text" class="form-control" id="strat_desc" required>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label>File Name (e.g., strategy_data.csv)</label>
+                                    <input type="text" class="form-control" id="strat_file" required>
+                                </div>
+                                <input type="hidden" id="strat_start_h" value="9">
+                                <input type="hidden" id="strat_start_m" value="15">
+                                <input type="hidden" id="strat_end_h" value="15">
+                                <input type="hidden" id="strat_end_m" value="30">
+                                <input type="hidden" id="strat_expiry" value="">
+                                <input type="hidden" id="strat_fut_expiry" value="">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-info text-white">Submit</button>
+                            <button type="button" class="btn btn-light-danger" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!---- Add Strategy Modal end-->
+
+    </div>
+    <!-- End Container fluid -->
+</div>
+
+<script>
+// ── Deploy modal logic ──────────────────────────────────────────────────────
+var exampleModal = document.getElementById('samedata-modal')
+exampleModal.addEventListener('show.bs.modal', function (event) {
+  var button = event.relatedTarget;
+  var strategyId = button.getAttribute('data-bs-strategy-id');
+  var strategyName = button.getAttribute('data-bs-strategy-name');
+  var startHour = button.getAttribute('data-bs-start-hour');
+  var startMinute = button.getAttribute('data-bs-start-minute');
+  var endHour = button.getAttribute('data-bs-end-hour');
+  var endMinute = button.getAttribute('data-bs-end-minute');
+  var expiry = button.getAttribute('data-bs-expiry');
+  var futExpiry = button.getAttribute('data-bs-fut-expiry');
+
+  if(strategyName == "RPS_Ent_Directional" || strategyName == "Carara_Directional" || strategyName == "DS_Directional" || strategyName == "RPSinghal_Directional" || strategyName == "Rahulsinghal13_Directional" || strategyName == "Sarlasinghal_Directional" || strategyName == "Directional_PT") {
+    $("#max_position_col").show();
+    $("#slicer_col").show();
+    $("#first_day_of_month_col").hide();
+    $("#last_day_of_month_col").hide();
+    $("#portfolio_size_col").hide();
+    $("#portfolio_price_col").hide();
+    $("#end_month_size_col").hide(); 
+    $("#interval_col").hide();
+    $("#symbol_col").hide();
+    $("#strike_col").hide();
+    $("#auth_code_col").hide();
+    $("#product_col").hide();
+    $("#exchange_col").hide();
+    $("#action_col").hide();
+    $("#right_col").hide();
+    $("#price_col").hide();
+  }
+  else if(strategyName == "Zerodha_Momentum"){
+    $("#first_day_of_month_col").show();
+    $("#last_day_of_month_col").show();
+    $("#portfolio_size_col").show();
+    $("#end_month_size_col").show();
+    $("#portfolio_price_col").show();
+    $("#qty_col").hide();
+    $("#fut_expiry_col").hide();
+    $("#expiry_col").hide();  
+    $("#max_position_col").hide();
+    $("#slicer_col").hide();
+    $("#interval_col").hide();
+    $("#symbol_col").hide();
+    $("#strike_col").hide();
+    $("#auth_code_col").hide();
+    $("#product_col").hide();
+    $("#exchange_col").hide();
+    $("#action_col").hide();
+    $("#right_col").hide();
+    $("#price_col").hide();
+  }
+  else if(strategyName == "Arimax"){
+    $("#first_day_of_month_col").hide();
+    $("#last_day_of_month_col").hide();
+    $("#portfolio_size_col").hide();
+    $("#end_month_size_col").hide();
+    $("#portfolio_price_col").hide();
+    $("#qty_col").hide();
+    $("#fut_expiry_col").hide();
+    $("#expiry_col").hide();  
+    $("#max_position_col").hide();
+    $("#slicer_col").hide();
+    $("#interval_col").hide();
+    $("#symbol_col").hide();
+    $("#strike_col").hide();
+    $("#auth_code_col").hide();
+    $("#product_col").hide();
+    $("#exchange_col").hide();
+    $("#action_col").hide();
+    $("#right_col").hide();
+    $("#price_col").hide();
+  }
+  else if(strategyName == "RV_Calculator" || strategyName == "RV_Live"){
+    $("#first_day_of_month_col").show();
+    $("#last_day_of_month_col").show();
+    $("#interval_col").show();
+    $("#symbol_col").show();
+    $("#portfolio_size_col").hide();
+    $("#end_month_size_col").hide();
+    $("#portfolio_price_col").hide();
+    $("#qty_col").hide();
+    $("#fut_expiry_col").hide();
+    $("#expiry_col").hide();  
+    $("#max_position_col").hide();
+    $("#slicer_col").hide();
+    $("#strike_col").hide();
+    $("#auth_code_col").hide();
+    $("#product_col").hide();
+    $("#exchange_col").hide();
+    $("#action_col").hide();
+    $("#right_col").hide();
+    $("#price_col").hide();
+  }
+  else if(strategyName == "Greek_Calculator"){
+    $("#first_day_of_month_col").show();
+    $("#last_day_of_month_col").show();
+    $("#interval_col").show();
+    $("#symbol_col").show();
+    $("#portfolio_size_col").hide();
+    $("#end_month_size_col").hide();
+    $("#portfolio_price_col").hide();
+    $("#qty_col").hide();
+    $("#fut_expiry_col").hide();
+    $("#expiry_col").show();  
+    $("#max_position_col").hide();
+    $("#slicer_col").hide();
+    $("#strike_col").show();
+    $("#auth_code_col").hide();
+    $("#product_col").hide();
+    $("#exchange_col").hide();
+    $("#action_col").hide();
+    $("#right_col").hide();
+    $("#price_col").hide();
+  }
+  else if (strategyName == "Manual_Order"){
+    $("#symbol_col").show();
+    $("#product_col").show();
+    $("#exchange_col").show();
+    $("#action_col").show();
+    $("#right_col").show();
+    $("#price_col").show();
+    $("#qty_col").show();
+    $("#strike_col").show();
+    $("#fut_expiry_col").hide();
+    $("#expiry_col").show();  
+    $("#max_position_col").hide();
+    $("#first_day_of_month_col").hide();
+    $("#last_day_of_month_col").hide();
+    $("#portfolio_size_col").hide();
+    $("#end_month_size_col").hide(); 
+    $("#portfolio_price_col").hide();
+    $("#slicer_col").hide();
+    $("#interval_col").hide();
+    $("#auth_code_col").hide();
+
+  }
+   
+  else if (strategyName == "Five_Paisa_Straddle" || strategyName == "Five_Paisa_Old_Paper_Straddle" || strategyName == "Five_Paisa_No_Condition_Paper_Straddle" || strategyName == "Five_Paisa_Sensex_Paper_Straddle" || strategyName == "Five_Paisa_15_Lag_Paper_Straddle" || strategyName == "Option_Buying_PT" || strategyName == "Sanjay_Sir_PT" || strategyName == "Option_Buying_Mohit_PT" ){
+    $("#first_day_of_month_col").hide();
+    $("#last_day_of_month_col").hide();
+    $("#portfolio_size_col").hide();
+    $("#end_month_size_col").hide(); 
+    $("#portfolio_price_col").hide();
+    $("#slicer_col").hide();
+    $("#interval_col").hide();
+    $("#symbol_col").hide();
+    $("#strike_col").hide();
+    $("#auth_code_col").hide();
+    $("#product_col").hide();
+    $("#exchange_col").hide();
+    $("#action_col").hide();
+    $("#right_col").hide();
+    $("#price_col").hide();
+  }
+  else if (strategyName == "IIFL_Straddle"){
+    $("#auth_code_col").show();
+    $("#first_day_of_month_col").hide();
+    $("#last_day_of_month_col").hide();
+    $("#portfolio_size_col").hide();
+    $("#end_month_size_col").hide(); 
+    $("#portfolio_price_col").hide();
+    $("#slicer_col").hide();
+    $("#interval_col").hide();
+    $("#symbol_col").hide();
+    $("#strike_col").hide();
+    $("#product_col").hide();
+    $("#exchange_col").hide();
+    $("#action_col").hide();
+    $("#right_col").hide();
+    $("#price_col").hide();
+  }
+
+  var strategyLabel = exampleModal.querySelector('#exampleModalLabel1');
+  strategyLabel.textContent = strategyName;
+
+  var strategyForm = exampleModal.querySelector('#deploy_strategy_form');
+  strategyForm.action = "/strategies/" + strategyId + "/deploy";
+
+  var startHourSelect = exampleModal.querySelector('#start_hour_select');
+  startHourSelect.value = startHour;
+
+  var startMinuteSelect = exampleModal.querySelector('#start_minute_select');
+  startMinuteSelect.value = startMinute;
+
+  var endHourSelect = exampleModal.querySelector('#end_hour_select');
+  endHourSelect.value = endHour;
+
+  var endMinuteSelect = exampleModal.querySelector('#end_minute_select');
+  endMinuteSelect.value = endMinute;
+  
+  var expiryInput = exampleModal.querySelector('#expiry_input');
+  expiryInput.value = expiry;
+
+  var futExpiryInput = exampleModal.querySelector('#fut_expiry_input');
+  futExpiryInput.value = futExpiry;
+});
+
+// ── Add Strategy API Call ───────────────────────────────────────────────────
+async function submitAddStrategy(event) {
+    event.preventDefault();
+    const data = {
+        name: document.getElementById('strat_name').value,
+        type: document.getElementById('strat_type').value,
+        description: document.getElementById('strat_desc').value,
+        file_name: document.getElementById('strat_file').value,
+        start_hour: parseInt(document.getElementById('strat_start_h').value) || 0,
+        start_minute: parseInt(document.getElementById('strat_start_m').value) || 0,
+        end_hour: parseInt(document.getElementById('strat_end_h').value) || 0,
+        end_minute: parseInt(document.getElementById('strat_end_m').value) || 0,
+        expiry: document.getElementById('strat_expiry').value,
+        fut_expiry: document.getElementById('strat_fut_expiry').value
+    };
+
+    const response = await fetch('/strategies', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    });
+
+    if (response.ok) {
+        window.location.reload();
+    } else {
+        alert("Failed to add strategy.");
+    }
+}
+
+// ── Delete Strategy API Call ────────────────────────────────────────────────
+async function deleteStrategy(id) {
+    if (confirm("Are you sure you want to delete this strategy?")) {
+        const response = await fetch(`/strategies/${id}`, { method: 'DELETE' });
+        if (response.ok) {
+            window.location.reload();
+        } else {
+            alert("Failed to delete strategy.");
+        }
+    }
+}
+</script>
+<!-- {% include 'footer.html' %} -->

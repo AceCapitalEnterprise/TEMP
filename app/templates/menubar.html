@@ -1,0 +1,158 @@
+<aside class="left-sidebar">
+    <!-- Sidebar scroll-->
+    <div class="scroll-sidebar">
+      <!-- Sidebar navigation-->
+      <nav class="sidebar-nav">
+        <ul id="sidebarnav">
+          <!-- User Profile-->
+          <li class="nav-small-cap">
+            <i class="mdi mdi-dots-horizontal"></i>
+            <span class="hide-menu">Personal</span>
+          </li>
+          <li class="sidebar-item">
+            {% if current_menu == 'Dashboard' %}
+            <a class="sidebar-link waves-effect waves-dark active" href="javascript:void(0)" aria-expanded="false"><i>🏠</i><span class="hide-menu">Dashboard
+              </span></a>
+            {% else %}
+              <a class="sidebar-link waves-effect waves-dark" href="/dashboard" aria-expanded="false"><i>🏠</i><span class="hide-menu">Dashboard
+               </span></a>
+            {% endif %}
+          </li>
+          
+          <li class="sidebar-item">
+            {% if current_menu == 'Strategies' %}
+                <a class="sidebar-link waves-effect waves-dark sidebar-link active" href="javascript:void(0)" aria-expanded="false">
+                <i>⚙️</i><span class="hide-menu">Strategies</span></a>
+            {% else %}
+                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="/strategies" aria-expanded="false"><i>⚙️</i>
+                <span class="hide-menu">Strategies</span></a>
+            {% endif %}    
+          </li>
+
+          
+          <li class="sidebar-item">
+            {% if current_menu == 'Reports' %}
+                <a class="sidebar-link waves-effect waves-dark active" href="javascript:void(0)" aria-expanded="false"><i>📊</i><span
+                class="hide-menu">Reports</span></a>
+            {% else %}
+                <a class="sidebar-link waves-effect waves-dark" href="/reports" aria-expanded="false"><i>📊</i><span
+                class="hide-menu">Reports</span></a>
+                
+            {% endif %}
+          </li>
+          
+         <li class="sidebar-item">
+            <a class="sidebar-link waves-effect waves-dark has-arrow
+              {% if current_menu in ['Greeks', 'RV_Chart', 'RV_Live_Chart'] %}active{% endif %}"
+              href="javascript:void(0)" aria-expanded="false">
+              <i>📊</i>
+              <span class="hide-menu">Chart</span>
+            </a>
+
+            <ul class="collapse first-level
+                {% if current_menu in ['Greeks', 'RV_Chart', 'RV_Live_Chart'] %}show{% endif %}">
+              
+              <!-- Greek Chart -->
+              <li class="sidebar-item">
+                <a href="/greeks"
+                  class="sidebar-link submenu-link {% if current_menu == 'Greeks' %}active{% endif %}">
+                  <i class="submenu-icon">📈</i>
+                  <span class="hide-menu">Greek Chart</span>
+                </a>
+              </li>
+
+              <!-- RV Chart -->
+              <li class="sidebar-item">
+                <a href="/rv-chart"
+                  class="sidebar-link submenu-link {% if current_menu == 'RV_Chart' %}active{% endif %}">
+                  <i class="submenu-icon">📉</i>
+                  <span class="hide-menu">RV Chart</span>
+                </a>
+              </li>
+
+              <!-- RV Live Chart -->
+              <li class="sidebar-item">
+                <a href="/rv-live-chart"
+                  class="sidebar-link submenu-link {% if current_menu == 'RV_Live_Chart' %}active{% endif %}">
+                  <i class="submenu-icon">📈</i>
+                  <span class="hide-menu">RV Live Chart</span>
+                </a>
+              </li>
+
+            </ul>
+          </li>
+
+
+          {% if user_type == "SUPER_ADMIN" %}
+            {% if current_menu == 'Users' %}
+                <li class="sidebar-item"><a class="sidebar-link waves-effect waves-dark active" href="javascript:void(0)"aria-expanded="false"><i>👥</i>
+                  <span class="hide-menu">Users</span></a>
+                </li>
+            {% else %}
+                <li class="sidebar-item"><a class="sidebar-link waves-effect waves-dark" href="/users"aria-expanded="false"><i>👥</i>
+                  <span class="hide-menu">Users</span></a>
+              </li>
+            {% endif %}
+          {% endif %}
+          {% if current_menu == 'Accounts' %}
+            <li class="sidebar-item"><a class="sidebar-link waves-effect waves-dark active" href="javascript:void(0)"aria-expanded="false"><i>🔑</i>
+              <span class="hide-menu">Accounts</span></a>
+          {% else %}
+            <li class="sidebar-item"><a class="sidebar-link waves-effect waves-dark" href="/session-tokens"aria-expanded="false"><i >🔑</i>
+              <span class="hide-menu">Accounts</span></a>
+          {% endif %}
+            </li>
+          {% if current_menu == 'Password' %}
+            <li class="sidebar-item"><a class="sidebar-link waves-effect waves-dark active" href="javascript:void(0)"aria-expanded="false"><i >🔒</i>
+              <span class="hide-menu">Change Password</span></a>
+          {% else %}
+            <li class="sidebar-item"><a class="sidebar-link waves-effect waves-dark" href="/change-password"aria-expanded="false"><i >🔒</i>
+              <span class="hide-menu">Change Password</span></a>
+          {% endif %}
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link waves-effect waves-dark" href="/logout" aria-expanded="false">
+                  <i>🔒</i><span class="hide-menu">Logout</span>
+              </a>
+            </li>
+        </ul>
+      </nav>
+      <!-- End Sidebar navigation -->
+    </div>
+    <!-- End Sidebar scroll-->
+  </aside>
+
+<style>
+/* Custom styles for submenu links */
+.sidebar-nav ul .sidebar-item .submenu-link {
+    color: #333 !important;
+    padding-left: 55px;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar-nav ul .sidebar-item .submenu-link .submenu-icon {
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+.sidebar-nav ul .sidebar-item .submenu-link:hover {
+    color: #1e88e5 !important;
+    background-color: rgba(30, 136, 229, 0.1);
+}
+
+.sidebar-nav ul .sidebar-item .submenu-link.active {
+    color: #1e88e5 !important;
+    background-color: rgba(30, 136, 229, 0.15);
+    font-weight: 600;
+}
+
+.sidebar-nav ul .sidebar-item .submenu-link .hide-menu {
+    color: inherit;
+}
+
+/* Ensure the collapse menu has proper background */
+.sidebar-nav .first-level {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+</style>

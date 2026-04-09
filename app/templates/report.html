@@ -1,0 +1,379 @@
+{% include 'header.html' %}
+{% include 'navbar.html' %}
+{% include 'menubar.html' %}
+<div class="page-wrapper">
+
+    <div class="container-fluid">
+
+        <!-----------------start report code----------->
+        <div>
+            <!--- serarch and dropdown & date element start-->
+            <!--<div class="selectSerchElement mt-3 mb-3">
+                <div class="">
+                    <div class="selectElement d-flex gap-3">
+                        <div class="borderwidthDropdown" style="width: 20%;">
+                            <select class="form-select" aria-label="Default select example">
+                                <option selected disabled>Account Select</option>
+                                <option value="1">7879134</option>
+                                <option value="2">6579321</option>
+                                <option value="3">6598712</option>
+                            </select>
+                        </div>
+                        
+                            <div style="width: 20%;">
+                                <div class="">
+                                    <div class="">
+                                        <input type="date" class="form-select" aria-label="Default select example">
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="searchnox">
+                            <span class="divSearch">
+                                <i class="ri-search-2-line"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>-->
+            <!--- serarch and dropdown & date element end-->
+
+            <!-- Tab panes -->
+            <div class="tab-content border mt-2">
+                <div class="tab-pane p-0 active" id="navpill-1" role="tabpanel">
+                    <!--- report start element-->
+                        <div class="row">
+                        
+                            <div class="col-12">
+                                <div class=" cardshadow">
+                                    <div class="table-responsive tableoverflow">
+                                        <div id="t_add_row_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                        
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <table id="t_add_row" class="table text-nowrap tablethborderElement tablebgelement tableThead" style="width: 100%;"
+                                                        role="grid" aria-describedby="t_add_row_info">
+                                                        <thead>
+                                                            <tr role="row borderbottom_1px">
+                                                                <th class="border-bottom" rowspan="0" colspan="1" style="width: 70px;"> S.No
+                                                                </th>
+                                                                <th class="border-bottom" colspan="1" style="width: 0px;">Strategy</th>
+                                                                <!--<th class="border-bottom" colspan="1" style="width: 80px;">Account</th>-->
+                                                                <th rowspan="1" colspan="1" style="width: 60px;">PNL</th>
+                                                                <th rowspan="1" colspan="1" style="width: 60px;">Detail</th>
+                                                                <th rowspan="1" colspan="1" style="width: 60px;">Last Updated</th>
+                                                                <th rowspan="1" colspan="1" style="width: 60px;">Report</th>
+                                                                
+                                                            </tr>
+                                                        </thead>                               
+                                                        <tbody>                                                                                                        
+                                                            {% for item in strategy_list %}
+                                                            <tr role="row" class="odd text-dark borderbottom_1px">
+                                                                <td class="sorting_1">{{ loop.index }}</td>
+
+                                                                <td>{{ item.strategy.name }}</td>
+
+                                                                <td>
+                                                                    {% if item.pnl == None %}
+                                                                        -
+                                                                    {% elif item.pnl > 0 %}
+                                                                        <span class="text-success">
+                                                                            <i class="ri-arrow-up-s-fill"></i> {{ item.pnl }}
+                                                                        </span>
+                                                                    {% else %}
+                                                                        <span class="text-danger">
+                                                                            <i class="ri-arrow-down-s-fill"></i> {{ item.pnl }}
+                                                                        </span>
+                                                                    {% endif %}
+                                                                </td>
+
+                                                                <td>
+                                                                    {% if item.file_exists %}
+                                                                    <button type="button" class="text-white btnDetails"
+                                                                        onclick="window.open('/reports/{{ item.strategy.id }}/download-detail?type=detail', '_blank')">
+                                                                        Download CSV
+                                                                    </button>
+                                                                    {% else %}
+                                                                    <button type="button" disabled class="btn btn-secondary btn-sm">
+                                                                        Download CSV
+                                                                    </button>
+                                                                    {% endif %}
+                                                                </td>
+
+                                                                <td>
+                                                                    {% if item.last_updated %}
+                                                                        {{ item.last_updated.strftime("%d-%m-%Y %H:%M:%S") }}
+                                                                    {% else %}
+                                                                        -
+                                                                    {% endif %}
+                                                                </td>
+
+                                                                <td>
+                                                                    {% if item.report_file %}
+                                                                    <button type="button" class="btn btn-warning btn-sm"
+                                                                        onclick="window.open('/reports/{{ item.strategy.id }}/download-report?type=report', '_blank')">
+                                                                        Report CSV
+                                                                    </button>
+                                                                    {% else %}
+                                                                    <span class="text-muted">-</span>
+                                                                    {% endif %}
+                                                                </td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <!--- report end element-->
+                </div>
+                <div class="tab-pane p-3" id="navpill-2" role="tabpanel" style="display: none;">
+                    <!--- report start element-->
+                    <div class="row">
+                    
+                        <div class="col-12">
+                            <div class=" cardshadow">
+                                <div class="table-responsive tableoverflow">
+                                    <div id="t_add_row_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                    
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <table id="t_add_row" class="table text-nowrap tablethborderElement" style="width: 100%;"
+                                                    role="grid" aria-describedby="t_add_row_info">
+                                                    <thead>
+                                                        <tr role="row borderbottom_1px">
+                                                            <th class="border-bottom" rowspan="0" colspan="1" style="width: 70px;"> S.No
+                                                            </th>
+                                                            <th class="border-bottom" colspan="1" style="width: 220px;">Strategy</th>
+                                                            <th rowspan="1" colspan="1" style="width: 220px;">PNL</th>
+                                                            <th rowspan="1" colspan="1" style="width: 40px;"></th>
+                    
+                                                        </tr>
+                                                    </thead>
+                    
+                                                    <tbody>
+                    
+                                                        <tr role="row" class="odd text-dark borderbottom_1px">
+                                                            <td class="sorting_1">1</td>
+                                                            <td>Delta Nifty Strangle</td>
+                                                            <td><span class="text-danger">₹ -6,497.02</span></td>
+                                                            <td>
+                    
+                                                                <button type="button" class="text-white btnDetails" data-bs-toggle="modal"
+                                                                    data-bs-target="#info-header-modal">
+                                                                    Details
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr role="row" class="odd text-dark borderbottom_1px">
+                                                            <td class="sorting_1">2</td>
+                                                            <td>Nifty Reinventing delta Neutral Staddle</td>
+                                                            <td><span class="text-success">₹ 14,433.45</span></td>
+                                                            <td>
+                                                                <button type="button" class="text-white btnDetails" data-bs-toggle="modal"
+                                                                    data-bs-target="#info-header-modal">
+                                                                    Details
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                    
+                    
+                                                    </tbody>
+                                                </table>
+                    
+                                            </div>
+                                        </div>
+                    
+                    
+                                    </div>
+                                </div>
+                    
+                    
+                            </div>
+                        </div>
+                    </div>
+                    <!--- report end element-->
+                </div>
+                <div class="tab-pane p-3" id="navpill-3" role="tabpanel" style="display: none;">
+                    <!--- report start element-->
+                    <div class="row">
+                    
+                        <div class="col-12">
+                            <div class=" cardshadow">
+                                <div class="table-responsive tableoverflow">
+                                    <div id="t_add_row_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                    
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <table id="t_add_row" class="table text-nowrap tablethborderElement" style="width: 100%;"
+                                                    role="grid" aria-describedby="t_add_row_info">
+                                                    <thead>
+                                                        <tr role="row borderbottom_1px">
+                                                            <th class="border-bottom" rowspan="0" colspan="1" style="width: 70px;"> S.No
+                                                            </th>
+                                                            <th class="border-bottom" colspan="1" style="width: 220px;">Strategy</th>
+                                                            <th rowspan="1" colspan="1" style="width: 220px;">PNL</th>
+                                                            <th rowspan="1" colspan="1" style="width: 40px;"></th>
+                    
+                                                        </tr>
+                                                    </thead>
+                    
+                                                    <tbody>
+                    
+                                                        <tr role="row" class="odd text-dark borderbottom_1px">
+                                                            <td class="sorting_1">1</td>
+                                                            <td>Delta Nifty Strangle</td>
+                                                            <td><span class="text-danger">₹ -6,497.02</span></td>
+                                                            <td>
+                    
+                                                                <button type="button" class="text-white btnDetails" data-bs-toggle="modal"
+                                                                    data-bs-target="#info-header-modal">
+                                                                    Details
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr role="row" class="odd text-dark borderbottom_1px">
+                                                            <td class="sorting_1">2</td>
+                                                            <td>Nifty Reinventing delta Neutral Staddle</td>
+                                                            <td><span class="text-success">₹ 14,433.45</span></td>
+                                                            <td>
+                                                                <button type="button" class="text-white btnDetails" data-bs-toggle="modal"
+                                                                    data-bs-target="#info-header-modal">
+                                                                    Details
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                    
+                                                    </tbody>
+                                                </table>
+                    
+                                            </div>
+                                        </div>
+                    
+                    
+                                    </div>
+                                </div>
+                    
+                    
+                            </div>
+                        </div>
+                    </div>
+                    <!--- report end element-->
+                </div>
+            </div>
+
+            <!---modal section start-->
+            <div id="info-header-modal" class="modal fade" tabindex="-1" aria-labelledby="info-header-modalLabel"
+                style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modaldilogbody">
+                    <div class="modal-content">
+                        <div class=" modal-header modal-colored-header text-white modalheaderbg">
+                            <h4 class="modal-title" id="info-header-modalLabel">
+                                Status
+                            </h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="showten">
+                                <span>
+                                    Show <span class="entities">10</span> entries
+                                </span>
+                            </div>
+                                <!--- table start =----- -->
+                                <div class="table-responsive">
+                                    <table class="
+                                                    table
+                                                    customize-table
+                                                    table-striped
+                                                    mb-0
+                                                    v-middle
+                                                    text-nowrap
+                                                ">
+                                        <thead>
+                                            <tr>
+                                                <th class="border-bottom text-dark ">Date</th>
+                                                <th class="border-bottom text-dark">Strategy</th>
+                                                <th class="border-bottom text-dark">Accounts</th>
+                                                <th class="border-bottom text-dark ">Deployment ID</th>
+                                                <th class="border-bottom text-dark">Deployment Type</th>
+                                                <th class="border-bottom text-dark">Gross PnL</th>
+                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="text-dark">
+                                                <td><span class="text-primary">07 oct 2024</span></td>
+                                                <td>DeltaSync Nifty Strangle</td>
+                                                <td>16463418</td>
+                                                <td><span class="">021</span></td>
+                                                <td>LIVE AUTO</td>
+                                                <td><span class="text-danger">₹ -6,497.02</span></td>
+                                            </tr>
+                                            <tr class="text-dark">
+                                                <td><span class="text-primary">07 oct 2024</span></td>
+                                                <td>DeltaSync Nifty Strangle</td>
+                                                <td>16463418</td>
+                                                <td><span class="">022</span></td>
+                                                <td>LIVE AUTO</td>
+                                                <td><span class="text-danger">₹ -6,497.02</span></td>
+                                            </tr>
+                                            <tr class="text-dark">
+                                                <td><span class="text-primary">07 oct 2024</span></td>
+                                                <td>DeltaSync Nifty Strangle</td>
+                                                <td>16463418</td>
+                                                <td><span class="">023</span></td>
+                                                <td>LIVE AUTO</td>
+                                                <td><span class="text-danger">₹ -6,497.02</span></td>
+                                            </tr>
+                                            <tr class="text-dark">
+                                                <td><span class="text-primary">07 oct 2024</span></td>
+                                                <td>DeltaSync Nifty Strangle</td>
+                                                <td>16463418</td>
+                                                <td><span class="">024</span></td>
+                                                <td>LIVE AUTO</td>
+                                                <td><span class="text-danger">₹ -6,497.02</span></td>
+                                            </tr>
+                                            <tr class="text-dark">
+                                                <td><span class="text-primary">07 oct 2024</span></td>
+                                                <td>DeltaSync Nifty Strangle</td>
+                                                <td>16463418</td>
+                                                <td><span class="">025</span></td>
+                                                <td>LIVE AUTO</td>
+                                                <td><span class="text-danger">₹ -6,497.02</span></td>
+                                            </tr>
+                                            <tr class="text-dark">
+                                                <td><span class="text-primary">07 oct 2024</span></td>
+                                                <td>DeltaSync Nifty Strangle</td>
+                                                <td>16463418</td>
+                                                <td><span class="">025</span></td>
+                                                <td>LIVE AUTO</td>
+                                                <td><span class="text-danger">₹ -6,497.02</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!--- table endt =----- -->
+                        </div>
+                        <!-- <div class="modal-footer">
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                        </div> -->
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!---modal section end-->
+
+        </div>
+        <!-----------------end report code ------->
+
+    </div>
+  
+</div>
+{% include 'footer.html' %}
