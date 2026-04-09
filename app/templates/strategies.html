@@ -1,694 +1,325 @@
-<!-- {% include 'header.html' %}
+{% include 'header.html' %}
 {% include 'navbar.html' %}
-{% include 'menubar.html' %} -->
+{% include 'menubar.html' %}
+<style>
+  /* ===== STRATEGIES GLASS CARDS ===== */
+  body { background-color: #f0f4fb !important; }
+  .strategies-topbar { display:flex;align-items:center;justify-content:space-between;padding:22px 28px 8px; }
+  .strategies-topbar h1 { font-size:24px;font-weight:700;color:#1a2340; }
+  .strategies-topbar .sub { font-size:13px;color:#7a8599;margin-top:3px; }
+  .btn-add-strat { display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:12px;background:linear-gradient(135deg,#4f8ef7,#0af4c3);color:#fff;font-size:14px;font-weight:600;border:none;cursor:pointer;box-shadow:0 4px 16px rgba(79,142,247,0.35);transition:all 0.25s ease;text-decoration:none; }
+  .btn-add-strat:hover { transform:translateY(-2px);box-shadow:0 8px 24px rgba(79,142,247,0.45);color:#fff; }
+  .strategy-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px;padding:8px 28px 28px; }
+  .strategy-glass-card { background:rgba(255,255,255,0.75);backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%);border:1px solid rgba(255,255,255,0.92);border-radius:20px;padding:22px;box-shadow:0 4px 20px rgba(26,35,64,0.07),0 1px 4px rgba(26,35,64,0.04);transition:transform 0.3s cubic-bezier(0.22,1,0.36,1),box-shadow 0.3s ease,border-color 0.3s ease;position:relative;overflow:hidden; }
+  .strategy-glass-card::before { content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(79,142,247,0.05),rgba(10,244,195,0.03));opacity:0;transition:opacity 0.3s;pointer-events:none; }
+  .strategy-glass-card:hover { transform:translateY(-5px) scale(1.01);box-shadow:0 16px 40px rgba(79,142,247,0.17),0 4px 12px rgba(26,35,64,0.08),inset 0 1px 0 rgba(255,255,255,0.8);border-color:rgba(79,142,247,0.3); }
+  .strategy-glass-card:hover::before { opacity:1; }
+  .card-accent { position:absolute;top:0;left:0;right:0;height:3px;border-radius:20px 20px 0 0;background:linear-gradient(90deg,#4f8ef7,#0af4c3);opacity:0;transition:opacity 0.3s; }
+  .strategy-glass-card:hover .card-accent { opacity:1; }
+  .strategy-glass-card.running .card-accent { background:linear-gradient(90deg,#1cc27c,#0af4c3);opacity:1;animation:accent-pulse 2s ease-in-out infinite; }
+  @keyframes accent-pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+  .card-top { display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px; }
+  .strat-icon { width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0; }
+  .si-blue { background:rgba(79,142,247,0.12);color:#4f8ef7; }
+  .si-green { background:rgba(28,194,124,0.12);color:#1cc27c; }
+  .si-purple { background:rgba(138,92,246,0.12);color:#8a5cf6; }
+  .si-orange { background:rgba(251,146,60,0.12);color:#fb923c; }
+  .strat-name { font-size:15px;font-weight:700;color:#1a2340;margin-bottom:4px; }
+  .strat-desc { font-size:12.5px;color:#7a8599;line-height:1.5; }
+  .status-badge { display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;flex-shrink:0; }
+  .sb-running { background:rgba(28,194,124,0.1);color:#1cc27c; }
+  .sb-stopped { background:rgba(122,133,153,0.1);color:#7a8599; }
+  .sb-dot { width:7px;height:7px;border-radius:50%; }
+  .sb-running .sb-dot { background:#1cc27c;animation:pulse-dot 1.4s ease-in-out infinite; }
+  .sb-stopped .sb-dot { background:#7a8599; }
+  @keyframes pulse-dot { 0%,100%{box-shadow:0 0 0 0 rgba(28,194,124,0.5)} 50%{box-shadow:0 0 0 5px rgba(28,194,124,0)} }
+  .toggle-wrap { display:flex;align-items:center;gap:10px;margin-top:14px; }
+  .strat-toggle { position:relative;display:inline-block;width:150px;height:40px;cursor:pointer;flex-shrink:0; }
+  .strat-toggle input { opacity:0;width:0;height:0;position:absolute; }
+  .toggle-track { position:absolute;inset:0;border-radius:20px;transition:all 0.35s cubic-bezier(0.22,1,0.36,1);overflow:hidden; }
+  .toggle-track.off { background:linear-gradient(135deg,#f0fdf7,#dcfce7);border:1.5px solid #86efac; }
+  .toggle-track.on { background:linear-gradient(135deg,#fff1f2,#ffe4e6);border:1.5px solid #fca5a5; }
+  .track-labels { position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;padding:0 11px; }
+  .lbl-start,.lbl-stop { font-size:11.5px;font-weight:700;letter-spacing:0.4px;transition:opacity 0.3s; }
+  .toggle-track.off .lbl-start { color:#16a34a;opacity:1; }
+  .toggle-track.off .lbl-stop { color:#16a34a;opacity:0.3; }
+  .toggle-track.on .lbl-start { color:#dc2626;opacity:0.3; }
+  .toggle-track.on .lbl-stop { color:#dc2626;opacity:1; }
+  .toggle-knob { position:absolute;top:3px;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all 0.35s cubic-bezier(0.22,1,0.36,1);box-shadow:0 2px 8px rgba(0,0,0,0.18); }
+  .toggle-track.off .toggle-knob { left:3px;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff; }
+  .toggle-track.on .toggle-knob { left:calc(100% - 37px);background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff; }
+  .toggle-track.on .toggle-knob::after { content:'';position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(239,68,68,0.4);animation:pulse-ring 1.5s ease-out infinite; }
+  @keyframes pulse-ring { 0%{transform:scale(0.95);opacity:1} 100%{transform:scale(1.5);opacity:0} }
+  .btn-config { padding:9px 16px;border-radius:10px;border:1.5px solid rgba(79,142,247,0.25);background:rgba(79,142,247,0.06);color:#4f8ef7;font-size:12.5px;font-weight:600;cursor:pointer;transition:all 0.25s ease;white-space:nowrap; }
+  .btn-config:hover { background:#4f8ef7;color:#fff;box-shadow:0 4px 14px rgba(79,142,247,0.3); }
+  .btn-del { width:32px;height:32px;border-radius:9px;border:1.5px solid rgba(245,54,92,0.2);background:rgba(245,54,92,0.05);color:#f5365c;display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;transition:all 0.2s;flex-shrink:0; }
+  .btn-del:hover { background:#f5365c;color:#fff;border-color:#f5365c; }
+  .toast-container { position:fixed;top:80px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:10px; }
+  .toast { min-width:260px;padding:13px 16px;border-radius:12px;background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border:1px solid rgba(79,142,247,0.12);box-shadow:0 8px 28px rgba(26,35,64,0.14);display:flex;align-items:center;gap:11px;font-size:13.5px;color:#1a2340;animation:toastIn 0.4s cubic-bezier(0.22,1,0.36,1) both; }
+  .toast.t-success { border-left:4px solid #1cc27c; }
+  .toast.t-stop { border-left:4px solid #f59e0b; }
+  .ti { font-size:17px; }
+  .toast.t-success .ti { color:#1cc27c; }
+  .toast.t-stop .ti { color:#f59e0b; }
+  @keyframes toastIn { from{opacity:0;transform:translateX(20px)} to{opacity:1;transform:translateX(0)} }
+  @keyframes toastOut { to{opacity:0;transform:translateX(20px)} }
+  .modal-gradient-header { background:linear-gradient(135deg,#4f8ef7,#0af4c3) !important;border-radius:16px 16px 0 0 !important;padding:16px 22px !important; }
+  .modal-content { border-radius:16px !important;border:none !important;box-shadow:0 20px 60px rgba(26,35,64,0.2) !important; }
+</style>
+
+<div class="toast-container" id="toastCont"></div>
 
 <div class="page-wrapper">
-    <div class="container-fluid">
+  <div class="container-fluid" style="padding:0;">
 
-        <!-- Page Title + Add Strategy Button -->
-        <div class="page-titles mb-4">
-            <div class="row">
-                <div class="col-lg-8 col-md-6 col-12 align-self-center">
-                    <h1 class="mb-0 fw-bold">Strategies</h1>
-                </div>
-                <div class="col-lg-4 col-md-6 d-none d-md-flex align-items-center justify-content-end">
-                    <a href="javascript:void(0)" class="btn btn-info d-flex align-items-center ms-2" data-bs-toggle="modal" data-bs-target="#add-strategy-modal">
-                        <i class="ri-add-line me-1"></i> Add Strategy
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-----------------start report code----------->
-            {% for strategy, deployed_strategy in results %}
-            <div class="col-sm-12 col-md-10">
-                <div class="card cardbodyshadow">
-                    <div class="card-body">
-                        <div class="">
-                            <div class="d-flex justify-content-between">
-                                <div class="ms-3 align-self-center">
-                                    <h4 class="mb-0 fontweightbol">{{strategy.name}}</h4>
-                                    <span class="text-dark fontLocal deployTitle">{{strategy.description}}</span>
-                                </div>
-                                <div class="align-self-center">
-                                    <button class="btn btn-sm btn-danger text-white" onclick="deleteStrategy({{strategy.id}})">Delete</button>
-                                </div>
-                            </div>
-                            <div class="rowDeploy mt-4 d-flex justify-content-end ">
-                                    <div class="deployRight">
-                                        {% if deployed_strategy.status == 'RUNNING' %}
-                                        <form action="/strategies/{{strategy.id}}/stop" method="POST">
-                                            <button type="submit" class="deploybtnlightdanger text-white btn-danger">STOP</button>
-                                        </form>
-                                        {% else %}
-                                        <div class="deploybtnlightdanger text-danger" data-bs-toggle="modal" data-bs-target="#samedata-modal"
-                                        data-bs-strategy-id="{{strategy.id}}" data-bs-strategy-name="{{strategy.name}}" data-bs-start-hour="{{strategy.start_hour}}" 
-                                        data-bs-start-minute="{{strategy.start_minute}}" data-bs-end-hour="{{strategy.end_hour}}" data-bs-end-minute="{{strategy.end_minute}}"
-                                        data-bs-expiry="{{strategy.expiry}}" data-bs-fut-expiry="{{strategy.fut_expiry}}">
-                                            DEPLOY
-                                        </div>
-                                        {% endif %}
-                                    </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-
-        <!---- Deploy modal start-->
-        <div class="modal fade" id="samedata-modal" tabindex="-1" aria-labelledby="exampleModalLabel1" style="display: none;"
-            aria-hidden="true">
-            <div class="modal-dialog modaldilogwidth" role="document">
-                <div class="modal-content">
-                    <div class="modal-header d-flex align-items-center">
-                        <h4 class="modal-title" id="exampleModalLabel1"></h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form id="deploy_strategy_form" action="" method="POST">
-                        <div class="modal-body">
-                            <!-- row form start-->
-                             <div class="row">
-                                <div class="col-md-12">
-                                    <div class="inputform">
-                                        <label for="session_token_id" class="control-label">Account:</label>
-                                        <select name="session_token_id" class="form-select" aria-label="Default" required>
-                                            {% for account in accounts %}
-                                            <option value="{{account.id}}">{{account.account_id}}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="inputform">
-                                        <label for="start_hour" class="control-label">Start Hour:</label>
-                                        <select id="start_hour_select" name="start_hour" class="form-select" aria-label="Default" required>
-                                            <option selected disabled>Select</option>
-                                            <option value="9">9</option>
-                                            <option value="10">10</option>
-                                            <option value="11">11</option>
-                                            <option value="12">12</option>
-                                            <option value="13">13</option>
-                                            <option value="14">14</option>
-                                            <option value="15">15</option>
-                                            <option value="16">16</option>
-                                            <option value="17">17</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="inputform">
-                                        <label for="start_minute" class="control-label">Start Minute:</label>
-                                        <select id="start_minute_select" name="start_minute" class="form-select" aria-label="Default" required>
-                                            <option selected disabled>Select</option>
-                                            <option value="0">0</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                            <option value="7">7</option>
-                                            <option value="8">8</option>
-                                            <option value="9">9</option>
-                                            <option value="10">10</option>
-                                            <option value="11">11</option>
-                                            <option value="12">12</option>
-                                            <option value="13">13</option>
-                                            <option value="14">14</option>
-                                            <option value="15">15</option>
-                                            <option value="16">16</option>
-                                            <option value="17">17</option>
-                                            <option value="18">18</option>
-                                            <option value="19">19</option>
-                                            <option value="20">20</option>
-                                            <option value="21">21</option>
-                                            <option value="22">22</option>
-                                            <option value="23">23</option>
-                                            <option value="24">24</option>
-                                            <option value="25">25</option>
-                                            <option value="26">26</option>
-                                            <option value="27">27</option>
-                                            <option value="28">28</option>
-                                            <option value="29">29</option>
-                                            <option value="30">30</option>
-                                            <option value="31">31</option>
-                                            <option value="32">32</option>
-                                            <option value="33">33</option>
-                                            <option value="34">34</option>
-                                            <option value="35">35</option>
-                                            <option value="36">36</option>
-                                            <option value="37">37</option>
-                                            <option value="38">38</option>
-                                            <option value="39">39</option>
-                                            <option value="40">40</option>
-                                            <option value="41">41</option>
-                                            <option value="42">42</option>
-                                            <option value="43">43</option>
-                                            <option value="44">44</option>
-                                            <option value="45">45</option>
-                                            <option value="46">46</option>
-                                            <option value="47">47</option>
-                                            <option value="48">48</option>
-                                            <option value="49">49</option>
-                                            <option value="50">50</option>
-                                            <option value="51">51</option>
-                                            <option value="52">52</option>
-                                            <option value="53">53</option>
-                                            <option value="54">54</option>
-                                            <option value="55">55</option>
-                                            <option value="56">56</option>
-                                            <option value="57">57</option>
-                                            <option value="58">58</option>
-                                            <option value="59">59</option>
-                                            <option value="60">60</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                 
-                                <div class="col-md-6">
-                                    <div class="inputform">
-                                        <label for="end_hour" class="control-label">End Hour:</label>
-                                        <select id="end_hour_select" name="end_hour" class="form-select" aria-label="Default" required>
-                                            <option selected disabled>Select</option>
-                                            <option value="9">9</option>
-                                            <option value="10">10</option>
-                                            <option value="11">11</option>
-                                            <option value="12">12</option>
-                                            <option value="13">13</option>
-                                            <option value="14">14</option>
-                                            <option value="15">15</option>
-                                            <option value="16">16</option>
-                                            <option value="17">17</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="inputform">
-                                        <label for="end_minute" class="control-label">End Minute:</label>
-                                        <select id="end_minute_select" name="end_minute" class="form-select" aria-label="Default" required>
-                                            <option selected disabled>Select</option>
-                                            <option value="0">0</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                            <option value="7">7</option>
-                                            <option value="8">8</option>
-                                            <option value="9">9</option>
-                                            <option value="10">10</option>
-                                            <option value="11">11</option>
-                                            <option value="12">12</option>
-                                            <option value="13">13</option>
-                                            <option value="14">14</option>
-                                            <option value="15">15</option>
-                                            <option value="16">16</option>
-                                            <option value="17">17</option>
-                                            <option value="18">18</option>
-                                            <option value="19">19</option>
-                                            <option value="20">20</option>
-                                            <option value="21">21</option>
-                                            <option value="22">22</option>
-                                            <option value="23">23</option>
-                                            <option value="24">24</option>
-                                            <option value="25">25</option>
-                                            <option value="26">26</option>
-                                            <option value="27">27</option>
-                                            <option value="28">28</option>
-                                            <option value="29">29</option>
-                                            <option value="30">30</option>
-                                            <option value="31">31</option>
-                                            <option value="32">32</option>
-                                            <option value="33">33</option>
-                                            <option value="34">34</option>
-                                            <option value="35">35</option>
-                                            <option value="36">36</option>
-                                            <option value="37">37</option>
-                                            <option value="38">38</option>
-                                            <option value="39">39</option>
-                                            <option value="40">40</option>
-                                            <option value="41">41</option>
-                                            <option value="42">42</option>
-                                            <option value="43">43</option>
-                                            <option value="44">44</option>
-                                            <option value="45">45</option>
-                                            <option value="46">46</option>
-                                            <option value="47">47</option>
-                                            <option value="48">48</option>
-                                            <option value="49">49</option>
-                                            <option value="50">50</option>
-                                            <option value="51">51</option>
-                                            <option value="52">52</option>
-                                            <option value="53">53</option>
-                                            <option value="54">54</option>
-                                            <option value="55">55</option>
-                                            <option value="56">56</option>
-                                            <option value="57">57</option>
-                                            <option value="58">58</option>
-                                            <option value="59">59</option>
-                                            <option value="60">60</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div id="expiry_col" class="col-md-6">
-                                    <div class="inputform">
-                                        <label for="expiry" class="control-label">Expiry:</label>
-                                        <input id="expiry_input" type="date" name="expiry" class="form-select-input">
-                                    </div>
-                                </div>
-                                <div id="fut_expiry_col" class="col-md-6">
-                                    <div class="inputform">
-                                        <label for="fut_expiry" class="control-label">Future Expiry:</label>
-                                        <input id="fut_expiry_input" type="date" name="fut_expiry" class="form-select-input">
-                                    </div>
-                                </div>
-                                <div id="qty_col" class="col-md-6">
-                                    <div class="inputform">
-                                        <label for="qty" class="control-label">Quantity:</label>
-                                        <input id="qty_input" type="test" name="qty" value="0" class="form-select-input">
-                                    </div>
-                                </div>
-                                <div id="max_position_col" class="col-md-6">
-                                    <div class="inputform">
-                                        <label for="max_position" class="control-label">Maxium Position:</label>
-                                        <input id="max_position_input" type="text" name="max_position" value="0" class="form-select-input">
-                                    </div>
-                                </div>
-                                <div id="slicer_col" class="col-md-6">
-                                    <div class="inputform">
-                                        <label for="slicer" class="control-label">Slicer:</label>
-                                        <input id="slicer_input" type="text" name="slicer" value="0" class="form-select-input">
-                                    </div>
-                                </div>
-                                <div id="first_day_of_month_col" class="col-md-6">
-                                    <div class="inputform">
-                                        <label for="first_day_of_month" class="control-label">First Day of Month:</label>
-                                        <input id="first_day_of_month_input" type="date" name="first_day_of_month" class="form-select-input">
-                                    </div>
-                                </div>
-                                <div id="last_day_of_month_col" class="col-md-6">
-                                    <div class="inputform">
-                                        <label for="last_day_of_month" class="control-label">Last Day of Month:</label>
-                                        <input id="last_day_of_month_input" type="date" name="last_day_of_month" class="form-select-input">
-                                    </div>
-                                </div>
-                                <div id="portfolio_size_col" class="col-md-6">
-                                    <div class="inputform">
-                                        <label for="portfolio_size" class="control-label">Portfolio Size:</label>
-                                        <input id="portfolio_size_input" type="text" name="portfolio_size" value="20" class="form-select-input">
-                                    </div>
-                                </div>
-                                <div id="end_month_size_col" class="col-md-6">
-                                    <div class="inputform">
-                                        <label for="end_month_size" class="control-label">End Month Size:</label>
-                                        <input id="end_month_size_input" type="text" name="end_month_size" value="40" class="form-select-input">
-                                    </div>
-                                </div>
-                                <div id="portfolio_price_col" class="col-md-6">
-                                    <div class="inputform">
-                                        <label for="portfolio_price" class="control-label">Portfolio Price:</label>
-                                        <input id="portfolio_price_input" type="text" name="portfolio_price" value="40" class="form-select-input">
-                                    </div>
-                                </div>
-                                <div id="auth_code_col" class="col-md-6">
-                                    <div class="inputform">
-                                        <label for="auth_code" class="control-label">Auth Code:</label>
-                                        <input id="auth_code_input" type="text" name="auth_code" value="abc" class="form-select-input">
-                                    </div>
-                                </div>
-                                <div id="interval_col" class="col-md-6">
-                                    <div class="inputform">
-                                        <label for="interval" class="control-label">Interval:</label>
-                                        <select id="interval_input" name="interval" class="form-select-input">
-                                            <option value="1second">1 Second</option>
-                                            <option value="1minute">1 Minute</option>
-                                            <option value="5minute">5 Minute</option>
-                                            <option value="30minute">30 Minute</option>
-                                            <option value="1day">1 Day</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div id="symbol_col" class="col-md-6">
-                                    <div class="inputform">
-                                        <label for="symbol" class="control-label">Symbol:</label>
-                                        <input id="symbol_input" type="text" name="symbol" value="NIFTY" class="form-select-input">
-                                    </div>
-                                </div>
-                                <div id="strike_col" class="col-md-6">
-                                    <div class="inputform">
-                                        <label for="strike" class="control-label">Strike:</label>
-                                        <input id="strike_input" type="text" name="strike" value="25400" class="form-select-input">
-                                    </div>
-                                </div>
-                                <div id="right_col" class="col-md-6">
-                                    <div class="inputform">
-                                        <label for="right" class="control-label">Right:</label>
-                                        <select id="right_input" name="right" class="form-select-input">
-                                            <option value="call">call</option>
-                                            <option value="put">put</option>
-                                            <option value="None">None</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div id="action_col" class="col-md-6">
-                                    <div class="inputform">
-                                        <label for="action" class="control-label">Action:</label>
-                                        <select id="action_input" name="action" class="form-select-input">
-                                            <option value="buy">buy</option>
-                                            <option value="sell">sell</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div id="price_col" class="col-md-6">
-                                    <div class="inputform">
-                                        <label for="price" class="control-label">Price:</label>
-                                        <input id="price_input" type="text" name="price" value="10" class="form-select-input">
-                                    </div>
-                                </div>
-                                <div id="exchange_col" class="col-md-6">
-                                    <div class="inputform">
-                                        <label for="exchange" class="control-label">Exchange:</label>
-                                        <select id="exchange_input" name="exchange" class="form-select-input">
-                                            <option value="BSE">BSE</option>
-                                            <option value="BFO">BFO</option>
-                                            <option value="NSE">NSE</option>
-                                            <option value="NFO">NFO</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div id="product_col" class="col-md-6">
-                                    <div class="inputform">
-                                        <label for="product" class="control-label">Product:</label>
-                                        <select id="product_input" name="product" class="form-select-input">
-                                            <option value="cash">cash</option>
-                                            <option value="options">options</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                
-                             </div>
-                            <!-- row form end-->
-                        </div>
-                        <div class="modal-footer d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary">
-                                DEPLOY STRATEGY
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <!---- Deploy modal end-->
-
-        <!---- Add Strategy Modal start-->
-        <div class="modal fade" id="add-strategy-modal" tabindex="-1" aria-labelledby="addStrategyModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header d-flex align-items-center">
-                        <h4 class="modal-title" id="addStrategyModalLabel">Add Strategy</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form class="row g-3" id="addStrategyForm" onsubmit="submitAddStrategy(event)">
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label>Strategy Name</label>
-                                    <input type="text" class="form-control" id="strat_name" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label>Strategy Type (e.g., PT, LIVE)</label>
-                                    <input type="text" class="form-control" id="strat_type" required>
-                                </div>
-                                <div class="col-md-12 mb-3">
-                                    <label>Description</label>
-                                    <input type="text" class="form-control" id="strat_desc" required>
-                                </div>
-                                <div class="col-md-12 mb-3">
-                                    <label>File Name (e.g., strategy_data.csv)</label>
-                                    <input type="text" class="form-control" id="strat_file" required>
-                                </div>
-                                <input type="hidden" id="strat_start_h" value="9">
-                                <input type="hidden" id="strat_start_m" value="15">
-                                <input type="hidden" id="strat_end_h" value="15">
-                                <input type="hidden" id="strat_end_m" value="30">
-                                <input type="hidden" id="strat_expiry" value="">
-                                <input type="hidden" id="strat_fut_expiry" value="">
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-info text-white">Submit</button>
-                            <button type="button" class="btn btn-light-danger" data-bs-dismiss="modal">Close</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <!---- Add Strategy Modal end-->
-
+    <div class="strategies-topbar">
+      <div>
+        <h1>Trading Strategies</h1>
+        <div class="sub">Manage and deploy your algorithmic strategies</div>
+      </div>
+      <a href="javascript:void(0)" class="btn-add-strat" data-bs-toggle="modal" data-bs-target="#add-strategy-modal">
+        <i class="ri-add-line"></i> Add Strategy
+      </a>
     </div>
-    <!-- End Container fluid -->
+
+    <div class="strategy-grid">
+      {% for strategy, deployed_strategy in results %}
+      <div class="strategy-glass-card {% if deployed_strategy.status == 'RUNNING' %}running{% endif %}" id="sgcard-{{strategy.id}}">
+        <div class="card-accent"></div>
+        <div class="card-top">
+          <div class="strat-icon si-blue"><i class="ri-line-chart-line"></i></div>
+          <div class="ms-3 flex-grow-1">
+            <div class="strat-name">{{ strategy.name }}</div>
+            <div class="strat-desc">{{ strategy.description }}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+            {% if deployed_strategy.status == 'RUNNING' %}
+            <span class="status-badge sb-running" id="sbadge-{{strategy.id}}"><span class="sb-dot"></span> Live</span>
+            {% else %}
+            <span class="status-badge sb-stopped" id="sbadge-{{strategy.id}}"><span class="sb-dot"></span> Stopped</span>
+            {% endif %}
+            <button class="btn-del" onclick="deleteStrategy({{strategy.id}})" title="Delete strategy"><i class="ri-delete-bin-line"></i></button>
+          </div>
+        </div>
+        <div class="toggle-wrap">
+          {% if deployed_strategy.status == 'RUNNING' %}
+          <form action="/strategies/{{strategy.id}}/stop" method="POST" style="display:contents;">
+            <div class="strat-toggle" title="Click to stop strategy">
+              <div class="toggle-track on" id="ttrack-{{strategy.id}}">
+                <div class="track-labels">
+                  <span class="lbl-start"><i class="ri-play-fill"></i> START</span>
+                  <span class="lbl-stop">STOP <i class="ri-stop-fill"></i></span>
+                </div>
+                <div class="toggle-knob"><i class="ri-stop-fill"></i></div>
+              </div>
+              <button type="submit" style="position:absolute;inset:0;opacity:0;cursor:pointer;" title="Stop strategy"></button>
+            </div>
+          </form>
+          {% else %}
+          <div class="strat-toggle"
+               data-bs-toggle="modal" data-bs-target="#samedata-modal"
+               data-bs-strategy-id="{{strategy.id}}"
+               data-bs-strategy-name="{{strategy.name}}"
+               data-bs-start-hour="{{strategy.start_hour}}"
+               data-bs-start-minute="{{strategy.start_minute}}"
+               data-bs-end-hour="{{strategy.end_hour}}"
+               data-bs-end-minute="{{strategy.end_minute}}"
+               data-bs-expiry="{{strategy.expiry}}"
+               data-bs-fut-expiry="{{strategy.fut_expiry}}"
+               title="Click to deploy strategy">
+            <div class="toggle-track off" id="ttrack-{{strategy.id}}">
+              <div class="track-labels">
+                <span class="lbl-start"><i class="ri-play-fill"></i> START</span>
+                <span class="lbl-stop">STOP <i class="ri-stop-fill"></i></span>
+              </div>
+              <div class="toggle-knob"><i class="ri-play-fill"></i></div>
+            </div>
+          </div>
+          {% endif %}
+          <button class="btn-config"
+                  data-bs-toggle="modal" data-bs-target="#samedata-modal"
+                  data-bs-strategy-id="{{strategy.id}}"
+                  data-bs-strategy-name="{{strategy.name}}"
+                  data-bs-start-hour="{{strategy.start_hour}}"
+                  data-bs-start-minute="{{strategy.start_minute}}"
+                  data-bs-end-hour="{{strategy.end_hour}}"
+                  data-bs-end-minute="{{strategy.end_minute}}"
+                  data-bs-expiry="{{strategy.expiry}}"
+                  data-bs-fut-expiry="{{strategy.fut_expiry}}">
+            <i class="ri-settings-3-line"></i> Configure
+          </button>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Deploy Modal -->
+    <div class="modal fade" id="samedata-modal" tabindex="-1" aria-labelledby="exampleModalLabel1" style="display:none;" aria-hidden="true">
+      <div class="modal-dialog modaldilogwidth" role="document">
+        <div class="modal-content">
+          <div class="modal-header d-flex align-items-center modal-gradient-header">
+            <h4 class="modal-title text-white fw-bold" id="exampleModalLabel1"></h4>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form id="deploy_strategy_form" action="" method="POST">
+            <div class="modal-body" style="padding:24px;">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="inputform">
+                    <label for="session_token_id" class="control-label">Account:</label>
+                    <select name="session_token_id" class="form-select" aria-label="Default" required>
+                      {% for account in accounts %}
+                      <option value="{{account.id}}">{{account.account_id}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6"><div class="inputform"><label class="control-label">Start Hour:</label><select id="start_hour_select" name="start_hour" class="form-select" required><option selected disabled>Select</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option></select></div></div>
+                <div class="col-md-6"><div class="inputform"><label class="control-label">Start Minute:</label><select id="start_minute_select" name="start_minute" class="form-select" required><option selected disabled>Select</option><option value="0">0</option><option value="5">5</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option><option value="30">30</option><option value="35">35</option><option value="40">40</option><option value="45">45</option><option value="50">50</option><option value="55">55</option></select></div></div>
+                <div class="col-md-6"><div class="inputform"><label class="control-label">End Hour:</label><select id="end_hour_select" name="end_hour" class="form-select" required><option selected disabled>Select</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option></select></div></div>
+                <div class="col-md-6"><div class="inputform"><label class="control-label">End Minute:</label><select id="end_minute_select" name="end_minute" class="form-select" required><option selected disabled>Select</option><option value="0">0</option><option value="5">5</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option><option value="30">30</option><option value="35">35</option><option value="40">40</option><option value="45">45</option><option value="50">50</option><option value="55">55</option></select></div></div>
+                <div id="expiry_col" class="col-md-6"><div class="inputform"><label class="control-label">Expiry:</label><input id="expiry_input" type="date" name="expiry" class="form-select-input"></div></div>
+                <div id="fut_expiry_col" class="col-md-6"><div class="inputform"><label class="control-label">Future Expiry:</label><input id="fut_expiry_input" type="date" name="fut_expiry" class="form-select-input"></div></div>
+                <div id="qty_col" class="col-md-6"><div class="inputform"><label class="control-label">Quantity:</label><input id="qty_input" type="text" name="qty" value="0" class="form-select-input"></div></div>
+                <div id="max_position_col" class="col-md-6"><div class="inputform"><label class="control-label">Max Position:</label><input id="max_position_input" type="text" name="max_position" value="0" class="form-select-input"></div></div>
+                <div id="slicer_col" class="col-md-6"><div class="inputform"><label class="control-label">Slicer:</label><input id="slicer_input" type="text" name="slicer" value="0" class="form-select-input"></div></div>
+                <div id="first_day_of_month_col" class="col-md-6"><div class="inputform"><label class="control-label">First Day of Month:</label><input id="first_day_of_month_input" type="date" name="first_day_of_month" class="form-select-input"></div></div>
+                <div id="last_day_of_month_col" class="col-md-6"><div class="inputform"><label class="control-label">Last Day of Month:</label><input id="last_day_of_month_input" type="date" name="last_day_of_month" class="form-select-input"></div></div>
+                <div id="portfolio_size_col" class="col-md-6"><div class="inputform"><label class="control-label">Portfolio Size:</label><input id="portfolio_size_input" type="text" name="portfolio_size" value="20" class="form-select-input"></div></div>
+                <div id="end_month_size_col" class="col-md-6"><div class="inputform"><label class="control-label">End Month Size:</label><input id="end_month_size_input" type="text" name="end_month_size" value="40" class="form-select-input"></div></div>
+                <div id="portfolio_price_col" class="col-md-6"><div class="inputform"><label class="control-label">Portfolio Price:</label><input id="portfolio_price_input" type="text" name="portfolio_price" value="40" class="form-select-input"></div></div>
+                <div id="auth_code_col" class="col-md-6"><div class="inputform"><label class="control-label">Auth Code:</label><input id="auth_code_input" type="text" name="auth_code" value="abc" class="form-select-input"></div></div>
+                <div id="interval_col" class="col-md-6"><div class="inputform"><label class="control-label">Interval:</label><select id="interval_input" name="interval" class="form-select-input"><option value="1second">1 Second</option><option value="1minute">1 Minute</option><option value="5minute">5 Minute</option><option value="30minute">30 Minute</option><option value="1day">1 Day</option></select></div></div>
+                <div id="symbol_col" class="col-md-6"><div class="inputform"><label class="control-label">Symbol:</label><input id="symbol_input" type="text" name="symbol" value="NIFTY" class="form-select-input"></div></div>
+                <div id="strike_col" class="col-md-6"><div class="inputform"><label class="control-label">Strike:</label><input id="strike_input" type="text" name="strike" value="25400" class="form-select-input"></div></div>
+                <div id="right_col" class="col-md-6"><div class="inputform"><label class="control-label">Right:</label><select id="right_input" name="right" class="form-select-input"><option value="call">call</option><option value="put">put</option><option value="None">None</option></select></div></div>
+                <div id="action_col" class="col-md-6"><div class="inputform"><label class="control-label">Action:</label><select id="action_input" name="action" class="form-select-input"><option value="buy">buy</option><option value="sell">sell</option></select></div></div>
+                <div id="price_col" class="col-md-6"><div class="inputform"><label class="control-label">Price:</label><input id="price_input" type="text" name="price" value="10" class="form-select-input"></div></div>
+                <div id="exchange_col" class="col-md-6"><div class="inputform"><label class="control-label">Exchange:</label><select id="exchange_input" name="exchange" class="form-select-input"><option value="BSE">BSE</option><option value="BFO">BFO</option><option value="NSE">NSE</option><option value="NFO">NFO</option></select></div></div>
+                <div id="product_col" class="col-md-6"><div class="inputform"><label class="control-label">Product:</label><select id="product_input" name="product" class="form-select-input"><option value="cash">cash</option><option value="options">options</option></select></div></div>
+              </div>
+            </div>
+            <div class="modal-footer" style="padding:14px 22px;border-top:1px solid #f0f2f5;">
+              <button type="button" class="btn btn-light px-4" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-primary px-4" style="background:linear-gradient(135deg,#4f8ef7,#0af4c3);border:none;">
+                <i class="ri-rocket-line me-1"></i> Deploy Strategy
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Strategy Modal -->
+    <div class="modal fade" id="add-strategy-modal" tabindex="-1" aria-labelledby="addStrategyModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header d-flex align-items-center modal-gradient-header">
+            <h4 class="modal-title text-white fw-bold" id="addStrategyModalLabel">
+              <i class="ri-add-circle-line me-2"></i> Add Strategy
+            </h4>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form class="row g-3" id="addStrategyForm" onsubmit="submitAddStrategy(event)">
+            <div class="modal-body" style="padding:24px;">
+              <div class="row">
+                <div class="col-md-6 mb-3"><label class="fw-semibold text-muted small text-uppercase">Strategy Name</label><input type="text" class="form-control" id="strat_name" required></div>
+                <div class="col-md-6 mb-3"><label class="fw-semibold text-muted small text-uppercase">Strategy Type (e.g., PT, LIVE)</label><input type="text" class="form-control" id="strat_type" required></div>
+                <div class="col-md-12 mb-3"><label class="fw-semibold text-muted small text-uppercase">Description</label><input type="text" class="form-control" id="strat_desc" required></div>
+                <div class="col-md-12 mb-3"><label class="fw-semibold text-muted small text-uppercase">File Name (e.g., strategy_data.csv)</label><input type="text" class="form-control" id="strat_file" required></div>
+                <input type="hidden" id="strat_start_h" value="9">
+                <input type="hidden" id="strat_start_m" value="15">
+                <input type="hidden" id="strat_end_h" value="15">
+                <input type="hidden" id="strat_end_m" value="30">
+                <input type="hidden" id="strat_expiry" value="">
+                <input type="hidden" id="strat_fut_expiry" value="">
+              </div>
+            </div>
+            <div class="modal-footer" style="padding:14px 22px;border-top:1px solid #f0f2f5;">
+              <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" style="background:linear-gradient(135deg,#4f8ef7,#0af4c3);border:none;">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <script>
-// ── Deploy modal logic ──────────────────────────────────────────────────────
-var exampleModal = document.getElementById('samedata-modal')
-exampleModal.addEventListener('show.bs.modal', function (event) {
-  var button = event.relatedTarget;
-  var strategyId = button.getAttribute('data-bs-strategy-id');
-  var strategyName = button.getAttribute('data-bs-strategy-name');
-  var startHour = button.getAttribute('data-bs-start-hour');
-  var startMinute = button.getAttribute('data-bs-start-minute');
-  var endHour = button.getAttribute('data-bs-end-hour');
-  var endMinute = button.getAttribute('data-bs-end-minute');
-  var expiry = button.getAttribute('data-bs-expiry');
-  var futExpiry = button.getAttribute('data-bs-fut-expiry');
+var deployModal = document.getElementById('samedata-modal');
+deployModal.addEventListener('show.bs.modal', function(event) {
+  var btn = event.relatedTarget;
+  var id   = btn.getAttribute('data-bs-strategy-id');
+  var name = btn.getAttribute('data-bs-strategy-name');
+  var sh   = btn.getAttribute('data-bs-start-hour');
+  var sm   = btn.getAttribute('data-bs-start-minute');
+  var eh   = btn.getAttribute('data-bs-end-hour');
+  var em   = btn.getAttribute('data-bs-end-minute');
+  var exp  = btn.getAttribute('data-bs-expiry');
+  var fexp = btn.getAttribute('data-bs-fut-expiry');
 
-  if(strategyName == "RPS_Ent_Directional" || strategyName == "Carara_Directional" || strategyName == "DS_Directional" || strategyName == "RPSinghal_Directional" || strategyName == "Rahulsinghal13_Directional" || strategyName == "Sarlasinghal_Directional" || strategyName == "Directional_PT") {
-    $("#max_position_col").show();
-    $("#slicer_col").show();
-    $("#first_day_of_month_col").hide();
-    $("#last_day_of_month_col").hide();
-    $("#portfolio_size_col").hide();
-    $("#portfolio_price_col").hide();
-    $("#end_month_size_col").hide(); 
-    $("#interval_col").hide();
-    $("#symbol_col").hide();
-    $("#strike_col").hide();
-    $("#auth_code_col").hide();
-    $("#product_col").hide();
-    $("#exchange_col").hide();
-    $("#action_col").hide();
-    $("#right_col").hide();
-    $("#price_col").hide();
+  deployModal.querySelector('#exampleModalLabel1').textContent = name;
+  deployModal.querySelector('#deploy_strategy_form').action = '/strategies/' + id + '/deploy';
+  deployModal.querySelector('#start_hour_select').value   = sh;
+  deployModal.querySelector('#start_minute_select').value = sm;
+  deployModal.querySelector('#end_hour_select').value     = eh;
+  deployModal.querySelector('#end_minute_select').value   = em;
+  deployModal.querySelector('#expiry_input').value     = exp;
+  deployModal.querySelector('#fut_expiry_input').value = fexp;
+
+  var all = ['max_position_col','slicer_col','first_day_of_month_col','last_day_of_month_col','portfolio_size_col','portfolio_price_col','end_month_size_col','interval_col','symbol_col','strike_col','auth_code_col','product_col','exchange_col','action_col','right_col','price_col'];
+  all.forEach(function(c){ var el=document.getElementById(c); if(el) el.style.display='none'; });
+
+  if(['RPS_Ent_Directional','Carara_Directional','DS_Directional','RPSinghal_Directional','Rahulsinghal13_Directional','Sarlasinghal_Directional','Directional_PT'].indexOf(name)>-1){
+    ['max_position_col','slicer_col'].forEach(function(c){var el=document.getElementById(c);if(el)el.style.display='';});
+  } else if(name==='Zerodha_Momentum'){
+    ['first_day_of_month_col','last_day_of_month_col','portfolio_size_col','end_month_size_col','portfolio_price_col'].forEach(function(c){var el=document.getElementById(c);if(el)el.style.display='';});
+  } else if(name==='RV_Calculator'||name==='RV_Live'){
+    ['first_day_of_month_col','last_day_of_month_col','interval_col','symbol_col'].forEach(function(c){var el=document.getElementById(c);if(el)el.style.display='';});
+  } else if(name==='Greek_Calculator'){
+    ['first_day_of_month_col','last_day_of_month_col','interval_col','symbol_col','expiry_col','strike_col'].forEach(function(c){var el=document.getElementById(c);if(el)el.style.display='';});
+  } else if(name==='Manual_Order'){
+    ['symbol_col','product_col','exchange_col','action_col','right_col','price_col','qty_col','strike_col','expiry_col'].forEach(function(c){var el=document.getElementById(c);if(el)el.style.display='';});
+  } else if(name==='IIFL_Straddle'){
+    ['auth_code_col'].forEach(function(c){var el=document.getElementById(c);if(el)el.style.display='';});
   }
-  else if(strategyName == "Zerodha_Momentum"){
-    $("#first_day_of_month_col").show();
-    $("#last_day_of_month_col").show();
-    $("#portfolio_size_col").show();
-    $("#end_month_size_col").show();
-    $("#portfolio_price_col").show();
-    $("#qty_col").hide();
-    $("#fut_expiry_col").hide();
-    $("#expiry_col").hide();  
-    $("#max_position_col").hide();
-    $("#slicer_col").hide();
-    $("#interval_col").hide();
-    $("#symbol_col").hide();
-    $("#strike_col").hide();
-    $("#auth_code_col").hide();
-    $("#product_col").hide();
-    $("#exchange_col").hide();
-    $("#action_col").hide();
-    $("#right_col").hide();
-    $("#price_col").hide();
-  }
-  else if(strategyName == "Arimax"){
-    $("#first_day_of_month_col").hide();
-    $("#last_day_of_month_col").hide();
-    $("#portfolio_size_col").hide();
-    $("#end_month_size_col").hide();
-    $("#portfolio_price_col").hide();
-    $("#qty_col").hide();
-    $("#fut_expiry_col").hide();
-    $("#expiry_col").hide();  
-    $("#max_position_col").hide();
-    $("#slicer_col").hide();
-    $("#interval_col").hide();
-    $("#symbol_col").hide();
-    $("#strike_col").hide();
-    $("#auth_code_col").hide();
-    $("#product_col").hide();
-    $("#exchange_col").hide();
-    $("#action_col").hide();
-    $("#right_col").hide();
-    $("#price_col").hide();
-  }
-  else if(strategyName == "RV_Calculator" || strategyName == "RV_Live"){
-    $("#first_day_of_month_col").show();
-    $("#last_day_of_month_col").show();
-    $("#interval_col").show();
-    $("#symbol_col").show();
-    $("#portfolio_size_col").hide();
-    $("#end_month_size_col").hide();
-    $("#portfolio_price_col").hide();
-    $("#qty_col").hide();
-    $("#fut_expiry_col").hide();
-    $("#expiry_col").hide();  
-    $("#max_position_col").hide();
-    $("#slicer_col").hide();
-    $("#strike_col").hide();
-    $("#auth_code_col").hide();
-    $("#product_col").hide();
-    $("#exchange_col").hide();
-    $("#action_col").hide();
-    $("#right_col").hide();
-    $("#price_col").hide();
-  }
-  else if(strategyName == "Greek_Calculator"){
-    $("#first_day_of_month_col").show();
-    $("#last_day_of_month_col").show();
-    $("#interval_col").show();
-    $("#symbol_col").show();
-    $("#portfolio_size_col").hide();
-    $("#end_month_size_col").hide();
-    $("#portfolio_price_col").hide();
-    $("#qty_col").hide();
-    $("#fut_expiry_col").hide();
-    $("#expiry_col").show();  
-    $("#max_position_col").hide();
-    $("#slicer_col").hide();
-    $("#strike_col").show();
-    $("#auth_code_col").hide();
-    $("#product_col").hide();
-    $("#exchange_col").hide();
-    $("#action_col").hide();
-    $("#right_col").hide();
-    $("#price_col").hide();
-  }
-  else if (strategyName == "Manual_Order"){
-    $("#symbol_col").show();
-    $("#product_col").show();
-    $("#exchange_col").show();
-    $("#action_col").show();
-    $("#right_col").show();
-    $("#price_col").show();
-    $("#qty_col").show();
-    $("#strike_col").show();
-    $("#fut_expiry_col").hide();
-    $("#expiry_col").show();  
-    $("#max_position_col").hide();
-    $("#first_day_of_month_col").hide();
-    $("#last_day_of_month_col").hide();
-    $("#portfolio_size_col").hide();
-    $("#end_month_size_col").hide(); 
-    $("#portfolio_price_col").hide();
-    $("#slicer_col").hide();
-    $("#interval_col").hide();
-    $("#auth_code_col").hide();
-
-  }
-   
-  else if (strategyName == "Five_Paisa_Straddle" || strategyName == "Five_Paisa_Old_Paper_Straddle" || strategyName == "Five_Paisa_No_Condition_Paper_Straddle" || strategyName == "Five_Paisa_Sensex_Paper_Straddle" || strategyName == "Five_Paisa_15_Lag_Paper_Straddle" || strategyName == "Option_Buying_PT" || strategyName == "Sanjay_Sir_PT" || strategyName == "Option_Buying_Mohit_PT" ){
-    $("#first_day_of_month_col").hide();
-    $("#last_day_of_month_col").hide();
-    $("#portfolio_size_col").hide();
-    $("#end_month_size_col").hide(); 
-    $("#portfolio_price_col").hide();
-    $("#slicer_col").hide();
-    $("#interval_col").hide();
-    $("#symbol_col").hide();
-    $("#strike_col").hide();
-    $("#auth_code_col").hide();
-    $("#product_col").hide();
-    $("#exchange_col").hide();
-    $("#action_col").hide();
-    $("#right_col").hide();
-    $("#price_col").hide();
-  }
-  else if (strategyName == "IIFL_Straddle"){
-    $("#auth_code_col").show();
-    $("#first_day_of_month_col").hide();
-    $("#last_day_of_month_col").hide();
-    $("#portfolio_size_col").hide();
-    $("#end_month_size_col").hide(); 
-    $("#portfolio_price_col").hide();
-    $("#slicer_col").hide();
-    $("#interval_col").hide();
-    $("#symbol_col").hide();
-    $("#strike_col").hide();
-    $("#product_col").hide();
-    $("#exchange_col").hide();
-    $("#action_col").hide();
-    $("#right_col").hide();
-    $("#price_col").hide();
-  }
-
-  var strategyLabel = exampleModal.querySelector('#exampleModalLabel1');
-  strategyLabel.textContent = strategyName;
-
-  var strategyForm = exampleModal.querySelector('#deploy_strategy_form');
-  strategyForm.action = "/strategies/" + strategyId + "/deploy";
-
-  var startHourSelect = exampleModal.querySelector('#start_hour_select');
-  startHourSelect.value = startHour;
-
-  var startMinuteSelect = exampleModal.querySelector('#start_minute_select');
-  startMinuteSelect.value = startMinute;
-
-  var endHourSelect = exampleModal.querySelector('#end_hour_select');
-  endHourSelect.value = endHour;
-
-  var endMinuteSelect = exampleModal.querySelector('#end_minute_select');
-  endMinuteSelect.value = endMinute;
-  
-  var expiryInput = exampleModal.querySelector('#expiry_input');
-  expiryInput.value = expiry;
-
-  var futExpiryInput = exampleModal.querySelector('#fut_expiry_input');
-  futExpiryInput.value = futExpiry;
 });
 
-// ── Add Strategy API Call ───────────────────────────────────────────────────
 async function submitAddStrategy(event) {
-    event.preventDefault();
-    const data = {
-        name: document.getElementById('strat_name').value,
-        type: document.getElementById('strat_type').value,
-        description: document.getElementById('strat_desc').value,
-        file_name: document.getElementById('strat_file').value,
-        start_hour: parseInt(document.getElementById('strat_start_h').value) || 0,
-        start_minute: parseInt(document.getElementById('strat_start_m').value) || 0,
-        end_hour: parseInt(document.getElementById('strat_end_h').value) || 0,
-        end_minute: parseInt(document.getElementById('strat_end_m').value) || 0,
-        expiry: document.getElementById('strat_expiry').value,
-        fut_expiry: document.getElementById('strat_fut_expiry').value
-    };
-
-    const response = await fetch('/strategies', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-    });
-
-    if (response.ok) {
-        window.location.reload();
-    } else {
-        alert("Failed to add strategy.");
-    }
+  event.preventDefault();
+  var data = {
+    name: document.getElementById('strat_name').value,
+    type: document.getElementById('strat_type').value,
+    description: document.getElementById('strat_desc').value,
+    file_name: document.getElementById('strat_file').value,
+    start_hour: parseInt(document.getElementById('strat_start_h').value)||0,
+    start_minute: parseInt(document.getElementById('strat_start_m').value)||0,
+    end_hour: parseInt(document.getElementById('strat_end_h').value)||0,
+    end_minute: parseInt(document.getElementById('strat_end_m').value)||0,
+    expiry: document.getElementById('strat_expiry').value,
+    fut_expiry: document.getElementById('strat_fut_expiry').value
+  };
+  var resp = await fetch('/strategies',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+  if(resp.ok){ window.location.reload(); } else { alert('Failed to add strategy.'); }
 }
 
-// ── Delete Strategy API Call ────────────────────────────────────────────────
 async function deleteStrategy(id) {
-    if (confirm("Are you sure you want to delete this strategy?")) {
-        const response = await fetch(`/strategies/${id}`, { method: 'DELETE' });
-        if (response.ok) {
-            window.location.reload();
-        } else {
-            alert("Failed to delete strategy.");
-        }
-    }
+  if(confirm('Are you sure you want to delete this strategy?')) {
+    var resp = await fetch('/strategies/'+id,{method:'DELETE'});
+    if(resp.ok){ window.location.reload(); } else { alert('Failed to delete strategy.'); }
+  }
+}
+
+function showToast(type, icon, title, msg) {
+  var cont = document.getElementById('toastCont');
+  var t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.innerHTML = '<i class="ti '+icon+'"></i><div><div style="font-weight:700;font-size:13px;">'+title+'</div><div style="font-size:12px;color:#7a8599;margin-top:2px;">'+msg+'</div></div>';
+  cont.appendChild(t);
+  setTimeout(function(){ t.style.animation='toastOut 0.3s ease forwards'; setTimeout(function(){ t.remove(); },300); }, 3500);
 }
 </script>
-<!-- {% include 'footer.html' %} -->
+
+{% include 'footer.html' %}
