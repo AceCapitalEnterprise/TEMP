@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Report</title>
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="" />
+    <link rel="stylesheet" href="assets/libs/apexcharts/dist/apexcharts.css" />
+    <!-- Custom CSS -->
+    <link href="dist/css/style.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- remix icon link-->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
+    <!-- remix icon link end-->
+</head>
+
+<body>
+    <div id="main-wrapper">
+  
+        <header class="topbar">
+            <nav class="navbar top-navbar navbar-expand-lg navbar-dark">
+                <div class="navbar-header">
+                    <!-- This is for the sidebar toggle which is visible on mobile only -->
+                    <a class="nav-toggler waves-effect waves-light d-block d-lg-none" href="javascript:void(0)"><i
+                            class="ri-close-line ri-menu-2-line fs-6"></i></a>
+                    <!-- ============================================================== -->
+                    <!-- Logo -->
+                    <!-- ============================================================== -->
+                    <a class="navbar-brand" href="index.html">
+            
+                        <span class="logo-text">
+                            <h class="mb-0 fw-bold">ACE ACPITAL ALGO</h>
+        
+                        </span>
+                    </a>
+                    <!-- ============================================================== -->
+                    <!-- End Logo -->
+                    <!-- ============================================================== -->
+                    <!-- ============================================================== -->
+                    <!-- Toggle which is visible on mobile only -->
+                    <!-- ============================================================== -->
+                    <a class="topbartoggler d-block d-lg-none waves-effect waves-light fgf" href="javascript:void(0)"
+                        data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i
+                            class="ri-more-line fs-6"></i></a>
+
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-collapse collapse" id="navbarSupportedContent">
+                    <!-- ============================================================== -->
+                    <!-- toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav me-auto">
+
+                    </ul>
+                    <!-- ============================================================== -->
+                    <!-- Right side toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav">
+
+                        <!-- ============================================================== -->
+                        <!-- Profile -->
+                        <!-- ============================================================== -->
+                        <li class="nav-item dropdown profile-dropdown">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="assets/images/users/user.jpg" alt="user" width="30"
+                                    class="profile-pic rounded-circle" />
+                                <div class="d-none d-md-flex">
+                                    <span class="ms-2">Hi,
+                                        <span class="text-dark fw-bold">Rahul Singhal</span></span>
+                                    <span>
+                                        <i data-feather="chevron-down" class="feather-sm"></i>
+                                    </span>
+                                </div>
+                            </a>
+                            <div class="
+                    dropdown-menu dropdown-menu-end
+                    mailbox
+                    dropdown-menu-animate-up
+                  ">
+                                <ul class="list-style-none">
+                                    <li class="p-30 pb-2">
+                                        <div class="rounded-top d-flex align-items-center">
+                                            <h3 class="card-title mb-0">User Profilee</h3>
+                                            <div class="ms-auto">
+                                                <a href="javascript:void(0)" class="link py-0">
+                                                    <i data-feather="x-circle"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="
+                          d-flex
+                          align-items-center
+                          mt-4
+                          pt-3
+                          pb-4
+                          border-bottom
+                        ">
+                                            <img src="assets/images/users/user.jpg" alt="user" width="90"
+                                                class="rounded-circle" />
+                                            <div class="ms-4">
+                                                <h4 class="mb-0">Rahul Singhal</h4>
+                                                <span class="text-muted">Administrator</span>
+                                                <p class="text-muted mb-0 mt-1">
+                                                    <i data-feather="mail" class="feather-sm me-1"></i>
+                                                    info@Flexy.com
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="p-30 pt-0">
+                                        <div class="message-center message-body position-relative"
+                                            style="height: 210px">
+                                            <!-- Message -->
+                                            <a href="javascript:void(0)" class="
+                            message-item
+                            px-2
+                            d-flex
+                            align-items-center
+                            border-bottom
+                            py-3
+                          ">
+                                                <span class="btn btn-light-info btn-rounded-lg text-info">
+                                                    <i data-feather="dollar-sign" class="feather-sm fill-white"></i>
+                                                </span>
+                                                <div class="w-75 d-inline-block v-middle ps-3 ms-1">
+                                                    <h5 class="
+                                message-title
+                                mb-0
+                                mt-1
+                                fs-4
+                                font-weight-medium
+                              ">
+                                                        My Profile
+                                                    </h5>
+                                                    <span class="
+                                fs-3
+                                text-nowrap
+                                d-block
+                                time
+                                text-truncate
+                                fw-normal
+                                mt-1
+                                text-muted
+                              ">Account Settings</span>
+                                                </div>
+                                            </a>
+                                            <!-- Message -->
+                                            <a href="javascript:void(0)" class="
+                            message-item
+                            px-2
+                            d-flex
+                            align-items-center
+                            border-bottom
+                            py-3
+                          ">
+                                                <span class="
+                              btn btn-light-success btn-rounded-lg
+                              text-success
+                            ">
+                                                    <i data-feather="shield" class="feather-sm fill-white"></i>
+                                                </span>
+                                                <div class="w-75 d-inline-block v-middle ps-3 ms-1">
+                                                    <h5 class="
+                                message-title
+                                mb-0
+                                mt-1
+                                fs-4
+                                font-weight-medium
+                                d-flex
+                                align-items-center
+                              ">
+                                                        My Inbox
+                                                        <div class="mt-n2 ms-1">
+                                                            <i class="
+                                    mdi mdi-checkbox-blank-circle
+                                    fs-1
+                                    text-success
+                                  "></i>
+                                                        </div>
+                                                    </h5>
+                                                    <span class="
+                                fs-3
+                                text-nowrap
+                                d-block
+                                time
+                                text-truncate
+                                fw-normal
+                                mt-1
+                                text-muted
+                              ">Messages & Emails</span>
+                                                </div>
+                                            </a>
+                                            <!-- Message -->
+                                            <a href="javascript:void(0)" class="
+                            message-item
+                            px-2
+                            d-flex
+                            align-items-center
+                            border-bottom
+                            py-3
+                          ">
+                                                <span class="
+                              btn btn-light-danger btn-rounded-lg
+                              text-danger
+                            ">
+                                                    <i data-feather="credit-card" class="feather-sm fill-white"></i>
+                                                </span>
+                                                <div class="w-75 d-inline-block v-middle ps-3 ms-1">
+                                                    <h5 class="
+                                message-title
+                                mb-0
+                                mt-1
+                                fs-4
+                                font-weight-medium
+                              ">
+                                                        My Tasks
+                                                    </h5>
+                                                    <span class="
+                                fs-3
+                                text-nowrap
+                                d-block
+                                time
+                                text-truncate
+                                fw-normal
+                                mt-1
+                                text-muted
+                              ">To-do and Daily Tasks</span>
+                                                </div>
+                                            </a>
+                                            <div class="mt-4">
+                                                <a href="javascript:void(0)" class="
+                              text-dark
+                              fs-3
+                              font-weight-medium
+                              hover-primary
+                            ">
+                                                    Account Settings
+                                                </a>
+                                                <a href="javascript:void(0)" class="
+                              text-dark
+                              fs-3
+                              font-weight-medium
+                              hover-primary
+                            ">
+                                                    Frequently Asked Questions
+                                                </a>
+                                                <a href="javascript:void(0)" class="
+                              text-dark
+                              fs-3
+                              font-weight-medium
+                              hover-primary
+                            ">
+                                                    Pricing
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="mt-4">
+                                            <a class="btn btn-info text-white" href="javascript:void(0);">
+                                                Logout
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- ============================================================= -->
+        <!-- End Topbar header -->
+        <!-- ============================================================= -->
+        <!-- ============================================================= -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================= -->
+        <aside class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <div class="scroll-sidebar">
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav">
+                        <!-- User Profile-->
+                        <li class="nav-small-cap">
+                            <i class="mdi mdi-dots-horizontal"></i>
+                            <span class="hide-menu">Personal</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark" href="index.html"
+                                aria-expanded="false"><i data-feather="home" class="feather-icon"></i><span
+                                    class="hide-menu">Dashboard
+                                </span></a>
+
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a class="
+                                sidebar-link
+                                waves-effect waves-dark
+                                sidebar-link
+                              " href="Strategies.html" aria-expanded="false"><i data-feather="pie-chart"
+                                    class="feather-icon"></i><span class="hide-menu">Strategies</span></a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark active" href="javascript:void(0)" aria-expanded="false"><i data-feather="file-text" class="feather-icon"></i><span class="hide-menu">Reports</span></a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark" href="Account.html" aria-expanded="false"><i
+                                    data-feather="loader" class="feather-icon"></i><span class="hide-menu">Accounts</span></a>
+                        </li>
+
+
+                    </ul>
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+        </aside>
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+
+            <!-- <div class="page-titles"></div> -->
+
+            <div class="container-fluid">
+
+                <!-----------------start report code----------->
+                <div>
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-pills" role="tablist">
+                        <li class="nav-item reportTab">
+                            <a class="nav-link reportTabAnchar active" data-bs-toggle="tab" href="#navpill-1" role="tab" aria-selected="true">
+                                <span>Reports</span>
+                            </a>
+                        </li>
+                        <li class="nav-item reportTab" style="display: none;">
+                            <a class="nav-link reportTabAnchar" data-bs-toggle="tab" href="#navpill-2" role="tab" aria-selected="false">
+                                <span>Orderbook</span>
+                            </a>
+                        </li>
+                        <li class="nav-item reportTab" style="display: none;">
+                            <a class="nav-link reportTabAnchar" data-bs-toggle="tab" href="#navpill-3" role="tab" aria-selected="false">
+                                <span>Open Posittions</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <!--- serarch and dropdown & date element start-->
+                    <div class="selectSerchElement mt-3 mb-3">
+                        <div class="">
+                            <div class="selectElement d-flex gap-3">
+                                <!-- selevt start-->
+                                <div class="borderwidthDropdown" style="width: 20%;">
+                                    <select class="form-select" aria-label="Default select example">
+                                        <option selected disabled>Broker select</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                       
+                                    </select>
+                                </div>
+                                <div class="borderwidthDropdown" style="width: 20%;">
+                                    <select class="form-select" aria-label="Default select example">
+                                        <option selected disabled>Account Select</option>
+                                        <option value="1">7879134</option>
+                                        <option value="2">6579321</option>
+                                        <option value="3">6598712</option>
+                                    </select>
+                                </div>
+                                <!-- selevt end-->
+                                 <div style="width: 20%;">
+                                      <div class="">
+                                            <div class="">
+                                                <input type="date" class="form-select" aria-label="Default select example">
+                                            </div>
+                                      </div>
+                                 </div>
+                                <div class="searchnox">
+                                    <span class="divSearch">
+                                        <!-- <i data-feather="search" class="feather-icon"></i> -->
+                                        <i class="ri-search-2-line"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                     
+                    </div>
+                    <!--- serarch and dropdown & date element end-->
+
+                    <!-- Tab panes -->
+                    <div class="tab-content border mt-2">
+                        <div class="tab-pane p-0 active" id="navpill-1" role="tabpanel">
+                            <!--- report start element-->
+                                <div class="row">
+                                
+                                    <div class="col-12">
+                                        <div class=" cardshadow">
+                                            <div class="table-responsive tableoverflow">
+                                                <div id="t_add_row_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                                
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <table id="t_add_row" class="table text-nowrap tablethborderElement tablebgelement tableThead" style="width: 100%;"
+                                                                role="grid" aria-describedby="t_add_row_info">
+                                                                <thead>
+                                                                    <tr role="row borderbottom_1px">
+                                                                        <th class="border-bottom" rowspan="0" colspan="1" style="width: 70px;"> S.No
+                                                                        </th>
+                                                                        <th class="border-bottom" colspan="1" style="width: 0px;">Strategy</th>
+                                                                        <th class="border-bottom" colspan="1" style="width: 100px;">Broker</th>
+                                                                        <th class="border-bottom" colspan="1" style="width: 80px;">Account</th>
+                                                                        <th rowspan="1" colspan="1" style="width: 60px;">PNL</th>
+                                                                        <th rowspan="1" colspan="1" style="width: 60px;">Detail</th>
+                                                                        <th rowspan="1" colspan="1" style="width: 40px;">Download Report</th>
+                                                                       
+                                                                    </tr>
+                                                                </thead>                               
+                                                                <tbody>
+                                
+                                                                    <tr role="row" class="odd text-dark borderbottom_1px">
+                                                                        <td class="sorting_1">1</td>
+                                                                        <td>Delta Nifty Strangle</td>
+                                                                        <td>Symphonic XTS</td>
+                                                                        <td>4823598</td>
+                                                                        <td><span class="text-danger">₹ -6,497.02</span></td>
+                                                                        <td>
+                                                                            
+                                                                            <button type="button" class="text-white btnDetails" data-bs-toggle="modal"
+                                                                                data-bs-target="#info-header-modal">
+                                                                                Details
+                                                                            </button>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr role="row" class="odd text-dark borderbottom_1px">
+                                                                        <td class="sorting_1">2</td>
+                                                                        <td>Nifty Reinventing delta Neutral Staddle</td>
+                                                                        <td>Symphonic XTS</td>
+                                                                        <td>482398</td>
+                                                                        <td><span class="text-success">₹ 14,433.45</span></td>
+                                                                        <td>
+                                                                            <button type="button" class="text-white btnDetails" data-bs-toggle="modal" data-bs-target="#info-header-modal">
+                                                                                Details
+                                                                            </button>
+                                                                        </td>
+                                                                    </tr>
+                                                                  
+                                                                    <tr role="row" class="odd text-dark borderbottom_1px">
+                                                                        <td class="sorting_1">3</td>
+                                                                        <td>Banknifty Delta Neutral</td>
+                                                                        <td>Symphonic XTS</td>
+                                                                        <td>4823788</td>
+                                                                        <td><span class="text-success">₹ 26,192.5</span></td>
+                                                                        <td>
+                                                                            <button type="button" class="text-white btnDetails" data-bs-toggle="modal" data-bs-target="#info-header-modal">
+                                                                                Details
+                                                                            </button>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr role="row" class="odd text-dark borderbottom_1px">
+                                                                        <td class="sorting_1">4</td>
+                                                                        <td>Election</td>
+                                                                        <td>Symphonic XTS</td>
+                                                                        <td>48235034</td>
+                                                                        <td><span class="text-success">₹ 23,997.5</span></td>
+                                                                        <td>
+                                                                            <button type="button" class="text-white btnDetails" data-bs-toggle="modal" data-bs-target="#info-header-modal">
+                                                                                Details
+                                                                            </button>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr role="row" class="odd text-dark borderbottom_1px">
+                                                                        <td class="sorting_1">5</td>
+                                                                        <td>Nifty Delta &gt;1.3 adjustment on fixed prem</td>
+                                                                        <td>Symphonic XTS</td>
+                                                                        <td>48238</td>
+                                                                        <td><span class="text-success">₹ 471.75</span></td>
+                                                                        <td>
+                                                                            <button type="button" class="text-white btnDetails" data-bs-toggle="modal" data-bs-target="#info-header-modal">
+                                                                                Details
+                                                                            </button>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr role="row" class="odd text-dark borderbottom_1px">
+                                                                        <td class="sorting_1">6</td>
+                                                                        <td>Nifty Reinventing Delta neutral Straddle Wlth Hedge</td>
+                                                                        <td>Symphonic XTS</td>
+                                                                        <td>48298</td>
+                                                                        <td><span class="text-danger">₹ -7,611.25</span></td>
+                                                                        <td>
+                                                                            <button type="button" class="text-white btnDetails" data-bs-toggle="modal" data-bs-target="#info-header-modal">
+                                                                                Details
+                                                                            </button>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr role="row" class="odd text-dark borderbottom_1px">
+                                                                        <td class="sorting_1">7</td>
+                                                                        <td>Banknifty Delta neutral Straddle Wlth Hedge</td>
+                                                                        <td>Symphonic XTS</td>
+                                                                        <td>482398</td>
+                                                                        <td><span class="text-success">₹ 863.39</span></td>
+                                                                        <td>
+                                                                        <button type="button" class="text-white btnDetails" data-bs-toggle="modal" data-bs-target="#info-header-modal">
+                                                                            Details
+                                                                        </button>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr role="row" class="odd text-dark borderbottom_1px">
+                                                                        <td class="sorting_1"></td>
+                                                                 
+                                                                        <td><b style="font-weight: bolder;">Total:</b></td>
+                                                                            <td></td>
+                                                                            <td></td>
+                                                                        <td><span class="text-success"><b style="font-weight: bolder;">₹ 51,850.32</b></span></td>
+                                                                        <td></td>
+                                                                    </tr>
+                                
+                                                                </tbody>
+                                                            </table>
+                                
+                                                        </div>
+                                                    </div>
+                                
+
+                                                </div>
+                                            </div>
+                                
+                                
+                                        </div>
+                                    </div>
+                                </div>
+                            <!--- report end element-->
+                        </div>
+                        <div class="tab-pane p-3" id="navpill-2" role="tabpanel" style="display: none;">
+                            <!--- report start element-->
+                            <div class="row">
+                            
+                                <div class="col-12">
+                                    <div class=" cardshadow">
+                                        <div class="table-responsive tableoverflow">
+                                            <div id="t_add_row_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                            
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <table id="t_add_row" class="table text-nowrap tablethborderElement" style="width: 100%;"
+                                                            role="grid" aria-describedby="t_add_row_info">
+                                                            <thead>
+                                                                <tr role="row borderbottom_1px">
+                                                                    <th class="border-bottom" rowspan="0" colspan="1" style="width: 70px;"> S.No
+                                                                    </th>
+                                                                    <th class="border-bottom" colspan="1" style="width: 220px;">Strategy</th>
+                                                                    <th rowspan="1" colspan="1" style="width: 220px;">PNL</th>
+                                                                    <th rowspan="1" colspan="1" style="width: 40px;"></th>
+                            
+                                                                </tr>
+                                                            </thead>
+                            
+                                                            <tbody>
+                            
+                                                                <tr role="row" class="odd text-dark borderbottom_1px">
+                                                                    <td class="sorting_1">1</td>
+                                                                    <td>Delta Nifty Strangle</td>
+                                                                    <td><span class="text-danger">₹ -6,497.02</span></td>
+                                                                    <td>
+                            
+                                                                        <button type="button" class="text-white btnDetails" data-bs-toggle="modal"
+                                                                            data-bs-target="#info-header-modal">
+                                                                            Details
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr role="row" class="odd text-dark borderbottom_1px">
+                                                                    <td class="sorting_1">2</td>
+                                                                    <td>Nifty Reinventing delta Neutral Staddle</td>
+                                                                    <td><span class="text-success">₹ 14,433.45</span></td>
+                                                                    <td>
+                                                                        <button type="button" class="text-white btnDetails" data-bs-toggle="modal"
+                                                                            data-bs-target="#info-header-modal">
+                                                                            Details
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                            
+                            
+                                                            </tbody>
+                                                        </table>
+                            
+                                                    </div>
+                                                </div>
+                            
+                            
+                                            </div>
+                                        </div>
+                            
+                            
+                                    </div>
+                                </div>
+                            </div>
+                            <!--- report end element-->
+                        </div>
+                        <div class="tab-pane p-3" id="navpill-3" role="tabpanel" style="display: none;">
+                            <!--- report start element-->
+                            <div class="row">
+                            
+                                <div class="col-12">
+                                    <div class=" cardshadow">
+                                        <div class="table-responsive tableoverflow">
+                                            <div id="t_add_row_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                            
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <table id="t_add_row" class="table text-nowrap tablethborderElement" style="width: 100%;"
+                                                            role="grid" aria-describedby="t_add_row_info">
+                                                            <thead>
+                                                                <tr role="row borderbottom_1px">
+                                                                    <th class="border-bottom" rowspan="0" colspan="1" style="width: 70px;"> S.No
+                                                                    </th>
+                                                                    <th class="border-bottom" colspan="1" style="width: 220px;">Strategy</th>
+                                                                    <th rowspan="1" colspan="1" style="width: 220px;">PNL</th>
+                                                                    <th rowspan="1" colspan="1" style="width: 40px;"></th>
+                            
+                                                                </tr>
+                                                            </thead>
+                            
+                                                            <tbody>
+                            
+                                                                <tr role="row" class="odd text-dark borderbottom_1px">
+                                                                    <td class="sorting_1">1</td>
+                                                                    <td>Delta Nifty Strangle</td>
+                                                                    <td><span class="text-danger">₹ -6,497.02</span></td>
+                                                                    <td>
+                            
+                                                                        <button type="button" class="text-white btnDetails" data-bs-toggle="modal"
+                                                                            data-bs-target="#info-header-modal">
+                                                                            Details
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr role="row" class="odd text-dark borderbottom_1px">
+                                                                    <td class="sorting_1">2</td>
+                                                                    <td>Nifty Reinventing delta Neutral Staddle</td>
+                                                                    <td><span class="text-success">₹ 14,433.45</span></td>
+                                                                    <td>
+                                                                        <button type="button" class="text-white btnDetails" data-bs-toggle="modal"
+                                                                            data-bs-target="#info-header-modal">
+                                                                            Details
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                            
+                                                            </tbody>
+                                                        </table>
+                            
+                                                    </div>
+                                                </div>
+                            
+                            
+                                            </div>
+                                        </div>
+                            
+                            
+                                    </div>
+                                </div>
+                            </div>
+                            <!--- report end element-->
+                        </div>
+                    </div>
+
+                    <!---modal section start-->
+                    <div id="info-header-modal" class="modal fade" tabindex="-1" aria-labelledby="info-header-modalLabel"
+                        style="display: none;" aria-hidden="true">
+                        <div class="modal-dialog modaldilogbody">
+                            <div class="modal-content">
+                                <div class=" modal-header modal-colored-header text-white modalheaderbg">
+                                    <h4 class="modal-title" id="info-header-modalLabel">
+                                       Status
+                                    </h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="showten">
+                                        <span>
+                                            Show <span class="entities">10</span> entries
+                                        </span>
+                                    </div>
+                                        <!--- table start =----- -->
+                                        <div class="table-responsive">
+                                            <table class="
+                                                            table
+                                                            customize-table
+                                                            table-striped
+                                                            mb-0
+                                                            v-middle
+                                                            text-nowrap
+                                                        ">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="border-bottom text-dark ">Date</th>
+                                                        <th class="border-bottom text-dark">Strategy</th>
+                                                        <th class="border-bottom text-dark">Accounts</th>
+                                                        <th class="border-bottom text-dark ">Deployment ID</th>
+                                                        <th class="border-bottom text-dark">Deployment Type</th>
+                                                        <th class="border-bottom text-dark">Gross PnL</th>
+                                                       
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="text-dark">
+                                                        <td><span class="text-primary">07 oct 2024</span></td>
+                                                        <td>DeltaSync Nifty Strangle</td>
+                                                        <td>16463418</td>
+                                                        <td><span class="">021</span></td>
+                                                        <td>LIVE AUTO</td>
+                                                        <td><span class="text-danger">₹ -6,497.02</span></td>
+                                                    </tr>
+                                                    <tr class="text-dark">
+                                                        <td><span class="text-primary">07 oct 2024</span></td>
+                                                        <td>DeltaSync Nifty Strangle</td>
+                                                        <td>16463418</td>
+                                                        <td><span class="">022</span></td>
+                                                        <td>LIVE AUTO</td>
+                                                        <td><span class="text-danger">₹ -6,497.02</span></td>
+                                                    </tr>
+                                                    <tr class="text-dark">
+                                                        <td><span class="text-primary">07 oct 2024</span></td>
+                                                        <td>DeltaSync Nifty Strangle</td>
+                                                        <td>16463418</td>
+                                                        <td><span class="">023</span></td>
+                                                        <td>LIVE AUTO</td>
+                                                        <td><span class="text-danger">₹ -6,497.02</span></td>
+                                                    </tr>
+                                                    <tr class="text-dark">
+                                                        <td><span class="text-primary">07 oct 2024</span></td>
+                                                        <td>DeltaSync Nifty Strangle</td>
+                                                        <td>16463418</td>
+                                                        <td><span class="">024</span></td>
+                                                        <td>LIVE AUTO</td>
+                                                        <td><span class="text-danger">₹ -6,497.02</span></td>
+                                                    </tr>
+                                                    <tr class="text-dark">
+                                                        <td><span class="text-primary">07 oct 2024</span></td>
+                                                        <td>DeltaSync Nifty Strangle</td>
+                                                        <td>16463418</td>
+                                                        <td><span class="">025</span></td>
+                                                        <td>LIVE AUTO</td>
+                                                        <td><span class="text-danger">₹ -6,497.02</span></td>
+                                                    </tr>
+                                                    <tr class="text-dark">
+                                                        <td><span class="text-primary">07 oct 2024</span></td>
+                                                        <td>DeltaSync Nifty Strangle</td>
+                                                        <td>16463418</td>
+                                                        <td><span class="">025</span></td>
+                                                        <td>LIVE AUTO</td>
+                                                        <td><span class="text-danger">₹ -6,497.02</span></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <!--- table endt =----- -->
+                                </div>
+                                <!-- <div class="modal-footer">
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                                        Close
+                                    </button>
+                                </div> -->
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <!---modal section end-->
+
+                </div>
+                <!-----------------end report code ------->
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <!-- <footer class="footer">2021© All Rights Reserved by Wrappixel</footer> -->
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================= -->
+    <!-- sidebar -->
+    <!-- ============================================================= -->
+
+    <!-- ============================================================= -->
+    <!-- customizer Panel -->
+    <!-- ============================================================= -->
+
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="assets/libs/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- apps -->
+    <script src="dist/js/app.min.js"></script>
+    <script src="dist/js/app.init.horizontal.js"></script>
+    <script src="dist/js/app-style-switcher.horizontal.js"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+    <script src="assets/extra-libs/sparkline/sparkline.js"></script>
+    <!--Wave Effects -->
+    <script src="dist/js/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src="dist/js/sidebarmenu.js"></script>
+    <!--Custom JavaScript -->
+    <script src="dist/js/feather.min.js"></script>
+    <script src="dist/js/custom.min.js"></script>
+    <!--This page JavaScript -->
+    <script src="assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+    <!-- Chart JS -->
+    <script src="dist/js/pages/dashboards/dashboard1.js"></script>
+</body>
+
+</html>

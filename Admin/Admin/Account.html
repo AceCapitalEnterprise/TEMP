@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Account</title>
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="" />
+    <link rel="stylesheet" href="assets/libs/apexcharts/dist/apexcharts.css" />
+    <!--select 2 css-->
+    <link rel="stylesheet" href="assets/libs/select2/dist/css/select2.min.css">
+    <!-- Custom CSS -->
+    <link href="dist/css/style.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- remix icon link-->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
+    <!-- remix icon link end-->
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <header class="topbar">
+            <nav class="navbar top-navbar navbar-expand-lg navbar-dark">
+                <div class="navbar-header">
+                    <!-- This is for the sidebar toggle which is visible on mobile only -->
+                    <a class="nav-toggler waves-effect waves-light d-block d-lg-none" href="javascript:void(0)"><i
+                            class="ri-close-line ri-menu-2-line fs-6"></i></a>
+                    <!-- ============================================================== -->
+                    <!-- Logo -->
+                    <!-- ============================================================== -->
+                    <a class="navbar-brand" href="index.html">
+                        <!-- Logo icon -->
+                        <!-- <b class="logo-icon">
+              <img src="assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
+              <img src="assets/images/logo-light-icon.png" alt="homepage" class="light-logo" />
+            </b> -->
+                        <!--End Logo icon -->
+                        <!-- Logo text -->
+                        <span class="logo-text">
+                            <h class="mb-0 fw-bold">ACE ACPITAL ALGO</h>
+                            <!-- dark Logo text -->
+                            <!-- <img src="assets/images/logo-text.png" alt="homepage" class="dark-logo" />
+              <img src="assets/images/logo-light-text.png" class="light-logo" alt="homepage" /> -->
+                        </span>
+                    </a>
+                    <!-- ============================================================== -->
+                    <!-- End Logo -->
+                    <!-- ============================================================== -->
+                    <!-- ============================================================== -->
+                    <!-- Toggle which is visible on mobile only -->
+                    <!-- ============================================================== -->
+                    <a class="topbartoggler d-block d-lg-none waves-effect waves-light fgf" href="javascript:void(0)"
+                        data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i
+                            class="ri-more-line fs-6"></i></a>
+ 
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-collapse collapse" id="navbarSupportedContent">
+                    <!-- ============================================================== -->
+                    <!-- toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav me-auto">
+
+                    </ul>
+                    <!-- ============================================================== -->
+                    <!-- Right side toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav">
+
+                        <!-- ============================================================== -->
+                        <!-- Profile -->
+                        <!-- ============================================================== -->
+                        <li class="nav-item dropdown profile-dropdown">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="assets/images/users/user.jpg" alt="user" width="30"
+                                    class="profile-pic rounded-circle" />
+                                <div class="d-none d-md-flex">
+                                    <span class="ms-2">Hi,
+                                        <span class="text-dark fw-bold">Rahul Singhal</span></span>
+                                    <span>
+                                        <i data-feather="chevron-down" class="feather-sm"></i>
+                                    </span>
+                                </div>
+                            </a>
+                            <div class="
+                    dropdown-menu dropdown-menu-end
+                    mailbox
+                    dropdown-menu-animate-up
+                  ">
+                                <ul class="list-style-none">
+                                    <li class="p-30 pb-2">
+                                        <div class="rounded-top d-flex align-items-center">
+                                            <h3 class="card-title mb-0">User Profilee</h3>
+                                            <div class="ms-auto">
+                                                <a href="javascript:void(0)" class="link py-0">
+                                                    <i data-feather="x-circle"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="
+                          d-flex
+                          align-items-center
+                          mt-4
+                          pt-3
+                          pb-4
+                          border-bottom
+                        ">
+                                            <img src="assets/images/users/user.jpg" alt="user" width="90"
+                                                class="rounded-circle" />
+                                            <div class="ms-4">
+                                                <h4 class="mb-0">Rahul Singhal</h4>
+                                                <span class="text-muted">Administrator</span>
+                                                <p class="text-muted mb-0 mt-1">
+                                                    <i data-feather="mail" class="feather-sm me-1"></i>
+                                                    info@Flexy.com
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="p-30 pt-0">
+                                        <div class="message-center message-body position-relative"
+                                            style="height: 210px">
+                                            <!-- Message -->
+                                            <a href="javascript:void(0)" class="
+                            message-item
+                            px-2
+                            d-flex
+                            align-items-center
+                            border-bottom
+                            py-3
+                          ">
+                                                <span class="btn btn-light-info btn-rounded-lg text-info">
+                                                    <i data-feather="dollar-sign" class="feather-sm fill-white"></i>
+                                                </span>
+                                                <div class="w-75 d-inline-block v-middle ps-3 ms-1">
+                                                    <h5 class="
+                                message-title
+                                mb-0
+                                mt-1
+                                fs-4
+                                font-weight-medium
+                              ">
+                                                        My Profile
+                                                    </h5>
+                                                    <span class="
+                                fs-3
+                                text-nowrap
+                                d-block
+                                time
+                                text-truncate
+                                fw-normal
+                                mt-1
+                                text-muted
+                              ">Account Settings</span>
+                                                </div>
+                                            </a>
+                                            <!-- Message -->
+                                            <a href="javascript:void(0)" class="
+                            message-item
+                            px-2
+                            d-flex
+                            align-items-center
+                            border-bottom
+                            py-3
+                          ">
+                                                <span class="
+                              btn btn-light-success btn-rounded-lg
+                              text-success
+                            ">
+                                                    <i data-feather="shield" class="feather-sm fill-white"></i>
+                                                </span>
+                                                <div class="w-75 d-inline-block v-middle ps-3 ms-1">
+                                                    <h5 class="
+                                message-title
+                                mb-0
+                                mt-1
+                                fs-4
+                                font-weight-medium
+                                d-flex
+                                align-items-center
+                              ">
+                                                        My Inbox
+                                                        <div class="mt-n2 ms-1">
+                                                            <i class="
+                                    mdi mdi-checkbox-blank-circle
+                                    fs-1
+                                    text-success
+                                  "></i>
+                                                        </div>
+                                                    </h5>
+                                                    <span class="
+                                fs-3
+                                text-nowrap
+                                d-block
+                                time
+                                text-truncate
+                                fw-normal
+                                mt-1
+                                text-muted
+                              ">Messages & Emails</span>
+                                                </div>
+                                            </a>
+                                            <!-- Message -->
+                                            <a href="javascript:void(0)" class="
+                            message-item
+                            px-2
+                            d-flex
+                            align-items-center
+                            border-bottom
+                            py-3
+                          ">
+                                                <span class="
+                              btn btn-light-danger btn-rounded-lg
+                              text-danger
+                            ">
+                                                    <i data-feather="credit-card" class="feather-sm fill-white"></i>
+                                                </span>
+                                                <div class="w-75 d-inline-block v-middle ps-3 ms-1">
+                                                    <h5 class="
+                                message-title
+                                mb-0
+                                mt-1
+                                fs-4
+                                font-weight-medium
+                              ">
+                                                        My Tasks
+                                                    </h5>
+                                                    <span class="
+                                fs-3
+                                text-nowrap
+                                d-block
+                                time
+                                text-truncate
+                                fw-normal
+                                mt-1
+                                text-muted
+                              ">To-do and Daily Tasks</span>
+                                                </div>
+                                            </a>
+                                            <div class="mt-4">
+                                                <a href="javascript:void(0)" class="
+                              text-dark
+                              fs-3
+                              font-weight-medium
+                              hover-primary
+                            ">
+                                                    Account Settings
+                                                </a>
+                                                <a href="javascript:void(0)" class="
+                              text-dark
+                              fs-3
+                              font-weight-medium
+                              hover-primary
+                            ">
+                                                    Frequently Asked Questions
+                                                </a>
+                                                <a href="javascript:void(0)" class="
+                              text-dark
+                              fs-3
+                              font-weight-medium
+                              hover-primary
+                            ">
+                                                    Pricing
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="mt-4">
+                                            <a class="btn btn-info text-white" href="javascript:void(0);">
+                                                Logout
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- ============================================================= -->
+        <!-- End Topbar header -->
+        <!-- ============================================================= -->
+        <!-- ============================================================= -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================= -->
+        <aside class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <div class="scroll-sidebar">
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav">
+                        <!-- User Profile-->
+                        <li class="nav-small-cap">
+                            <i class="mdi mdi-dots-horizontal"></i>
+                            <span class="hide-menu">Personal</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark" href="index.html" aria-expanded="false"><i
+                                    data-feather="home" class="feather-icon"></i><span class="hide-menu">Dashboard
+                                </span></a>
+
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a class="
+                                        sidebar-link
+                                        waves-effect waves-dark
+                                        sidebar-link
+                                      " href="Strategies.html" aria-expanded="false"><i data-feather="pie-chart"
+                                    class="feather-icon"></i><span class="hide-menu">Strategies</span></a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark" href="report.html" aria-expanded="false"><i
+                                    data-feather="file-text" class="feather-icon"></i><span
+                                    class="hide-menu">Reports</span></a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark active" href="Account.html" aria-expanded="false"><i
+                                    data-feather="file-text" class="feather-icon"></i><span
+                                    class="hide-menu">Accounts</span></a>
+                        </li>
+
+
+
+                    </ul>
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+        </aside>
+   
+        <div class="page-wrapper">
+
+            <div class="page-titles">
+                <div class="row">
+                    <div class="col-lg-8 col-md-6 col-12 align-self-center">
+                        <!-- <h4 class="text-muted mb-0 fw-normal">Welcome</h4> -->
+                        <h1 class="mb-0 fw-bold">Accounts</h1>
+                    </div>
+                    <div class="
+                            col-lg-4 col-md-6
+                            d-none d-md-flex
+                            align-items-center
+                            justify-content-end
+                          ">
+                 
+                        <a href="javascript:void(0)" class="btn btn-info d-flex align-items-center ms-2" data-bs-toggle="modal" data-bs-target="#bs-example-modal-lg">
+                            <i class="ri-add-line me-1"></i>
+                            Add Account
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="page-titles"></div> -->
+
+            <div class="container-fluid">
+
+            <div class="table-responsive">
+                <table class="table customize-table mb-0 v-middle text-nowrap tablebgelement">
+                    <thead class="table-light">
+                        <tr>
+                            <th>#</th>
+                            <th>User</th>
+                            <th>Number</th>
+                            <th>Email id</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img src="assets/images/users/icons.png" class="rounded-circle" width="23">
+                                    <span class="ms-3 fw-normal">Rohit kumar</span>
+                                </div>
+                            </td>
+                            <td>8763215403</td>
+                            <td>Example23@gmail.com</td>
+                            <td>
+                                <span class="badge bg-light-success text-success fw-normal">Active</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img src="assets/images/users/icons.png" class="rounded-circle" width="23">
+                                    <span class="ms-3 fw-normal">Abhishek sharma</span>
+                                </div>
+                            </td>
+                            <td>6763267403</td>
+                            <td>Example23@gmail.com</td>
+                            <td>
+                                <span class="badge bg-light-success text-success fw-normal">Active</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img src="assets/images/users/icons.png" class="rounded-circle" width="23">
+                                    <span class="ms-3 fw-normal">Mohan kumar</span>
+                                </div>
+                            </td>
+                            <td>9063215403</td>
+                            <td>Example23@gmail.com</td>
+                            <td>
+                                <span class="badge bg-light-success text-success fw-normal">Active</span>
+                            </td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="modal fade" id="bs-example-modal-lg" tabindex="-1" aria-labelledby="bs-example-modal-lg"
+                style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header d-flex align-items-center">
+                            <h4 class="modal-title" id="myLargeModalLabel">
+                                Add Accounts
+                            </h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                               <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="recipient-name" class="control-label">Name</label>
+                                            <input type="text" class="form-control" id="recipient-name1">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="control-label">Mobile Number</label>
+                                            <input type="number" class="form-control" id="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="" class="control-label">Email id</label>
+                                            <input type="email" class="form-control" id="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="" class="control-label">Password</label>
+                                            <input type="password" class="form-control" id="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="" class="control-label">Confirm Password</label>
+                                            <input type="password" class="form-control" id="">
+                                        </div>
+                                    </div>
+                               </div>
+                            </form>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-info text-white font-weight-medium waves-effect text-start">
+                                    Submit
+                                </button>
+                                <button type="button" class=" btn btn-light-danger text-dange font-weight-medium waves-effect text-start " data-bs-dismiss="modal">
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                       
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+
+
+            <!-- <footer class="footer">2021© All Rights Reserved by Wrappixel</footer> -->
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+
+
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="assets/libs/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- apps -->
+    <script src="dist/js/app.min.js"></script>
+    <script src="dist/js/app.init.horizontal.js"></script>
+    <script src="dist/js/app-style-switcher.horizontal.js"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+    <script src="assets/extra-libs/sparkline/sparkline.js"></script>
+    <!--Wave Effects -->
+    <script src="dist/js/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src="dist/js/sidebarmenu.js"></script>
+    <!--Custom JavaScript -->
+    <script src="dist/js/feather.min.js"></script>
+    <script src="dist/js/custom.min.js"></script>
+    <!--This page JavaScript -->
+    <script src="assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+    <!-- Chart JS -->
+    <script src="dist/js/pages/dashboards/dashboard1.js"></script>
+    <!-- select js-->
+    <script src="assets/libs/select2/dist/js/select2.full.min.js"></script>
+    <script src="assets/libs/select2/dist/js/select2.min.js"></script>
+    <script src="dist/select2/select2.init.js"></script>
+</body>
+
+</html>
