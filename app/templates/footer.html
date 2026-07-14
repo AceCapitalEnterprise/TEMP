@@ -1,0 +1,264 @@
+ <!-- ============================================================== -->
+    <!-- End Page wrapper  -->
+    <!-- ============================================================== -->
+</div>
+<!-- ============================================================== -->
+
+<!-- ============================================================== -->
+<!-- All Jquery -->
+<!-- ============================================================== -->
+<script src="{{base_url}}assets/libs/jquery/dist/jquery.min.js"></script>
+
+
+<!-- Bootstrap tether Core JavaScript -->
+<script src="{{base_url}}assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{base_url}}css/myscript.js"></script>
+<!-- apps -->
+<script src="{{base_url}}dist/js/app.min.js"></script>
+<script src="{{base_url}}dist/js/app.init.horizontal.js"></script>
+<script src="{{base_url}}dist/js/app-style-switcher.horizontal.js"></script>
+<!-- slimscrollbar scrollbar JavaScript -->
+<script src="{{base_url}}assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+<!-- <script src="{{base_url}}assets/extra-libs/sparkline/sparkline.js"></script> -->
+<!--Wave Effects -->
+<script src="{{base_url}}dist/js/waves.js"></script>
+<!--Menu sidebar -->
+<script src="{{base_url}}dist/js/sidebarmenu.js"></script>
+<!--Custom JavaScript -->
+<script src="{{base_url}}dist/js/feather.min.js"></script>
+<script src="{{base_url}}dist/js/custom.min.js"></script>
+<!--This page JavaScript -->
+<!-- <script src="{{base_url}}assets/libs/apexcharts/dist/apexcharts.min.js"></script> -->
+<!-- Chart JS -->
+<!-- <script src="{{base_url}}dist/js/pages/dashboards/dashboard1.js"></script> -->
+<!---table footbal init-->
+<!-- <script src="{{base_url}}dist/js/tables/footable-init.js"></script>
+<script src="{{base_url}}assets/libs/footable/js/footable.min.js"></script> -->
+{% if current_menu == 'Users' %}
+<!-- select js-->
+<script src="{{base_url}}assets/libs/select2/dist/js/select2.full.min.js"></script>
+<script src="{{base_url}}assets/libs/select2/dist/js/select2.min.js"></script>
+<script src="{{base_url}}dist/select2/select2.init.js"></script>
+
+{% endif %}
+
+
+<!-- ========================================== -->
+<!-- GLOBAL NOTIFICATION CENTER & AUDIO ALERTS  -->
+<!-- ========================================== -->
+
+<div id="notif-backdrop" class="notif-backdrop d-none"></div>
+
+<div id="notif-sidebar" class="notif-sidebar">
+    <div class="notif-header bg-primary text-white d-flex justify-content-between align-items-center p-3">
+        <h5 class="mb-0 fw-bold text-white"><i class="ri-history-line me-2"></i>Today's Trades</h5>
+        <button id="notif-close" class="btn btn-sm btn-light text-dark rounded-circle border-0">&times;</button>
+    </div>
+    
+    <div class="notif-body p-0" id="notif-list">
+        <div class="p-4 text-center text-muted" id="notif-loading">
+            <div class="spinner-border spinner-border-sm me-2" role="status"></div> Loading...
+        </div>
+    </div>
+</div>
+
+<style>
+    .notif-backdrop {
+        position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+        background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(3px);
+        z-index: 1040; transition: opacity 0.3s ease;
+    }
+    .notif-sidebar {
+        position: fixed; top: 0; right: -400px; 
+        width: 400px; height: 100vh; background-color: #fff;
+        z-index: 1050; box-shadow: -4px 0 15px rgba(0,0,0,0.1);
+        transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; flex-direction: column;
+    }
+    @media (max-width: 576px) { .notif-sidebar { width: 100vw; right: -100vw; } }
+    .notif-sidebar.open { right: 0; }
+    .notif-body { flex-grow: 1; overflow-y: auto; background-color: #efeae2; }
+
+    .trade-msg {
+        background: #fff; border-radius: 8px; padding: 12px 15px; margin: 10px 15px;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.1); position: relative; transition: background-color 0.5s ease;
+    }
+    .trade-msg.unread-item { background: #e8f4fd; } 
+    .trade-msg.buy { border-left: 4px solid #00b894; }
+    .trade-msg.sell { border-left: 4px solid #d63031; }
+    .trade-header { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 5px; }
+    .trade-strategy { font-weight: 700; color: #2d3436; }
+    .trade-time { color: #636e72; font-size: 0.75rem; }
+    .trade-content { font-size: 0.95rem; color: #2d3436; display: flex; flex-direction: column;}
+    .trade-instrument { font-weight: 600; margin-top: 2px;}
+    .trade-price { font-weight: 700; }
+    .badge-buy { background: rgba(0, 184, 148, 0.1); color: #00b894; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: bold;}
+    .badge-sell { background: rgba(214, 48, 49, 0.1); color: #d63031; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: bold;}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const toggleBtn = document.getElementById('notification-toggle');
+    const closeBtn = document.getElementById('notif-close');
+    const sidebar = document.getElementById('notif-sidebar');
+    const backdrop = document.getElementById('notif-backdrop');
+    const notifList = document.getElementById('notif-list');
+    const notifBadge = document.getElementById('notif-badge');
+
+    let allTodayNotifications = [];
+    let highestIdSeen = 0;
+    
+    // Global Audio Alert
+    const alertSound = new Audio('{{base_url}}assets/audio/notification.mp3');
+
+    let unreadBatch = new Set();
+    let batchTimeout = null;
+
+    const observerOptions = { root: notifList, threshold: 0.6 };
+    const observer = new IntersectionObserver((entries) => {
+        if (!sidebar.classList.contains('open')) return;
+
+        entries.forEach(entry => {
+            if (entry.isIntersecting && entry.target.classList.contains('unread-item')) {
+                entry.target.classList.remove('unread-item');
+                
+                const tradeId = parseInt(entry.target.dataset.id);
+                unreadBatch.add(tradeId);
+                
+                const tradeObj = allTodayNotifications.find(n => n.id === tradeId);
+                if (tradeObj) tradeObj.is_read = true;
+                updateBadgeCount();
+
+                clearTimeout(batchTimeout);
+                batchTimeout = setTimeout(sendMarkAsReadBatch, 1000);
+            }
+        });
+    }, observerOptions);
+
+    async function sendMarkAsReadBatch() {
+        if (unreadBatch.size === 0) return;
+        const idsToSend = Array.from(unreadBatch);
+        unreadBatch.clear();
+
+        try {
+            await fetch('/api/notifications/mark-read', { 
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ notification_ids: idsToSend })
+            });
+        } catch (error) { console.error("Failed to mark notifications read:", error); }
+    }
+
+    if (!toggleBtn) return;
+    fetchNotifications(true); 
+
+    function openSidebar() {
+        sidebar.classList.add('open');
+        backdrop.classList.remove('d-none');
+        document.querySelectorAll('.unread-item').forEach(el => {
+            observer.unobserve(el);
+            observer.observe(el);
+        });
+    }
+
+    function closeSidebar() {
+        sidebar.classList.remove('open');
+        backdrop.classList.add('d-none');
+    }
+
+    toggleBtn.addEventListener('click', openSidebar);
+    closeBtn.addEventListener('click', closeSidebar);
+    backdrop.addEventListener('click', closeSidebar);
+
+    async function fetchNotifications(isInitialLoad = false) {
+        try {
+            const response = await fetch('/api/notifications/today');
+            
+            // If API returns 401 Unauthorized (token expired), quietly stop fetching to prevent spam
+            if (response.status === 401) return;
+            
+            if (!response.ok) throw new Error('Failed to fetch');
+            const data = await response.json();
+            
+            allTodayNotifications = data;
+            
+            if (!isInitialLoad && data.length > 0) {
+                const latestTradeId = data[0].id;
+                if (latestTradeId > highestIdSeen) {
+                    alertSound.play().catch(e => console.log("Audio blocked by browser config."));
+                }
+            }
+            
+            if (data.length > 0) {
+                highestIdSeen = Math.max(...data.map(n => n.id));
+            }
+
+            updateBadgeCount();
+            renderNotifications();
+        } catch (error) {
+            if(notifList.innerHTML.trim() === '') {
+                notifList.innerHTML = `<div class="p-4 text-center text-danger">Failed to load trades.</div>`;
+            }
+        }
+    }
+
+    function updateBadgeCount() {
+        const unreadCount = allTodayNotifications.filter(n => !n.is_read).length;
+        if (unreadCount > 0) {
+            notifBadge.textContent = unreadCount > 99 ? '99+' : unreadCount;
+            notifBadge.classList.remove('d-none');
+        } else {
+            notifBadge.classList.add('d-none');
+        }
+    }
+
+    function renderNotifications() {
+        if (allTodayNotifications.length === 0) {
+            notifList.innerHTML = `<div class="p-4 text-center text-muted mt-5">
+                <i class="ri-check-double-line fs-1"></i><br>No trades executed today yet.
+            </div>`;
+            return;
+        }
+
+        notifList.innerHTML = '';
+        allTodayNotifications.forEach(trade => {
+            const isBuy = trade.action === 'BUY' || trade.action === 'ENTRY';
+            const actionClass = isBuy ? 'buy' : 'sell';
+            const badgeClass = isBuy ? 'badge-buy' : 'badge-sell';
+            const unreadClass = trade.is_read ? '' : 'unread-item';
+            let typeColor = trade.strategy_type === 'Cash' ? '#0984e3' : '#6c5ce7';
+            
+            const html = `
+                <div class="trade-msg ${actionClass} ${unreadClass}" data-id="${trade.id}">
+                    <div class="trade-header">
+                        <span class="trade-strategy">
+                            <span style="color:${typeColor}; font-size: 0.75rem; margin-right: 4px;">[${trade.strategy_type}]</span>
+                            ${trade.strategy_name}
+                        </span>
+                        <span class="trade-time">${trade.time}</span>
+                    </div>
+                    <div class="trade-content">
+                        <div>
+                            <span class="${badgeClass}">${trade.action}</span> 
+                            <span class="trade-instrument">${trade.symbol} ${trade.instrument_detail !== 'Equity' ? trade.instrument_detail : ''}</span>
+                        </div>
+                        <div class="mt-2 d-flex justify-content-between align-items-center">
+                            <span class="text-muted" style="font-size:0.85rem;">Qty: <strong>${trade.qty}</strong></span>
+                            <span><span class="text-muted" style="font-size:0.8rem;">Price:</span> <span class="trade-price">${trade.price}</span></span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            notifList.insertAdjacentHTML('beforeend', html);
+        });
+        
+        document.querySelectorAll('.unread-item').forEach(el => observer.observe(el));
+    }
+
+    setInterval(() => fetchNotifications(false), 30000); 
+});
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,241 @@
+{% include 'header.html' %}
+{% include 'navbar.html' %}
+{% include 'menubar.html' %}
+<div class="page-wrapper">
+
+    <div class="container-fluid">
+
+        <div>
+            <div class="tab-content border mt-2">
+                <div class="tab-pane p-0 active" id="navpill-1" role="tabpanel">
+                    <div class="row">
+                            <div class="col-12">
+                                <div class=" cardshadow">
+                                    <div class="table-responsive tableoverflow">
+                                        <div id="t_add_row_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                        
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <table id="t_add_row" class="table text-nowrap tablethborderElement tablebgelement tableThead" style="width: 100%;"
+                                                        role="grid" aria-describedby="t_add_row_info">
+                                                        <thead>
+                                                            <tr role="row borderbottom_1px">
+                                                                <th class="border-bottom" rowspan="0" colspan="1" style="width: 70px;"> S.No
+                                                                </th>
+                                                                <th class="border-bottom" colspan="1" style="width: 0px;">Strategy</th>
+                                                                <th rowspan="1" colspan="1" style="width: 60px;">PNL</th>
+                                                                <th rowspan="1" colspan="1" style="width: 60px;">Detail</th>
+                                                                <th rowspan="1" colspan="1" style="width: 60px;">Last Updated</th>
+                                                                <th rowspan="1" colspan="1" style="width: 60px;">Report</th>
+                                                            </tr>
+                                                        </thead>                               
+                                                        <tbody>                                                                                                        
+                                                            {% for item in strategy_list %}
+                                                            <tr role="row" class="odd text-dark borderbottom_1px">
+                                                                <td class="sorting_1">{{ loop.index }}</td>
+
+                                                                <td>{{ item.strategy.name }}</td>
+
+                                                                <td>
+                                                                    {% if item.pnl == None %}
+                                                                        -
+                                                                    {% elif item.pnl > 0 %}
+                                                                        <span class="text-success">
+                                                                            <i class="ri-arrow-up-s-fill"></i> {{ item.pnl }}
+                                                                        </span>
+                                                                    {% else %}
+                                                                        <span class="text-danger">
+                                                                            <i class="ri-arrow-down-s-fill"></i> {{ item.pnl }}
+                                                                        </span>
+                                                                    {% endif %}
+                                                                </td>
+
+                                                                <td>
+                                                                    <div class="d-flex gap-2">
+                                                                        {% if item.file_exists %}
+                                                                        <button type="button" class="btn btn-info btn-sm text-white" title="View Detail CSV"
+                                                                            onclick="viewCSV({{ item.strategy.id }}, '{{ item.strategy.name }} (Detail)', 'detail')">
+                                                                            <i class="ri-eye-line"></i> View
+                                                                        </button>
+                                                                        
+                                                                        <button type="button" class="btn btn-primary btn-sm text-white btnDetails" title="Download Detail CSV"
+                                                                            onclick="window.open('/reports/{{ item.strategy.id }}/download-detail?type=detail', '_blank')">
+                                                                            <i class="ri-download-2-line"></i> Download
+                                                                        </button>
+                                                                        {% else %}
+                                                                        <button type="button" disabled class="btn btn-secondary btn-sm" title="View CSV">
+                                                                            <i class="ri-eye-line"></i> View
+                                                                        </button>
+                                                                        <button type="button" disabled class="btn btn-secondary btn-sm">
+                                                                            <i class="ri-download-2-line"></i> Download
+                                                                        </button>
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </td>       
+
+                                                                <td>
+                                                                    {% if item.last_updated %}
+                                                                        {{ item.last_updated.strftime("%d-%m-%Y %H:%M:%S") }}
+                                                                    {% else %}
+                                                                        -
+                                                                    {% endif %}
+                                                                </td>
+
+                                                                <td>
+                                                                    <div class="d-flex gap-2">
+                                                                        {% if item.report_file %}
+                                                                        <button type="button" class="btn btn-info btn-sm text-white" title="View Report"
+                                                                            onclick="viewCSV({{ item.strategy.id }}, '{{ item.strategy.name }} (Report)', 'report')">
+                                                                            <i class="ri-eye-line"></i> View
+                                                                        </button>
+                                                                        
+                                                                        <button type="button" class="btn btn-warning btn-sm text-dark" title="Download Report CSV"
+                                                                            onclick="window.open('/reports/{{ item.strategy.id }}/download-report?type=report', '_blank')">
+                                                                            <i class="ri-download-2-line"></i> Report CSV
+                                                                        </button>
+                                                                        {% else %}
+                                                                        <button type="button" disabled class="btn btn-secondary btn-sm" title="View Report">
+                                                                            <i class="ri-eye-line"></i> View
+                                                                        </button>
+                                                                        <span class="text-muted mt-1">-</span>
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+
+            <div id="info-header-modal" class="modal fade" tabindex="-1" aria-labelledby="info-header-modalLabel"
+                style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modaldilogbody">
+                    <div class="modal-content">
+                        <div class=" modal-header modal-colored-header text-white modalheaderbg">
+                            <h4 class="modal-title" id="info-header-modalLabel">
+                                Status
+                            </h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="showten">
+                                <span>
+                                    Show <span class="entities">10</span> entries
+                                </span>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table customize-table table-striped mb-0 v-middle text-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th class="border-bottom text-dark ">Date</th>
+                                            <th class="border-bottom text-dark">Strategy</th>
+                                            <th class="border-bottom text-dark">Accounts</th>
+                                            <th class="border-bottom text-dark ">Deployment ID</th>
+                                            <th class="border-bottom text-dark">Deployment Type</th>
+                                            <th class="border-bottom text-dark">Gross PnL</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="status-modal-body">
+                                        </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="csv-viewer-modal" class="modal fade" tabindex="-1" aria-labelledby="csv-viewer-modalLabel" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header modal-colored-header text-white modalheaderbg">
+                            <h4 class="modal-title" id="csv-viewer-modalLabel">CSV Data Viewer</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="csv-loading" class="text-center py-4">
+                                <div class="spinner-border text-primary" role="status"></div>
+                                <p class="mt-2 text-dark">Loading CSV data...</p>
+                            </div>
+                            
+                            <div class="table-responsive" id="csv-table-container" style="display: none; max-height: 65vh; overflow-y: auto;">
+                                <table class="table customize-table table-striped mb-0 v-middle text-nowrap tablethborderElement">
+                                    <thead id="csv-table-head">
+                                        </thead>
+                                    <tbody id="csv-table-body">
+                                        </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+  
+</div>
+{% include 'footer.html' %}
+
+
+<script>
+    function viewCSV(strategyId, strategyName, viewType) {
+        // Update modal title
+        document.getElementById('csv-viewer-modalLabel').innerText = 'CSV Data: ' + strategyName;
+        
+        // Reset the UI to loading state
+        document.getElementById('csv-loading').style.display = 'block';
+        document.getElementById('csv-table-container').style.display = 'none';
+        document.getElementById('csv-table-head').innerHTML = '';
+        document.getElementById('csv-table-body').innerHTML = '';
+
+        // Open the Bootstrap Modal
+        var myModal = new bootstrap.Modal(document.getElementById('csv-viewer-modal'));
+        myModal.show();
+
+        // Fetch data from backend based on viewType ('detail' or 'report')
+        fetch('/reports/' + strategyId + '/view-' + viewType)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('csv-loading').style.display = 'none';
+                
+                if (data.error) {
+                    document.getElementById('csv-table-body').innerHTML = `<tr><td class="text-danger text-center py-3">${data.error}</td></tr>`;
+                    document.getElementById('csv-table-container').style.display = 'block';
+                    return;
+                }
+
+                // Build Table Headers (Sticky positioned)
+                let theadHtml = '<tr>';
+                data.headers.forEach(header => {
+                    theadHtml += `<th class="border-bottom text-dark fw-bold" style="position: sticky; top: 0; background-color: #fff; z-index: 10; box-shadow: 0 2px 2px -1px rgba(0,0,0,0.2);">${header}</th>`;
+                });
+                theadHtml += '</tr>';
+                document.getElementById('csv-table-head').innerHTML = theadHtml;
+
+                // Build Table Rows
+                let tbodyHtml = '';
+                data.rows.forEach(row => {
+                    tbodyHtml += '<tr class="text-dark">';
+                    row.forEach(cell => {
+                        tbodyHtml += `<td>${cell}</td>`;
+                    });
+                    tbodyHtml += '</tr>';
+                });
+                document.getElementById('csv-table-body').innerHTML = tbodyHtml;
+                
+                // Show the table
+                document.getElementById('csv-table-container').style.display = 'block';
+            })
+            .catch(error => {
+                document.getElementById('csv-loading').style.display = 'none';
+                document.getElementById('csv-table-body').innerHTML = '<tr><td class="text-danger text-center py-3">Failed to load CSV data.</td></tr>';
+                document.getElementById('csv-table-container').style.display = 'block';
+            });
+    }
+</script>

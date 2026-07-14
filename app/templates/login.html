@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prudent Research</title>
+  <link rel="stylesheet" href="{{base_url}}static/css/styles.css">
+  <!-- Favicon icon -->
+  <link href="{{base_url}}static/dist/css/style.min.css" rel="stylesheet" />
+
+</head>
+<body>
+
+  <div class="body_form">
+    <div class="form_start">
+      <div class="formsiez">
+        <div class="p-4 rounded ">
+
+          <!---login start-->
+          <div id="login">
+            <div class="logo">
+              <h3 class="box-title mb-3">Sign In</h3>
+            </div>
+            <!-- Form -->
+            <div class="row">
+              {% if error_message %}
+              <div class="col-lg-8 col-md-6 col-12 align-self-center text-danger">
+                {{error_message}}
+              </div>
+              {% endif %}
+              <div class="col-12">
+                <form class="form-horizontal mt-3 form-material" id="loginform" action="/token" method="post"  autocomplete="off">
+                  <div class="form-group mb-3">
+                    <div class="">
+                      <input name="username" class="form-control logininput" type="text" required="" placeholder="Email">
+                    </div>
+                  </div>
+                  <div class="form-group mb-4">
+                    <div class="">
+                      <input name="password" class="form-control logininput" type="password" required="" placeholder="Password">
+                    </div>
+                  </div>
+                  <div class="form-group text-center mt-4 mb-3">
+                    <div class="col-xs-12">
+                      <button class="
+                                btn btn-info
+                                d-block
+                                w-100
+                                waves-effect waves-light
+                              " type="submit">
+                        Log In
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <!---login end-->
+
+          <!---forget form start-->
+          <div id="forget" style="display: none;">
+            <div class="logo">
+              <h3 class="font-weight-medium mb-3">Recover Password</h3>
+              <span class="text-muted">Enter your Email and instructions will be sent to you!</span>
+            </div>
+            <div class="row mt-3 form-material">
+              <form class="col-12" action="index.html">
+
+                <div class="form-group row">
+                  <div class="col-12">
+                    <input class="form-control" type="email" required="" placeholder="Your email">
+                  </div>
+                </div>
+
+                <div class="row mt-3">
+                  <div class="col-12">
+                    <button class="btn d-block w-100 btn-info text-uppercase" type="submit" name="action">
+                      Reset
+                    </button>
+                  </div>
+                </div>
+                <div class="form-group mb-0 mt-4">
+                  <div class="col-sm-12 justify-content-center d-flex">
+                    <p>
+                      You have an account?
+                    <p class="text-primary font-weight-medium ms-1 forgetopen">Log in</p>
+                    </p>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!---forget form end-->
+
+          <!---registration form start-->
+       
+          <!---registration form end-->
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="{{base_url}}static/assets/libs/jquery/dist/jquery.min.js"></script>
+  <script src="{{base_url}}static/css/myscript.js"></script>
+
+</body>
+
+</html>

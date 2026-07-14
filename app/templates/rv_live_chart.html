@@ -1,0 +1,236 @@
+{% include 'header.html' %}
+{% include 'navbar.html' %}
+{% include 'menubar.html' %}
+
+<div class="page-wrapper">
+    <div class="page-titles">
+        <div class="row">
+            <div class="col-lg-8 col-md-6 col-12 align-self-center">
+                <h1 class="mb-0 fw-bold">RV Live Chart</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card cardshadow">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="card-title">Live Realized Volatility Over Time</h4>
+                            <button class="btn btn-info" onclick="refreshChart()">
+                                <i class="ri-refresh-line me-1"></i>
+                                Refresh
+                            </button>
+                        </div>
+                        
+                        <!-- Loading indicator -->
+                        <div id="loading" class="text-center py-5">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <p class="mt-2">Loading Live RV data...</p>
+                        </div>
+
+                        <!-- Error message -->
+                        <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+
+                        <!-- Chart container -->
+                        <div id="chart-container" style="display: none;">
+                            <canvas id="rvLiveChart"></canvas>
+                        </div>
+
+                        <!-- Statistics -->
+                        <div id="stats-container" class="mt-4" style="display: none;">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="card bg-light-info">
+                                        <div class="card-body">
+                                            <h6 class="text-info">Current RV</h6>
+                                            <h3 class="mb-0" id="current-rv">-</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card bg-light-success">
+                                        <div class="card-body">
+                                            <h6 class="text-success">Average RV</h6>
+                                            <h3 class="mb-0" id="avg-rv">-</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card bg-light-warning">
+                                        <div class="card-body">
+                                            <h6 class="text-warning">Max RV</h6>
+                                            <h3 class="mb-0" id="max-rv">-</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card bg-light-danger">
+                                        <div class="card-body">
+                                            <h6 class="text-danger">Min RV</h6>
+                                            <h3 class="mb-0" id="min-rv">-</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Include Chart.js library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+
+<script>
+let rvLiveChart = null;
+
+async function loadRVLiveData() {
+    const loading = document.getElementById('loading');
+    const errorMessage = document.getElementById('error-message');
+    const chartContainer = document.getElementById('chart-container');
+    const statsContainer = document.getElementById('stats-container');
+
+    loading.style.display = 'block';
+    errorMessage.style.display = 'none';
+    chartContainer.style.display = 'none';
+    statsContainer.style.display = 'none';
+
+    try {
+        const response = await fetch('/api/rv-live-data');
+        
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Failed to load data');
+        }
+
+        const data = await response.json();
+
+        if (!data.labels || !data.values || data.labels.length === 0) {
+            throw new Error('No data available in RV_Live.csv');
+        }
+
+        loading.style.display = 'none';
+        chartContainer.style.display = 'block';
+        statsContainer.style.display = 'block';
+
+        createChart(data.labels, data.values);
+        updateStatistics(data.values);
+
+    } catch (error) {
+        loading.style.display = 'none';
+        errorMessage.textContent = error.message;
+        errorMessage.style.display = 'block';
+        console.error('Error loading Live RV data:', error);
+    }
+}
+
+function createChart(labels, values) {
+    const ctx = document.getElementById('rvLiveChart').getContext('2d');
+
+    if (rvLiveChart) {
+        rvLiveChart.destroy();
+    }
+
+    rvLiveChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Live Realized Volatility (RV)',
+                data: values,
+                borderColor: 'rgb(255, 99, 132)',
+                backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.4,
+                pointRadius: 2,
+                pointHoverRadius: 5
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            aspectRatio: 2.5,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                },
+                title: {
+                    display: false
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    callbacks: {
+                        label: function(context) {
+                            return 'RV: ' + context.parsed.y.toFixed(5);
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    display: true,
+                    title: {
+                        display: true,
+                        text: 'DateTime'
+                    },
+                    ticks: {
+                        maxRotation: 45,
+                        minRotation: 45,
+                        autoSkip: true,
+                        maxTicksLimit: 20
+                    }
+                },
+                y: {
+                    display: true,
+                    title: {
+                        display: true,
+                        text: 'RV Value'
+                    },
+                    beginAtZero: false
+                }
+            },
+            interaction: {
+                mode: 'nearest',
+                axis: 'x',
+                intersect: false
+            }
+        }
+    });
+}
+
+function updateStatistics(values) {
+    const validValues = values.filter(v => v != null && !isNaN(v));
+    
+    if (validValues.length === 0) return;
+
+    const current = validValues[validValues.length - 1];
+    const avg = validValues.reduce((a, b) => a + b, 0) / validValues.length;
+    const max = Math.max(...validValues);
+    const min = Math.min(...validValues);
+
+    document.getElementById('current-rv').textContent = current.toFixed(5);
+    document.getElementById('avg-rv').textContent = avg.toFixed(5);
+    document.getElementById('max-rv').textContent = max.toFixed(5);
+    document.getElementById('min-rv').textContent = min.toFixed(5);
+}
+
+function refreshChart() {
+    loadRVLiveData();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    loadRVLiveData();
+});
+</script>
+
+{% include 'footer.html' %}

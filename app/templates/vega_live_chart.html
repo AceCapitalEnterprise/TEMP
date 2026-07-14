@@ -1,0 +1,148 @@
+{% include 'header.html' %}
+{% include 'navbar.html' %}
+{% include 'menubar.html' %}
+
+<div class="page-wrapper">
+    <div class="page-titles">
+        <div class="row">
+            <div class="col-lg-8 col-md-6 col-12 align-self-center">
+                <h1 class="mb-0 fw-bold">Live Vega Analysis</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card cardshadow">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="card-title">CE vs PE Vega Expansion</h4>
+                            <div>
+                                <span id="sync-status" class="badge bg-success me-2">Live Sync Active</span>
+                            </div>
+                        </div>
+                        
+                        <div id="loading" class="text-center py-5">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <p class="mt-2">Awaiting Live Vega market data...</p>
+                        </div>
+
+                        <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+
+                        <div id="chart-container" style="display: none;">
+                            <canvas id="vegaLiveChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+<script>
+let vegaLiveChart = null;
+let pollInterval = null;
+
+async function loadVegaLiveData() {
+    try {
+        const response = await fetch('/api/vega-live-data');
+        
+        if (!response.ok) {
+            throw new Error('Waiting for data execution to start...');
+        }
+
+        const data = await response.json();
+        
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('error-message').style.display = 'none';
+        document.getElementById('chart-container').style.display = 'block';
+
+        updateOrCreateChart(data.labels, data.ce_vega, data.pe_vega);
+
+    } catch (error) {
+        document.getElementById('sync-status').classList.replace('bg-success', 'bg-warning');
+        document.getElementById('sync-status').textContent = 'Syncing...';
+    }
+}
+
+function updateOrCreateChart(labels, ce_vega, pe_vega) {
+    const ctx = document.getElementById('vegaLiveChart').getContext('2d');
+
+    // Smooth Update Logic (No flickering or memory leaks)
+    if (vegaLiveChart) {
+        vegaLiveChart.data.labels = labels;
+        vegaLiveChart.data.datasets[0].data = ce_vega;
+        vegaLiveChart.data.datasets[1].data = pe_vega;
+        vegaLiveChart.update('none'); // 'none' disables animations for performance
+        document.getElementById('sync-status').classList.replace('bg-warning', 'bg-success');
+        document.getElementById('sync-status').textContent = 'Live Sync Active';
+        return;
+    }
+
+    // Initial Creation
+    vegaLiveChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Call (CE) Vega',
+                    data: ce_vega,
+                    borderColor: 'rgb(40, 167, 69)', // Distinct Green
+                    backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    tension: 0.3
+                },
+                {
+                    label: 'Put (PE) Vega',
+                    data: pe_vega,
+                    borderColor: 'rgb(220, 53, 69)', // Distinct Red
+                    backgroundColor: 'rgba(220, 53, 69, 0.1)',
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    tension: 0.3
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            aspectRatio: 2.5,
+            animation: false, // Performance optimization for live charts
+            plugins: {
+                tooltip: {
+                    mode: 'index',
+                    intersect: false
+                }
+            },
+            interaction: {
+                mode: 'nearest',
+                axis: 'x',
+                intersect: false
+            },
+            scales: {
+                x: { ticks: { maxTicksLimit: 15 } }
+            }
+        }
+    });
+}
+
+// Start polling every 3 seconds for live execution
+document.addEventListener('DOMContentLoaded', function() {
+    loadVegaLiveData();
+    pollInterval = setInterval(loadVegaLiveData, 3000); 
+});
+
+// Cleanup to prevent memory leaks if navigating away via SPA
+window.addEventListener('beforeunload', () => {
+    if(pollInterval) clearInterval(pollInterval);
+});
+</script>
+
+{% include 'footer.html' %}
